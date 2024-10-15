@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/ll_header"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/_30sdp"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="@dimen/_70sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_header"
+            android:gravity="center"
+            android:text="From Date"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:layout_width="@dimen/_70sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_header"
+            android:gravity="center"
+            android:text="ToDate"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:layout_width="@dimen/_160sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_header"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="Tour Id"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:layout_width="@dimen/_120sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_header"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="Traveling Expenses"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:layout_width="@dimen/_120sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_header"
+            android:gravity="center"
+            android:text="Lodging Expenses"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:layout_width="@dimen/_120sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_header"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="Boarding Expenses"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:layout_width="@dimen/_120sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_header"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="Other Expenses"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:layout_width="@dimen/_130sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_header"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="ImagUrl"
+            android:textColor="@color/white"
+            android:visibility="gone" />
+
+        <TextView
+            android:layout_width="@dimen/_120sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_header"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="Total Amount"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:layout_width="@dimen/_90sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_header"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="Approval Status"
+            android:textColor="@color/white"
+            android:visibility="gone" />
+
+        <TextView
+            android:layout_width="@dimen/_120sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_header"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="H.O.D.Remark"
+            android:textColor="@color/white"
+            android:visibility="gone" />
+
+        <TextView
+            android:layout_width="@dimen/_110sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_header"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="HOD Approval Status"
+            android:textColor="@color/white"
+            android:visibility="gone" />
+
+        <TextView
+            android:layout_width="@dimen/_90sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_header"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="Approved amount"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:layout_width="@dimen/_110sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_header"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="HOD Approved Date"
+            android:textColor="@color/white"
+            android:visibility="gone" />
+
+        <TextView
+            android:layout_width="@dimen/_110sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_header"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="PaidStatus"
+            android:textColor="@color/white"
+            android:visibility="gone" />
+
+        <TextView
+            android:layout_width="@dimen/_170sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_header"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="NEFTNo"
+            android:textColor="@color/white"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/_30sdp">
+
+        <TextView
+            android:id="@+id/tv_date"
+            android:layout_width="@dimen/_70sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_column"
+            android:gravity="center"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/tv_to_date"
+            android:layout_width="@dimen/_70sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_column"
+            android:gravity="center"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/tv_voucher"
+            android:layout_width="@dimen/_160sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_column"
+            android:gravity="center"
+            android:textColor="@color/main_green_stroke_color" />
+
+        <TextView
+            android:id="@+id/tv_fare"
+            android:layout_width="@dimen/_120sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_column"
+            android:gravity="center"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/tv_lodging_Chare"
+            android:layout_width="@dimen/_120sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_column"
+            android:gravity="center"
+            android:singleLine="true"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/tv_boarding_charge"
+            android:layout_width="@dimen/_120sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_column"
+            android:gravity="center"
+            android:singleLine="true"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/tv_other_charge"
+            android:layout_width="@dimen/_120sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_column"
+            android:gravity="center"
+            android:singleLine="true"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/tv_img_url"
+            android:layout_width="@dimen/_130sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_column"
+            android:gravity="center"
+            android:singleLine="true"
+            android:textColor="@color/purple_200"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tv_total"
+            android:layout_width="@dimen/_120sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_column"
+            android:gravity="center"
+            android:singleLine="true"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/tv_approve_status"
+            android:layout_width="@dimen/_90sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_column"
+            android:gravity="center"
+            android:singleLine="true"
+            android:textColor="@color/black"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tv_hod_remarks"
+            android:layout_width="@dimen/_120sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_column"
+            android:gravity="center"
+            android:singleLine="true"
+            android:textColor="@color/black"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tv_hod_approval_status"
+            android:layout_width="@dimen/_110sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_column"
+            android:gravity="center"
+            android:singleLine="true"
+            android:textColor="@color/black"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tv_approve_amt"
+            android:layout_width="@dimen/_90sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_column"
+            android:gravity="center"
+            android:singleLine="true"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/tv_approved_date"
+            android:layout_width="@dimen/_110sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_column"
+            android:gravity="center"
+            android:singleLine="true"
+            android:textColor="@color/black"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tv_paid_status"
+            android:layout_width="@dimen/_110sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_column"
+            android:gravity="center"
+            android:singleLine="true"
+            android:textColor="@color/black"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tv_neft_no"
+            android:layout_width="@dimen/_170sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_column"
+            android:gravity="center"
+            android:singleLine="true"
+            android:textColor="@color/black"
+            android:visibility="gone" />
+    </LinearLayout>
+</LinearLayout>

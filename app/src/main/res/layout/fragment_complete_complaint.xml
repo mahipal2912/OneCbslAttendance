@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_5sdp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Complaint"
+                    android:textColor="@color/main_green_stroke_color"
+                    android:textSize="@dimen/_12sdp"
+                    android:textStyle="bold" />
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/sw_complete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="PMR"
+                    android:textColor="@color/purple_200"
+                    android:textSize="@dimen/_12sdp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvDate"
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="@dimen/_25sdp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/shape_edittext"
+                android:gravity="center"
+                android:textColor="@color/black" />
+
+        </RelativeLayout>
+
+        <HorizontalScrollView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/ll_header"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="@dimen/_80sdp"
+                        android:layout_height="@dimen/_30sdp"
+                        android:background="@drawable/shape_header"
+                        android:gravity="center"
+                        android:paddingLeft="@dimen/_2sdp"
+                        android:text="Document"
+                        android:visibility="gone"
+                        android:textColor="@color/white"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_header_number"
+                        android:layout_width="@dimen/_150sdp"
+                        android:layout_height="@dimen/_30sdp"
+                        android:background="@drawable/shape_header"
+                        android:gravity="center"
+                        android:paddingLeft="@dimen/_2sdp"
+                        android:text="Complaint Number"
+                        android:textColor="@color/white"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="@dimen/_150sdp"
+                        android:layout_height="@dimen/_30sdp"
+                        android:background="@drawable/shape_header"
+                        android:gravity="center"
+                        android:paddingLeft="@dimen/_2sdp"
+                        android:text="MachineNumber"
+                        android:textColor="@color/white"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_header_date"
+                        android:layout_width="@dimen/_100sdp"
+                        android:layout_height="@dimen/_30sdp"
+                        android:background="@drawable/shape_header"
+                        android:gravity="center"
+                        android:paddingLeft="@dimen/_2sdp"
+                        android:text="Complaint Date"
+                        android:textColor="@color/white"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="@dimen/_100sdp"
+                        android:layout_height="@dimen/_30sdp"
+                        android:background="@drawable/shape_header"
+                        android:gravity="center"
+                        android:paddingLeft="@dimen/_2sdp"
+                        android:text="Complete Date"
+                        android:textColor="@color/white"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="@dimen/_100sdp"
+                        android:layout_height="@dimen/_30sdp"
+                        android:background="@drawable/shape_header"
+                        android:gravity="center"
+                        android:paddingLeft="@dimen/_2sdp"
+                        android:text="Type"
+                        android:textColor="@color/white"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="@dimen/_140sdp"
+                        android:layout_height="@dimen/_30sdp"
+                        android:background="@drawable/shape_header"
+                        android:gravity="center"
+                        android:paddingLeft="@dimen/_2sdp"
+                        android:text="Item"
+                        android:textColor="@color/white"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="@dimen/_150sdp"
+                        android:layout_height="@dimen/_30sdp"
+                        android:background="@drawable/shape_header"
+                        android:gravity="center"
+                        android:paddingLeft="@dimen/_2sdp"
+                        android:text="PO Ref.No"
+                        android:textColor="@color/white"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="@dimen/_140sdp"
+                        android:layout_height="@dimen/_30sdp"
+                        android:background="@drawable/shape_header"
+                        android:gravity="center"
+                        android:paddingLeft="@dimen/_2sdp"
+                        android:text="ClientName"
+                        android:textColor="@color/white"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="@dimen/_100sdp"
+                        android:layout_height="@dimen/_30sdp"
+                        android:background="@drawable/shape_header"
+                        android:gravity="center"
+                        android:paddingLeft="@dimen/_2sdp"
+                        android:text="ClientCode"
+                        android:textColor="@color/white"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="@dimen/_150sdp"
+                        android:layout_height="@dimen/_30sdp"
+                        android:background="@drawable/shape_header"
+                        android:gravity="center"
+                        android:paddingLeft="@dimen/_2sdp"
+                        android:text="Remarks"
+                        android:textColor="@color/white"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="@dimen/_100sdp"
+                        android:layout_height="@dimen/_30sdp"
+                        android:background="@drawable/shape_header"
+                        android:gravity="center"
+                        android:paddingLeft="@dimen/_2sdp"
+                        android:text="History"
+                        android:textColor="@color/white"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_machine_list"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+            </LinearLayout>
+        </HorizontalScrollView>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/rlPdf"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <com.rajat.pdfviewer.PdfRendererView
+            android:id="@+id/pdfView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/transparent" />
+
+        <ImageView
+            android:id="@+id/ivClosePdf"
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_50sdp"
+            android:src="@drawable/ic_close" />
+    </RelativeLayout>
+
+    <include
+        android:id="@+id/complaintLog"
+        layout="@layout/raw_complain_log_details" />
+
+    <include
+        android:id="@+id/complaintInfo"
+        layout="@layout/raw_machine_info" />
+</RelativeLayout>

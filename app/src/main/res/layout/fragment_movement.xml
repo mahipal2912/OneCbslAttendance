@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_above="@id/llCardMovement"
+        android:orientation="vertical"
+        android:padding="@dimen/_5sdp">
+
+        <LinearLayout
+            android:id="@+id/ll_date_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:orientation="horizontal">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/_22sdp"
+                android:layout_margin="@dimen/_5sdp"
+                android:gravity="center_vertical"
+                android:text="Sort By Date : "
+                android:textColor="@color/purple_200" />
+
+            <TextView
+                android:id="@+id/tv_movement_date"
+                android:layout_width="@dimen/_80sdp"
+                android:layout_height="@dimen/_32sdp"
+                android:layout_margin="@dimen/_5sdp"
+                android:background="@drawable/shape_edittext"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/_5sdp"
+                android:textColor="@color/purple_200" />
+
+        </LinearLayout>
+        <HorizontalScrollView
+            android:id="@+id/hvScroll"
+
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:orientation="vertical"
+                    android:padding="@dimen/_5sdp">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvMyMovement"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+                </LinearLayout>
+
+            </androidx.core.widget.NestedScrollView>
+
+        </HorizontalScrollView>
+
+
+    </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btn_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/llCardMovement"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_gravity="end"
+        android:layout_margin="@dimen/_10sdp"
+        android:src="@drawable/ic_check" />
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/llCardMovement"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/shape_edittext"
+
+        app:cardElevation="@dimen/_10sdp">
+
+        <LinearLayout
+            android:id="@+id/llStartMovement"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+
+            <TextView
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:background="@color/grey_light"
+                android:gravity="center"
+                android:padding="@dimen/_5sdp"
+                android:text="Click an option below to start movement"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12ssp" />
+
+            <TextView
+                android:id="@+id/tvLocation"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_gravity="bottom"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:padding="@dimen/_5sdp"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_10ssp" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <TextView
+                    android:id="@+id/tv_start"
+                    android:layout_width="fill_parent"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_gravity="bottom"
+                    android:layout_weight="1.0"
+                    android:background="@color/conveyance_bar"
+                    android:gravity="center"
+                    android:padding="@dimen/_5sdp"
+                    android:text="Start Local :>"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_15ssp" />
+
+                <TextView
+                    android:id="@+id/tv_ot_station_start"
+                    android:layout_width="fill_parent"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_gravity="bottom"
+                    android:layout_weight="1.0"
+                    android:background="@color/gold"
+                    android:gravity="center"
+                    android:padding="@dimen/_5sdp"
+                    android:text=" Start Tour :>"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_15ssp" />
+
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvCompleteMovement"
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_gravity="bottom"
+            android:layout_weight="1.0"
+            android:background="@color/main_green_stroke_color"
+            android:gravity="center"
+            android:padding="@dimen/_5sdp"
+            android:text="Complete Tour"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_15ssp"
+            android:visibility="gone" />
+
+
+    </androidx.cardview.widget.CardView>
+</RelativeLayout>

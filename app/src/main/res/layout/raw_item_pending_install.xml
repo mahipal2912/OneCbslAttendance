@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/ll_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="@dimen/_80sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_header"
+            android:gravity="center"
+            android:paddingLeft="@dimen/_2sdp"
+            android:text="Action"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="@dimen/_150sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_header"
+            android:gravity="center"
+            android:paddingLeft="@dimen/_2sdp"
+            android:text="Machine Number"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_header"
+            android:gravity="center"
+            android:paddingLeft="@dimen/_2sdp"
+            android:text="BranchCode"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="@dimen/_130sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_header"
+            android:gravity="center"
+            android:paddingLeft="@dimen/_2sdp"
+            android:text="BranchName"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_header"
+            android:gravity="center"
+            android:paddingLeft="@dimen/_2sdp"
+            android:text="Project Name"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_header"
+            android:gravity="center"
+            android:paddingLeft="@dimen/_2sdp"
+            android:text="Machine Stage Name"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="@dimen/_140sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_header"
+            android:gravity="center"
+            android:paddingLeft="@dimen/_2sdp"
+            android:text="PO Number"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="@dimen/_130sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_header"
+            android:gravity="center"
+            android:paddingLeft="@dimen/_2sdp"
+            android:text="Machine Model Name"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="@dimen/_130sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_header"
+            android:gravity="center"
+            android:paddingLeft="@dimen/_2sdp"
+            android:text="DispatchDate"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="@dimen/_130sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_header"
+            android:gravity="center"
+            android:paddingLeft="@dimen/_2sdp"
+            android:text="Delivery Date"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="@dimen/_130sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_header"
+            android:gravity="center"
+            android:paddingLeft="@dimen/_2sdp"
+            android:text="Schedule Date"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_main"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/_25sdp">
+
+        <ImageView
+            android:id="@+id/iv_add"
+            android:layout_width="@dimen/_80sdp"
+            android:layout_height="@dimen/_25sdp"
+            android:background="@drawable/shape_column"
+            android:gravity="center"
+            android:padding="@dimen/_2sdp"
+            android:src="@drawable/ic_select" />
+
+        <TextView
+            android:id="@+id/tv_machine_number"
+            android:layout_width="@dimen/_150sdp"
+            android:layout_height="@dimen/_25sdp"
+            android:background="@drawable/shape_column"
+            android:gravity="center"
+            android:paddingLeft="@dimen/_2sdp"
+            android:singleLine="true"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/tv_branch_code"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_25sdp"
+            android:background="@drawable/shape_column"
+            android:gravity="center"
+            android:paddingLeft="@dimen/_2sdp"
+            android:textColor="@color/purple_200" />
+
+        <TextView
+            android:id="@+id/tv_branch_name"
+            android:layout_width="@dimen/_130sdp"
+            android:layout_height="@dimen/_25sdp"
+            android:background="@drawable/shape_column"
+            android:gravity="center"
+            android:paddingLeft="@dimen/_2sdp"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/tv_project_name"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_25sdp"
+            android:background="@drawable/shape_column"
+            android:gravity="center"
+            android:paddingLeft="@dimen/_2sdp"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/tv_machine_stage"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_25sdp"
+            android:background="@drawable/shape_column"
+            android:gravity="center"
+            android:paddingLeft="@dimen/_2sdp"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/tv_po_number"
+            android:layout_width="@dimen/_140sdp"
+            android:layout_height="@dimen/_25sdp"
+            android:background="@drawable/shape_column"
+            android:gravity="center"
+            android:paddingLeft="@dimen/_2sdp"
+            android:textColor="@color/black" />
+
+
+        <TextView
+            android:id="@+id/tv_machine_model_name"
+            android:layout_width="@dimen/_130sdp"
+            android:layout_height="@dimen/_25sdp"
+            android:background="@drawable/shape_column"
+            android:gravity="center"
+            android:paddingLeft="@dimen/_2sdp"
+            android:textColor="@color/purple_200" />
+
+        <TextView
+            android:id="@+id/tv_dispatch_date"
+            android:layout_width="@dimen/_130sdp"
+            android:layout_height="@dimen/_25sdp"
+            android:background="@drawable/shape_column"
+            android:gravity="center"
+            android:paddingLeft="@dimen/_2sdp"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/tv_delivery_date"
+            android:layout_width="@dimen/_130sdp"
+            android:layout_height="@dimen/_25sdp"
+            android:background="@drawable/shape_column"
+            android:gravity="center"
+            android:paddingLeft="@dimen/_2sdp"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/tv_schedule_date"
+            android:layout_width="@dimen/_130sdp"
+            android:layout_height="@dimen/_25sdp"
+            android:background="@drawable/shape_column"
+            android:gravity="center"
+            android:paddingLeft="@dimen/_2sdp"
+            android:textColor="@color/black" />
+
+    </LinearLayout>
+</LinearLayout>

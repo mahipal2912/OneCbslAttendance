@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/ll_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="@dimen/_125sdp"
+            android:layout_height="@dimen/_25sdp"
+            android:background="@drawable/shape_header"
+            android:gravity="center"
+            android:paddingLeft="@dimen/_2sdp"
+            android:text="Machine Number"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_25sdp"
+            android:background="@drawable/shape_header"
+            android:gravity="center"
+            android:paddingLeft="@dimen/_2sdp"
+            android:text="Date"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="@dimen/_150sdp"
+            android:layout_height="@dimen/_25sdp"
+            android:background="@drawable/shape_header"
+            android:gravity="center"
+            android:paddingLeft="@dimen/_2sdp"
+            android:text="Assign By"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="@dimen/_150sdp"
+            android:layout_height="@dimen/_25sdp"
+            android:background="@drawable/shape_header"
+            android:gravity="center"
+            android:paddingLeft="@dimen/_2sdp"
+            android:text="Assign To"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="@dimen/_125sdp"
+            android:layout_height="@dimen/_25sdp"
+            android:background="@drawable/shape_header"
+            android:gravity="center"
+            android:paddingLeft="@dimen/_2sdp"
+            android:text="Remarks"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="@dimen/_150sdp"
+            android:layout_height="@dimen/_25sdp"
+            android:background="@drawable/shape_header"
+            android:gravity="center"
+            android:paddingLeft="@dimen/_2sdp"
+            android:text="Pending Reason"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="@dimen/_125sdp"
+            android:layout_height="@dimen/_25sdp"
+            android:background="@drawable/shape_header"
+            android:gravity="center"
+            android:paddingLeft="@dimen/_2sdp"
+            android:text="Pending Owner"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="@dimen/_125sdp"
+            android:layout_height="@dimen/_25sdp"
+            android:background="@drawable/shape_header"
+            android:gravity="center"
+            android:paddingLeft="@dimen/_2sdp"
+            android:text="Courier Name"
+            android:visibility="gone"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_main"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/_25sdp">
+
+        <TextView
+            android:id="@+id/tv_machine_no"
+            android:layout_width="@dimen/_125sdp"
+            android:layout_height="@dimen/_25sdp"
+            android:background="@drawable/shape_column"
+            android:gravity="center"
+            android:paddingLeft="@dimen/_2sdp"
+            android:singleLine="true"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/tv_create_Date"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_25sdp"
+            android:background="@drawable/shape_column"
+            android:gravity="center"
+            android:paddingLeft="@dimen/_2sdp"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/tv_assign_by"
+            android:layout_width="@dimen/_150sdp"
+            android:layout_height="@dimen/_25sdp"
+            android:background="@drawable/shape_column"
+            android:gravity="center"
+            android:paddingLeft="@dimen/_2sdp"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/tv_assign_to"
+            android:layout_width="@dimen/_150sdp"
+            android:layout_height="@dimen/_25sdp"
+            android:background="@drawable/shape_column"
+            android:gravity="center"
+            android:paddingLeft="@dimen/_2sdp"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/tv_remarks"
+            android:layout_width="@dimen/_125sdp"
+            android:layout_height="@dimen/_25sdp"
+            android:background="@drawable/shape_column"
+            android:gravity="center"
+            android:paddingLeft="@dimen/_2sdp"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/tv_pendingreason"
+            android:layout_width="@dimen/_150sdp"
+            android:layout_height="@dimen/_25sdp"
+            android:background="@drawable/shape_column"
+            android:gravity="center"
+            android:paddingLeft="@dimen/_2sdp"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/tv_podnumber"
+            android:layout_width="@dimen/_125sdp"
+            android:layout_height="@dimen/_25sdp"
+            android:background="@drawable/shape_column"
+            android:gravity="center"
+            android:paddingLeft="@dimen/_2sdp"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/tv_courier"
+            android:layout_width="@dimen/_125sdp"
+            android:layout_height="@dimen/_25sdp"
+            android:background="@drawable/shape_column"
+            android:gravity="center"
+            android:paddingLeft="@dimen/_2sdp"
+            android:visibility="gone"
+            android:textColor="@color/black" />
+    </LinearLayout>
+</LinearLayout>

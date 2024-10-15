@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_home">
+
+    <activity
+        android:id="@+id/navigationLogin"
+        android:name="com.one.cbsl.ui.attendance.other.LoginActivity"
+        tools:layout="@layout/activity_login">
+        <!-- No need for actions here as LoginActivity is a destination only -->
+    </activity>
+
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="com.one.cbsl.ui.attendance.home.HomeFragment"
+        android:label="@string/title_home"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/home_to_login"
+            app:destination="@+id/navigationLogin"
+            app:popUpTo="@id/navigationLogin"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/home_to_mark_attendance"
+            app:destination="@+id/navigate_to_mark_attendance" />
+
+        <action
+            android:id="@+id/home_to_attendance"
+            app:destination="@+id/navigate_to_attendance" />
+
+        <action
+            android:id="@+id/home_to_my_movement"
+            app:destination="@+id/navigate_to_my_movement" />
+
+        <action
+            android:id="@+id/home_to_my_conveyance"
+            app:destination="@+id/navigate_to_my_conveyance" />
+
+        <action
+            android:id="@+id/home_to_leave_fragment"
+            app:destination="@+id/navigation_to_leave" />
+
+        <action
+            android:id="@+id/home_to_voucher_fragment"
+            app:destination="@+id/navigation_to_voucher" />
+
+        <action
+            android:id="@+id/home_to_complain_fragment"
+            app:destination="@+id/navigation_to_complain" />
+
+        <action
+            android:id="@+id/home_to_pending_complain_fragment"
+            app:destination="@+id/navigation_to_pending_complain" />
+
+        <action
+            android:id="@+id/home_to_pending_pmr_fragment"
+            app:destination="@+id/navigation_to_pending_pmr" />
+        <action
+            android:id="@+id/home_to_pending_install_fragment"
+            app:destination="@+id/navigation_to_pending_install" />
+        <action
+            android:id="@+id/home_to_complete_complaint_fragment"
+            app:destination="@+id/navigation_to_complete_complain" />
+
+        <action
+            android:id="@+id/home_to_conveyance_hod_approval"
+            app:destination="@+id/navigation_to_hod_approval" />
+        <action
+            android:id="@+id/home_to_conveyance_head_approval"
+            app:destination="@+id/navigation_to_head_approval" />
+        <action
+            android:id="@+id/home_to_change_pass"
+            app:destination="@id/changePasswordFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/home_to_profile_change"
+            app:destination="@id/changeProfile"
+            app:popUpToInclusive="true"
+            />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigate_to_my_conveyance"
+        android:name="com.one.cbsl.ui.attendance.conveyance.ConveyanceFragment"
+        android:label="@string/title_conveyance"
+        tools:layout="@layout/fragment_covneyance">
+        <action
+            android:id="@+id/conveyance_to_claim_tour"
+            app:destination="@+id/navigate_to_claim_tour" />
+        <action
+            android:id="@+id/conveyance_to_local_claim"
+            app:destination="@+id/navigate_to_local_claim" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigate_to_claim_tour"
+        android:name="com.one.cbsl.ui.attendance.conveyance.TourClaimFragment"
+        android:label="Tour Claim"
+        tools:layout="@layout/fragment_tour_conveyance" />
+    <fragment
+        android:id="@+id/navigate_to_local_claim"
+        android:name="com.one.cbsl.ui.attendance.conveyance.LocalClaimFragment"
+        android:label="Local Claim"
+        tools:layout="@layout/fragment_local_claim" />
+
+    <fragment
+        android:id="@+id/navigate_to_my_movement"
+        android:name="com.one.cbsl.ui.attendance.movement.MovementFragment"
+        android:label="@string/title_movement"
+        tools:layout="@layout/fragment_movement">
+        <action
+            android:id="@+id/navigate_to_check_in"
+            app:destination="@+id/navigate_to_movement_in_out" />
+    </fragment>
+    <fragment
+        android:id="@+id/navigate_to_movement_in_out"
+        android:name="com.one.cbsl.ui.attendance.movement.InOutFragment"
+        android:label="@string/inout"
+        tools:layout="@layout/fragment_move_in_out" />
+    <fragment
+        android:id="@+id/navigation_to_leave"
+        android:name="com.one.cbsl.ui.attendance.leave.LeaveFragment"
+        android:label="@string/title_leave"
+        tools:layout="@layout/fragment_leave">
+        <action
+            android:id="@+id/navigate_to_mark_leave"
+            app:destination="@+id/markLeave" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/changePasswordFragment"
+        android:name="com.one.cbsl.ui.attendance.profile.ChangePasswordFragment"
+        android:label="Change Password">
+        <action
+            android:id="@+id/password_to_login"
+            app:destination="@id/navigationLogin"
+            app:popUpTo="@id/mobile_navigation"
+            app:popUpToInclusive="true"
+
+            />
+    </fragment>
+
+    <fragment
+        android:id="@+id/changeProfile"
+        android:name="com.one.cbsl.ui.attendance.profile.MyProfileFragment"
+        android:label="My Profile"/>
+
+    <fragment
+        android:id="@+id/markLeave"
+        android:name="com.one.cbsl.ui.attendance.leave.LeavePlanFragment"
+        android:label="Mark Leave"
+        tools:layout="@layout/fragment_leave_plan" />
+
+    <fragment
+        android:id="@+id/navigate_to_attendance"
+        android:name="com.one.cbsl.ui.attendance.punchattendance.AttendanceFragment"
+        android:label="My Attendance"
+        tools:layout="@layout/fragment_myattendnance" />
+
+    <fragment
+        android:id="@+id/navigate_to_mark_attendance"
+        android:name="com.one.cbsl.ui.attendance.punchattendance.MarkAttendance"
+        android:label="Mark Attendance"
+        tools:layout="@layout/fragment_mark_attendance" />
+
+    <fragment
+        android:id="@+id/navigation_to_voucher"
+        android:name="com.one.cbsl.ui.attendance.conveyance.MyVoucherFragment"
+        android:label="Mark Voucher"
+        tools:layout="@layout/fragment_my_voucher">
+        <action
+            android:id="@+id/navigate_to_claim_voucher"
+            app:destination="@+id/claimVoucher" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/claimVoucher"
+        android:name="com.one.cbsl.ui.attendance.conveyance.VoucherClaimFragment"
+        android:label="Voucher"
+        tools:layout="@layout/fragment_claim_voucher" />
+
+    <fragment
+        android:id="@+id/navigation_to_hod_approval"
+        android:name="com.one.cbsl.ui.attendance.conveyance.hod.FacilityWiseConveyance"
+        android:label="Search Conveyance"
+        tools:layout="@layout/fragment_facility_conveyance_hod">
+
+        <action
+            android:id="@+id/action_facility_hod_to_emp_list"
+            app:destination="@+id/hod_facility_to_emp_list" />
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_to_head_approval"
+        android:name="com.one.cbsl.ui.attendance.conveyance.head.FacilityWiseConveyance"
+        android:label="Search Conveyance"
+        tools:layout="@layout/fragment_facility_conveyance_hod">
+
+        <action
+            android:id="@+id/action_facility_head_to_emp_list"
+            app:destination="@+id/head_facility_to_emp_list" />
+    </fragment>
+    <fragment
+        android:id="@+id/hod_facility_to_emp_list"
+        android:name="com.one.cbsl.ui.attendance.conveyance.hod.FacilityWiseEmployee"
+        android:label="Employee List"
+        tools:layout="@layout/fragment_facility_wise_employee_list">
+
+        <action
+            android:id="@+id/hod_emp_list_to_conveyance"
+            app:destination="@+id/navigation_to_hod_emp_conveyance" />
+    </fragment>
+    <fragment
+        android:id="@+id/head_facility_to_emp_list"
+        android:name="com.one.cbsl.ui.attendance.conveyance.head.FacilityWiseEmployee"
+        android:label="Employee List"
+        tools:layout="@layout/fragment_facility_wise_employee_list">
+
+        <action
+            android:id="@+id/head_emp_list_to_conveyance"
+            app:destination="@+id/navigation_to_head_emp_conveyance" />
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_to_hod_emp_conveyance"
+        android:name="com.one.cbsl.ui.attendance.conveyance.hod.EmployeeConveyanceApproval"
+        android:label="Conveyance Hod Approval"
+        tools:layout="@layout/fragment_hod_emp_conveyance" />
+    <fragment
+        android:id="@+id/navigation_to_head_emp_conveyance"
+        android:name="com.one.cbsl.ui.attendance.conveyance.head.EmployeeConveyanceApproval"
+        android:label="Conveyance Head Approval"
+        tools:layout="@layout/fragment_hod_emp_conveyance" />
+    <fragment
+        android:id="@+id/navigation_to_complain"
+        android:name="com.one.cbsl.ui.complain.main.ComplaintHomeFragment"
+        android:label="Complaint Dashboard"
+        tools:layout="@layout/fragment_complaint_home" />
+
+    <fragment
+        android:id="@+id/navigation_to_pending_complain"
+        android:name="com.one.cbsl.ui.complain.main.PendingComplaintFragment"
+        android:label="Pending Complaint"
+        tools:layout="@layout/fragment_pending_complaint" />
+    <fragment
+        android:id="@+id/navigation_to_pending_pmr"
+        android:name="com.one.cbsl.ui.complain.main.PendingPMRFragment"
+        android:label="Pending PMR"
+        tools:layout="@layout/fragment_pending_pmr" />
+
+    <fragment
+        android:id="@+id/navigation_to_pending_install"
+        android:name="com.one.cbsl.ui.complain.main.PendingInstallationFragment"
+        android:label="Pending Installation"
+        tools:layout="@layout/fragment_pending_installation" />
+    <fragment
+        android:id="@+id/navigation_to_complete_complain"
+        android:name="com.one.cbsl.ui.complain.main.CompleteComplainFragment"
+        android:label="Complete Complaint"
+        tools:layout="@layout/fragment_complete_complaint" />
+
+
+</navigation>

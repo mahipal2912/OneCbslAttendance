@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">CBSL Attendance</string>
+    <string name="title_home">One CBSL</string>
+    <string name="title_movement">Movement</string>
+    <string name="title_conveyance">My Conveyance</string>
+    <string name="title_leave">My Leave</string>
+    <string name="title_account">Account</string>
+    <string name="title_activity_cbsl_main">CbslMain</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+    <string name="title_activity_maps">MapsActivity</string>
+    <string name="inout">CheckIn/CheckOut</string>
+    <string name="app_update_text">One CBSL app recommends you to update the latest version</string>
+
+</resources>

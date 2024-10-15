@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/ll_main"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/_30sdp">
+
+        <ImageView
+            android:id="@+id/iv_add"
+            android:layout_width="@dimen/_80sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:visibility="gone"
+            android:background="@drawable/shape_column"
+            android:padding="@dimen/_3sdp"
+            android:src="@drawable/ic_pdf" />
+
+        <TextView
+            android:id="@+id/tv_complainNo"
+            android:layout_width="@dimen/_150sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_column"
+            android:gravity="center"
+            android:maxLines="2"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/tv_machine_no"
+            android:layout_width="@dimen/_150sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_column"
+            android:gravity="center"
+            android:paddingLeft="@dimen/_2sdp"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/tv_complainDate"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_column"
+            android:gravity="center"
+            android:paddingLeft="@dimen/_2sdp"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/tv_completeDate"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_column"
+            android:gravity="center"
+            android:paddingLeft="@dimen/_2sdp"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/tv_complaintype"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_column"
+            android:gravity="center"
+            android:paddingLeft="@dimen/_2sdp"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/tv_itemName"
+            android:layout_width="@dimen/_140sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_column"
+            android:gravity="center"
+            android:paddingLeft="@dimen/_2sdp"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/tv_po_ref_no"
+            android:layout_width="@dimen/_150sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_column"
+            android:gravity="center"
+            android:paddingLeft="@dimen/_2sdp"
+            android:singleLine="true"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/tv_client_name"
+            android:layout_width="@dimen/_140sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_column"
+            android:gravity="center"
+            android:paddingLeft="@dimen/_2sdp"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/tv_clientCode"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_column"
+            android:gravity="center"
+            android:paddingLeft="@dimen/_2sdp"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/tv_ComplaintDetails"
+            android:layout_width="@dimen/_150sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_column"
+            android:gravity="center"
+            android:paddingLeft="@dimen/_2sdp"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/tv_view_details"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_column"
+            android:gravity="center"
+            android:paddingLeft="@dimen/_2sdp"
+            android:text="View Log"
+            android:textColor="@color/purple_200" />
+    </LinearLayout>
+</LinearLayout>

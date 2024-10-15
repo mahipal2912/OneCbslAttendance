@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="@dimen/_5sdp"
+    tools:ignore="RtlSymmetry">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:orientation="horizontal"
+        android:weightSum="1.0"
+        tools:ignore="MissingConstraints">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_1sdp"
+            android:layout_weight="0.5"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Client Name "
+                android:textColor="@color/black" />
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/_35sdp"
+                android:background="@drawable/shape_edittext">
+
+                <Spinner
+                    android:id="@+id/spin_client_name"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:background="@null"
+                    android:dropDownVerticalOffset="@dimen/_32sdp"
+                    android:paddingStart="@dimen/_5sdp"
+                    android:spinnerMode="dropdown" />
+
+                <ImageView
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="fill_parent"
+                    android:layout_alignParentEnd="true"
+                    android:src="@drawable/spin_icon"
+                    app:tint="@color/purple_200" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_1sdp"
+            android:layout_weight="0.4"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Branch "
+                android:textColor="@color/black" />
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_edittext">
+
+                <Spinner
+                    android:id="@+id/spin_branch"
+                    android:layout_width="fill_parent"
+                    android:layout_height="@dimen/_30sdp"
+                    android:background="@null"
+                    android:dropDownVerticalOffset="@dimen/_30sdp"
+                    android:paddingStart="@dimen/_5sdp"
+                    android:spinnerMode="dropdown" />
+
+                <ImageView
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="@dimen/_30sdp"
+                    android:layout_alignParentEnd="true"
+                    android:src="@drawable/spin_icon"
+                    app:tint="@color/purple_200" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_1sdp"
+            android:layout_weight="0.5"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Branch Code"
+                android:textColor="@color/black" />
+
+            <EditText
+                android:id="@+id/et_branch"
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/_35sdp"
+                android:background="@drawable/shape_edittext"
+                android:gravity="center"
+                android:paddingStart="@dimen/_5sdp"
+                android:textColor="@color/purple_200"
+                android:textSize="@dimen/_12sdp" />
+        </LinearLayout>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

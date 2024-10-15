@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/ll_main_header"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@color/white"
+
+        android:orientation="vertical"
+        tools:ignore="MissingConstraints">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_1sdp"
+            android:orientation="vertical"
+            android:padding="@dimen/_5sdp">
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp">
+
+                <TextView
+                    android:id="@+id/tv_Search_Complain"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_20sdp"
+                    android:background="@color/purple_200"
+                    android:gravity="center"
+                    android:text="  Search By Complaint Number   "
+                    android:textColor="@color/white"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/tv_Search_state"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_20sdp"
+                    android:layout_alignParentRight="true"
+                    android:background="@color/purple_200"
+                    android:gravity="center"
+                    android:text="Search by State Or Branch   "
+                    android:textColor="@color/white"
+                    android:visibility="gone" />
+            </RelativeLayout>
+
+            <EditText
+                android:id="@+id/et_complain_no"
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_margin="@dimen/_8sdp"
+                android:background="@drawable/shape_edittext"
+                android:gravity="center_vertical"
+                android:hint="Complaint Number"
+                android:inputType="number"
+                android:paddingLeft="@dimen/_5sdp"
+                android:textColor="@color/purple_200"
+                android:textSize="@dimen/_12sdp"
+                android:visibility="gone" />
+
+            <include
+                android:id="@+id/searchOption"
+                layout="@layout/raw_search_option" />
+
+            <Button
+                android:id="@+id/btn_search"
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:background="@color/gold"
+                android:text="Search"
+                android:textColor="@color/white" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llNoData"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_100sdp"
+                android:layout_marginTop="@dimen/_30sdp"
+                android:src="@drawable/ic_no_data" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_60sdp"
+                android:gravity="center"
+                android:text="No Data Found"
+                android:textSize="@dimen/_15sdp" />
+        </LinearLayout>
+
+        <HorizontalScrollView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_machine_list"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/raw_complaint_details" />
+        </HorizontalScrollView>
+    </LinearLayout>
+
+    <include
+        android:id="@+id/logDialog"
+        layout="@layout/raw_complain_log_details" />
+
+    <include
+        android:id="@+id/complainDetails"
+        layout="@layout/raw_complain_pmr_dialog" />
+</RelativeLayout>

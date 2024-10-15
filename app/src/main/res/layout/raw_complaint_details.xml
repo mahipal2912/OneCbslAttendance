@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/ll_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        tools:ignore="RtlSymmetry">
+
+        <TextView
+            android:layout_width="@dimen/_80sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_header"
+            android:gravity="center"
+            android:paddingLeft="@dimen/_2sdp"
+            android:text="Add"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="@dimen/_170sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_header"
+            android:gravity="center"
+            android:paddingLeft="@dimen/_2sdp"
+            android:text="Complaint Number"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="@dimen/_120sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_header"
+            android:gravity="center"
+            android:paddingLeft="@dimen/_2sdp"
+            android:text="Complaint Date"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="@dimen/_150sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_header"
+            android:gravity="center"
+            android:paddingLeft="@dimen/_2sdp"
+            android:text="MachineNumber"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_header"
+            android:gravity="center"
+            android:paddingLeft="@dimen/_2sdp"
+            android:text="ComplaintType"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="@dimen/_130sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_header"
+            android:gravity="center"
+            android:paddingLeft="@dimen/_2sdp"
+            android:text="Item"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="@dimen/_150sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_header"
+            android:gravity="center"
+            android:paddingLeft="@dimen/_2sdp"
+            android:text="PO Ref.No"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="@dimen/_140sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_header"
+            android:gravity="center"
+            android:paddingStart="@dimen/_2sdp"
+            android:text="ClientName"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_header"
+            android:gravity="center"
+            android:paddingLeft="@dimen/_2sdp"
+            android:text="ClientCode"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_header"
+            android:gravity="center"
+            android:paddingLeft="@dimen/_2sdp"
+            android:text="Branch Contact"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_header"
+            android:gravity="center"
+            android:paddingLeft="@dimen/_2sdp"
+            android:text="Status"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="@dimen/_150sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_header"
+            android:gravity="center"
+            android:paddingLeft="@dimen/_2sdp"
+            android:text="Remarks"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_header"
+            android:gravity="center"
+            android:paddingLeft="@dimen/_2sdp"
+            android:text="History"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_main"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/_30sdp">
+
+        <ImageView
+            android:id="@+id/iv_add"
+            android:layout_width="@dimen/_80sdp"
+            android:layout_height="match_parent"
+            android:padding="@dimen/_4sdp"
+            android:background="@drawable/shape_column"
+            android:src="@drawable/ic_select"
+             />
+
+        <TextView
+            android:id="@+id/tv_complainNo"
+            android:layout_width="@dimen/_170sdp"
+            android:layout_height="match_parent"
+            android:background="@drawable/shape_column"
+            android:gravity="center"
+            android:maxLines="2"
+            android:paddingLeft="@dimen/_2sdp"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_10sdp" />
+
+        <TextView
+            android:id="@+id/tv_complainDate"
+            android:layout_width="@dimen/_120sdp"
+            android:layout_height="match_parent"
+            android:background="@drawable/shape_column"
+            android:gravity="center"
+            android:paddingLeft="@dimen/_2sdp"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_10sdp" />
+
+        <TextView
+            android:id="@+id/tv_machine_no"
+            android:layout_width="@dimen/_150sdp"
+            android:layout_height="match_parent"
+            android:background="@drawable/shape_column"
+            android:gravity="center"
+            android:paddingLeft="@dimen/_2sdp"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_10sdp" />
+
+        <TextView
+            android:id="@+id/tv_complaintype"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="match_parent"
+            android:background="@drawable/shape_column"
+            android:gravity="center"
+            android:paddingLeft="@dimen/_2sdp"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/tv_itemName"
+            android:layout_width="@dimen/_130sdp"
+            android:layout_height="match_parent"
+            android:background="@drawable/shape_column"
+            android:gravity="center"
+            android:paddingLeft="@dimen/_2sdp"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_10sdp" />
+
+        <TextView
+            android:id="@+id/tv_po_ref_no"
+            android:layout_width="@dimen/_150sdp"
+            android:layout_height="match_parent"
+            android:background="@drawable/shape_column"
+            android:gravity="center"
+            android:paddingLeft="@dimen/_2sdp"
+            android:singleLine="true"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_10sdp" />
+
+        <TextView
+            android:id="@+id/tv_client_name"
+            android:layout_width="@dimen/_140sdp"
+            android:layout_height="match_parent"
+            android:background="@drawable/shape_column"
+            android:gravity="center"
+            android:paddingLeft="@dimen/_2sdp"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_9sdp" />
+
+        <TextView
+            android:id="@+id/tv_clientCode"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="match_parent"
+            android:background="@drawable/shape_column"
+            android:gravity="center"
+            android:paddingLeft="@dimen/_2sdp"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/tv_branch_contact"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="match_parent"
+            android:background="@drawable/shape_column"
+            android:gravity="center"
+            android:paddingLeft="@dimen/_2sdp"
+            android:textColor="@color/black" />
+
+
+        <TextView
+            android:id="@+id/tv_complaint_status"
+
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="match_parent"
+            android:background="@drawable/shape_column"
+            android:gravity="center"
+            android:paddingLeft="@dimen/_2sdp"
+            android:textColor="@color/black" />
+
+
+        <TextView
+            android:id="@+id/tv_ComplaintDetails"
+            android:layout_width="@dimen/_150sdp"
+            android:layout_height="match_parent"
+            android:background="@drawable/shape_column"
+            android:gravity="center"
+            android:paddingLeft="@dimen/_2sdp"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/tv_log"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="match_parent"
+            android:background="@drawable/shape_column"
+            android:gravity="center"
+            android:paddingLeft="@dimen/_2sdp"
+            android:text="view log"
+            android:textColor="@color/purple_200" />
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,701 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rl_complain_dialog"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:visibility="gone"
+    android:layout_centerInParent="true"
+    android:background="@color/transparent">
+
+
+    <ImageView
+        android:id="@+id/ic_close_dialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_margin="@dimen/_10sdp"
+        android:src="@drawable/ic_close" />
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_margin="@dimen/_10sdp"
+        app:cardCornerRadius="@dimen/_5sdp">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_5sdp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/_35sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:background="@color/gray"
+                android:gravity="center"
+                android:text="Assign/Resolve Complaint"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12sdp" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:orientation="horizontal"
+                android:weightSum="1.0">
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_1sdp"
+                    android:layout_weight="0.5"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Machine No"
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        android:id="@+id/tv_machineNo"
+                        android:layout_width="fill_parent"
+                        android:layout_height="@dimen/_30sdp"
+                        android:background="@drawable/shape_edittext"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="@dimen/_5sdp"
+                        android:textColor="@color/purple_200"
+                        android:textSize="@dimen/_12sdp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_1sdp"
+                    android:layout_weight="0.5"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Complaint No."
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        android:id="@+id/tv_complain_no"
+                        android:layout_width="fill_parent"
+                        android:layout_height="@dimen/_30sdp"
+                        android:background="@drawable/shape_edittext"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="@dimen/_5sdp"
+                        android:textColor="@color/purple_200"
+                        android:textSize="@dimen/_12sdp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:orientation="horizontal"
+                android:weightSum="1.0">
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_1sdp"
+                    android:layout_weight="0.5"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Complaint Type"
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        android:id="@+id/tv_complain_type"
+                        android:layout_width="fill_parent"
+                        android:layout_height="@dimen/_30sdp"
+                        android:background="@drawable/shape_edittext"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="@dimen/_5sdp"
+                        android:textColor="@color/purple_200"
+                        android:textSize="@dimen/_12sdp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_1sdp"
+                    android:layout_weight="0.5"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Client Name"
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        android:id="@+id/tv_item_Name"
+                        android:layout_width="fill_parent"
+                        android:layout_height="@dimen/_30sdp"
+                        android:background="@drawable/shape_edittext"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="@dimen/_5sdp"
+                        android:textColor="@color/purple_200"
+                        android:textSize="@dimen/_12sdp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:orientation="horizontal"
+                android:weightSum="1.0">
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_1sdp"
+                    android:layout_weight="0.6"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Status"
+                        android:textColor="@color/black" />
+
+                    <RelativeLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="@dimen/_30sdp"
+                        android:background="@drawable/shape_edittext">
+
+                        <Spinner
+                            android:id="@+id/spin_status"
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:background="@null"
+                            android:dropDownVerticalOffset="@dimen/_32sdp"
+                            android:paddingLeft="@dimen/_5sdp"
+                            android:spinnerMode="dropdown" />
+
+                        <ImageView
+                            android:layout_width="@dimen/_40sdp"
+                            android:layout_height="fill_parent"
+                            android:layout_alignParentRight="true"
+                            android:src="@drawable/spin_icon"
+                            app:tint="@color/purple_200" />
+                    </RelativeLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_1sdp"
+                    android:layout_weight="0.4"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Remarks"
+                        android:textColor="@color/black" />
+
+                    <EditText
+                        android:id="@+id/et_complain_detail"
+                        android:layout_width="fill_parent"
+                        android:layout_height="@dimen/_30sdp"
+                        android:background="@drawable/shape_edittext"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="@dimen/_5sdp"
+                        android:textColor="@color/purple_200"
+                        android:textSize="@dimen/_12sdp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_assign_user_layout"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:orientation="horizontal"
+
+                android:weightSum="1.0">
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_1sdp"
+                    android:layout_weight="0.6"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Select Date"
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        android:id="@+id/tv_assing_date"
+                        android:layout_width="fill_parent"
+                        android:layout_height="@dimen/_30sdp"
+                        android:background="@drawable/shape_edittext"
+                        android:drawableRight="@drawable/ic_arrow_down"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="@dimen/_5sdp"
+                        android:textColor="@color/purple_200"
+                        android:textSize="@dimen/_12sdp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_user_selection"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_1sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_weight="0.4"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Assign To:- "
+                        android:textColor="@color/black" />
+
+                    <RelativeLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="@dimen/_30sdp"
+                        android:background="@drawable/shape_edittext">
+
+                        <Spinner
+                            android:id="@+id/spin_assignto"
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:background="@null"
+                            android:dropDownVerticalOffset="@dimen/_32sdp"
+                            android:paddingLeft="@dimen/_5sdp"
+                            android:spinnerMode="dropdown" />
+
+                        <ImageView
+                            android:layout_width="@dimen/_40sdp"
+                            android:layout_height="fill_parent"
+                            android:layout_alignParentRight="true"
+                            android:src="@drawable/spin_icon"
+                            app:tint="@color/purple_200" />
+                    </RelativeLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_pending_layout"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone"
+                android:weightSum="1.0">
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:orientation="horizontal"
+                    android:weightSum="1.0">
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/_1sdp"
+                        android:layout_weight="0.6"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Exp. Return Date"
+                            android:textColor="@color/black" />
+
+                        <TextView
+                            android:id="@+id/tv_return_date"
+                            android:layout_width="fill_parent"
+                            android:layout_height="@dimen/_30sdp"
+                            android:background="@drawable/shape_edittext"
+                            android:drawableRight="@drawable/ic_arrow"
+                            android:gravity="center_vertical"
+                            android:paddingLeft="@dimen/_5sdp"
+                            android:textColor="@color/purple_200"
+                            android:textSize="@dimen/_12sdp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/_1sdp"
+                        android:layout_weight=".5"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Pending Reason:- "
+                            android:textColor="@color/black" />
+
+                        <RelativeLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="@dimen/_30sdp"
+                            android:background="@drawable/shape_edittext">
+
+                            <Spinner
+                                android:id="@+id/spin_pending"
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:layout_marginTop="@dimen/_5sdp"
+                                android:background="@null"
+                                android:dropDownVerticalOffset="@dimen/_32sdp"
+                                android:paddingLeft="@dimen/_5sdp"
+                                android:spinnerMode="dropdown" />
+
+                            <ImageView
+                                android:layout_width="@dimen/_40sdp"
+                                android:layout_height="fill_parent"
+                                android:layout_alignParentRight="true"
+                                android:src="@drawable/spin_icon"
+                                app:tint="@color/purple_200" />
+                        </RelativeLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/_1sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:layout_weight="0.5"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Pending Owners:- "
+                            android:textColor="@color/black" />
+
+                        <RelativeLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="@dimen/_30sdp"
+                            android:background="@drawable/shape_edittext">
+
+                            <Spinner
+                                android:id="@+id/spin_pending_owner"
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:layout_marginTop="@dimen/_5sdp"
+                                android:background="@null"
+                                android:dropDownVerticalOffset="@dimen/_32sdp"
+                                android:paddingLeft="@dimen/_5sdp"
+                                android:spinnerMode="dropdown" />
+
+                            <ImageView
+                                android:layout_width="@dimen/_40sdp"
+                                android:layout_height="fill_parent"
+                                android:layout_alignParentRight="true"
+                                android:src="@drawable/spin_icon"
+                                app:tint="@color/purple_200" />
+                        </RelativeLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:orientation="horizontal"
+                    android:visibility="gone"
+                    android:weightSum="1.0">
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/_1sdp"
+                        android:layout_weight="0.5"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Courier Name"
+                            android:textColor="@color/black" />
+
+                        <EditText
+                            android:id="@+id/et_courier_name"
+                            android:layout_width="fill_parent"
+                            android:layout_height="@dimen/_30sdp"
+                            android:background="@drawable/shape_edittext"
+                            android:gravity="center_vertical"
+                            android:hint="Enter Courier Name"
+                            android:paddingLeft="@dimen/_5sdp"
+                            android:textColor="@color/purple_200"
+                            android:textSize="@dimen/_12sdp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/_1sdp"
+                        android:layout_weight="0.5"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="POD Number"
+                            android:textColor="@color/black" />
+
+                        <EditText
+                            android:id="@+id/et_pod_number"
+                            android:layout_width="fill_parent"
+                            android:layout_height="@dimen/_30sdp"
+                            android:background="@drawable/shape_edittext"
+                            android:gravity="center_vertical"
+                            android:hint="Enter Pod Number"
+                            android:paddingLeft="@dimen/_5sdp"
+                            android:textColor="@color/purple_200"
+                            android:textSize="@dimen/_12sdp" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_document_layout"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:gravity="center"
+
+                android:orientation="vertical"
+                android:visibility="gone">
+
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:id="@+id/btn_document_upload"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@color/purple_200"
+                            android:gravity="center_vertical"
+                            android:padding="@dimen/_5sdp"
+                            android:text="Upload Image"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/_10sdp" />
+                    </LinearLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_image"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_10sdp"
+                        android:orientation="horizontal"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <CheckBox
+                android:id="@+id/check_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:text="Change Complaint Type" />
+
+            <LinearLayout
+                android:id="@+id/ll_complain_type"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                android:weightSum="1.0">
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_1sdp"
+                    android:layout_weight="0.5"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Complaint Type "
+                        android:textColor="@color/black" />
+
+                    <RelativeLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="@dimen/_30sdp"
+                        android:background="@drawable/shape_edittext">
+
+                        <Spinner
+                            android:id="@+id/spin_complain_type"
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:background="@null"
+                            android:dropDownVerticalOffset="@dimen/_32sdp"
+                            android:paddingLeft="@dimen/_5sdp"
+                            android:spinnerMode="dropdown" />
+
+                        <ImageView
+                            android:layout_width="@dimen/_40sdp"
+                            android:layout_height="fill_parent"
+                            android:layout_alignParentRight="true"
+                            android:src="@drawable/spin_icon"
+                            app:tint="@color/purple_200" />
+                    </RelativeLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_complain_item_type"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_1sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_weight="0.5"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=" Complaint Type Item "
+                        android:textColor="@color/black" />
+
+                    <RelativeLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="@dimen/_30sdp"
+                        android:background="@drawable/shape_edittext">
+
+                        <Spinner
+                            android:id="@+id/spin_complain_item"
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:background="@null"
+                            android:dropDownVerticalOffset="@dimen/_32sdp"
+                            android:paddingLeft="@dimen/_5sdp"
+                            android:spinnerMode="dropdown" />
+
+                        <ImageView
+                            android:layout_width="@dimen/_40sdp"
+                            android:layout_height="fill_parent"
+                            android:layout_alignParentRight="true"
+                            android:src="@drawable/spin_icon"
+                            app:tint="@color/purple_200" />
+                    </RelativeLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                android:weightSum="1.0">
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_1sdp"
+                    android:layout_weight="0.5"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Advance Required"
+                        android:textColor="@color/black" />
+
+                    <RelativeLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="@dimen/_30sdp"
+                        android:background="@drawable/shape_edittext">
+
+                        <Spinner
+                            android:id="@+id/spin_advance_require"
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:background="@null"
+                            android:dropDownVerticalOffset="@dimen/_30sdp"
+                            android:paddingLeft="@dimen/_5sdp"
+                            android:spinnerMode="dropdown" />
+
+                        <ImageView
+                            android:layout_width="@dimen/_40sdp"
+                            android:layout_height="fill_parent"
+                            android:layout_alignParentRight="true"
+                            android:src="@drawable/spin_icon"
+                            app:tint="@color/purple_200" />
+                    </RelativeLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_1sdp"
+                    android:layout_weight="0.5"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Amount"
+                        android:textColor="@color/black" />
+
+                    <EditText
+                        android:id="@+id/et_advance_amount"
+                        android:layout_width="fill_parent"
+                        android:layout_height="@dimen/_30sdp"
+                        android:background="@drawable/shape_edittext"
+                        android:enabled="false"
+                        android:gravity="center_vertical"
+                        android:inputType="number"
+                        android:paddingLeft="@dimen/_5sdp"
+                        android:textColor="@color/purple_200"
+                        android:textSize="@dimen/_12sdp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btn_assign"
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:background="@color/purple_200"
+                android:text="Proceed"
+                android:textColor="@color/white" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+</RelativeLayout>
