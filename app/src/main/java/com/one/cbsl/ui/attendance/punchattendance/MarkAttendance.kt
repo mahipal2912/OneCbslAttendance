@@ -76,14 +76,14 @@ class MarkAttendance : Fragment(), OnMapReadyCallback,
     var lastlocation: Location? = null
     var isFlag: Boolean = false
     private lateinit var mLocationRequest: LocationRequest
-    private val INTERVAL: Long = 1000
+    private val INTERVAL: Long = 3000
     private val FASTEST_INTERVAL: Long = 500
     private var marker: Marker? = null // Global marker variable
 
     private val binding get() = _binding!!
     private lateinit var mMap: GoogleMap
     var lat: Double? = null
-    var attendanceTypeId: String = "0"
+    var attendanceTypeId: String = "1"
     var lng: Double? = null
     var recordsList: List<AttendanceMaster> = ArrayList()
 
@@ -121,8 +121,12 @@ class MarkAttendance : Fragment(), OnMapReadyCallback,
         binding.llPunch.setOnClickListener(this)
         binding.llPunchOut.setOnClickListener(this)
 
-
-        getAttendanceType()
+        binding.spinAttendanceType.adapter = ArrayAdapter(
+            requireContext(),
+            android.R.layout.simple_spinner_item,
+            resources.getStringArray(R.array.attendance_type_list)
+        )
+        //getAttendanceType()
 
         binding.spinAttendanceType.onItemSelectedListener =
             object : AdapterView.OnItemSelectedListener {
@@ -130,9 +134,9 @@ class MarkAttendance : Fragment(), OnMapReadyCallback,
                     parent: AdapterView<*>, view: View?, pos: Int, id: Long
                 ) {
                     try {
-                        val response = parent.getItemAtPosition(pos) as AttendanceTypeResponse
-                        attendanceTypeId = response.AttendanceTypeId
-
+                        attendanceTypeId = (pos + 1).toString()
+                    /*    val response = parent.getItemAtPosition(pos) as AttendanceTypeResponse
+                        attendanceTypeId = response.AttendanceTypeId*/
                         if (attendanceTypeId == "2") {
                             binding.llOdLayout.visibility = View.VISIBLE
                         } else {
@@ -193,7 +197,6 @@ class MarkAttendance : Fragment(), OnMapReadyCallback,
         }
 
     }
-
 
     @SuppressLint("MissingPermission", "SetTextI18n")
     private fun getLocation() {
@@ -257,12 +260,13 @@ class MarkAttendance : Fragment(), OnMapReadyCallback,
 
     private fun getAddress() {
         try {
-            DialogUtils.dismissDialog()
-            val geocoder = Geocoder(requireActivity(), Locale.getDefault())
+            val geocoder = Geocoder(requireContext(), Locale.getDefault())
             val address = geocoder.getFromLocation(lat!!, lng!!, 1)
-            binding.tvCurrentLoc.text = address?.get(0)?.getAddressLine(0)!!.toString()
+            binding.tvCurrentLoc.text = address?.get(0)?.getAddressLine(0)?.toString()
             addMarkerToCurrentLocation()
         } catch (e: Exception) {
+            DialogUtils.dismissDialog()
+            e.printStackTrace();
         }
     }
 
@@ -287,7 +291,6 @@ class MarkAttendance : Fragment(), OnMapReadyCallback,
                     lat!!, lng!!
                 )
             )
-            DialogUtils.dismissDialog()
 
         } catch (e: Exception) {
             e.printStackTrace()
@@ -365,12 +368,7 @@ class MarkAttendance : Fragment(), OnMapReadyCallback,
     }
 
     override fun onCustomPermissionGroupDenied() {
-        PermissionRequestHandler.requestCustomPermissionGroup(
-            this,
-            "",
-            Manifest.permission.ACCESS_COARSE_LOCATION,
-            Manifest.permission.ACCESS_FINE_LOCATION
-        )
+        checkAllPermission()
     }
 
     override fun onDestroyView() {
@@ -459,7 +457,6 @@ class MarkAttendance : Fragment(), OnMapReadyCallback,
             when (resources) {
                 is Resource.Success -> {
                     try {
-                        DialogUtils.dismissDialog()
                         resources.data?.let { response ->
                             continueProcess(response, "PunchIn")
 
@@ -476,7 +473,6 @@ class MarkAttendance : Fragment(), OnMapReadyCallback,
 
                 is Resource.Error -> {
                     //Handle Error
-                    DialogUtils.showFailedDialog(requireActivity(), resources.message.toString())
                     punchOfflineAttendance(0);
                 }
             }
@@ -550,6 +546,9 @@ class MarkAttendance : Fragment(), OnMapReadyCallback,
             lat.toString(),
             lng.toString(),
             i
+        )
+        DialogUtils.showSuccessDialog(
+            requireActivity(), "Attendance Marked Successfully", CbslMain::class.java
         )
     }
 

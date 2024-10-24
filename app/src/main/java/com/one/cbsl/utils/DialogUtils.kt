@@ -47,6 +47,7 @@ class DialogUtils {
         }
 
         fun dismissDialog() {
+
             dialogInstance?.dismissWithAnimation()
             dialogInstance = null
         }

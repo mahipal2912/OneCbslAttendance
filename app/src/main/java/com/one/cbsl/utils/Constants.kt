@@ -4,6 +4,7 @@ import android.app.DatePickerDialog
 import android.content.Context
 import android.graphics.Bitmap
 import android.net.Uri
+import android.provider.Settings
 import com.itextpdf.text.*
 import com.itextpdf.text.pdf.PdfWriter
 import com.one.cbsl.utils.Utils.getBitmap
@@ -155,7 +156,12 @@ class Constants {
                 callback("")
             }
         }
-
+        fun isDeveloperModeEnabled(context: Context): Boolean {
+            return Settings.Global.getInt(
+                context.contentResolver,
+                Settings.Global.DEVELOPMENT_SETTINGS_ENABLED, 0
+            ) !== 0
+        }
         internal fun generatePdf(path: ArrayList<Uri>): String {
             val document = Document()
 

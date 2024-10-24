@@ -96,6 +96,7 @@ class PendingPMRFragment : Fragment(), AssignComplainAdapter.OptionListener,
                                 Base64.DEFAULT
                             )
                         }
+
                         "1" -> {
                             setImage(galleryUri, imagesAfterPmr, binding.complainDetails.rvImageNew)
                             afterPmrPath = Base64.encodeToString(
@@ -103,6 +104,7 @@ class PendingPMRFragment : Fragment(), AssignComplainAdapter.OptionListener,
                                 Base64.DEFAULT
                             )
                         }
+
                         "2" -> {
                             setImage(
                                 galleryUri,
@@ -142,6 +144,7 @@ class PendingPMRFragment : Fragment(), AssignComplainAdapter.OptionListener,
                                 Base64.DEFAULT
                             )
                         }
+
                         "1" -> {
                             setSingleImage(
                                 photoUri!!,
@@ -153,6 +156,7 @@ class PendingPMRFragment : Fragment(), AssignComplainAdapter.OptionListener,
                                 Base64.DEFAULT
                             )
                         }
+
                         "2" -> {
                             setSingleImage(
                                 photoUri!!,
@@ -376,14 +380,20 @@ class PendingPMRFragment : Fragment(), AssignComplainAdapter.OptionListener,
                 is Resource.Loading -> {
                     DialogUtils.showProgressDialog(requireActivity(), "Fetching Leave")
                 }
+
                 is Resource.Success -> {
-                    binding.searchOption.spinClientName.adapter = ArrayAdapter(
-                        requireContext(),
-                        android.R.layout.simple_spinner_item,
-                        resource.data!!
-                    )
-                    clientId = resource.data[0].ClientId.toString()
+                    try {
+                        binding.searchOption.spinClientName.adapter = ArrayAdapter(
+                            requireContext(),
+                            android.R.layout.simple_spinner_item,
+                            resource.data!!
+                        )
+                        clientId = resource.data[0].ClientId.toString()
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
                 }
+
                 is Resource.Error -> {
                     DialogUtils.showFailedDialog(requireActivity(), resource.message.toString())
                 }
@@ -403,19 +413,24 @@ class PendingPMRFragment : Fragment(), AssignComplainAdapter.OptionListener,
                     is Resource.Loading -> {
                         DialogUtils.showProgressDialog(requireActivity(), "Fetching Complaint")
                     }
-                    is Resource.Success -> {
-                        if (resource.data?.get(0)?.Status == null) {
-                            binding.llNoData.visibility = View.GONE
-                            binding.rvMachineList.visibility = View.VISIBLE
-                            binding.rvMachineList.adapter =
-                                AssignComplainAdapter(resource.data!!, this)
-                        } else {
-                            binding.rvMachineList.visibility = View.GONE
-                            binding.llNoData.visibility = View.VISIBLE
-                        }
-                        DialogUtils.dismissDialog()
 
+                    is Resource.Success -> {
+                        try {
+                            if (resource.data?.get(0)?.Status == null) {
+                                binding.llNoData.visibility = View.GONE
+                                binding.rvMachineList.visibility = View.VISIBLE
+                                binding.rvMachineList.adapter =
+                                    AssignComplainAdapter(resource.data!!, this)
+                            } else {
+                                binding.rvMachineList.visibility = View.GONE
+                                binding.llNoData.visibility = View.VISIBLE
+                            }
+                            DialogUtils.dismissDialog()
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
                     }
+
                     is Resource.Error -> {
                         DialogUtils.showFailedDialog(requireActivity(), resource.message.toString())
                     }
@@ -431,6 +446,7 @@ class PendingPMRFragment : Fragment(), AssignComplainAdapter.OptionListener,
                 is Resource.Loading -> {
                     DialogUtils.showProgressDialog(requireActivity(), "Fetching Complaint")
                 }
+
                 is Resource.Success -> {
                     DialogUtils.dismissDialog()
                     resources.data?.let { response ->
@@ -438,9 +454,12 @@ class PendingPMRFragment : Fragment(), AssignComplainAdapter.OptionListener,
                             binding.complainDetails.rlComplainDialog.visibility = View.VISIBLE
 
                             binding.complainDetails.apply {
-                                binding.complainDetails.tvComplainType.text = response[0].ComplaintType_Name
-                                binding.complainDetails.tvComplainNo.text = response[0].Complain_tNumber
-                                binding.complainDetails.tvMachineNo.text = response[0].Machine_Number
+                                binding.complainDetails.tvComplainType.text =
+                                    response[0].ComplaintType_Name
+                                binding.complainDetails.tvComplainNo.text =
+                                    response[0].Complain_tNumber
+                                binding.complainDetails.tvMachineNo.text =
+                                    response[0].Machine_Number
                                 binding.complainDetails.tvItemName.text = response[0].ClientName
 
                             }
@@ -456,6 +475,7 @@ class PendingPMRFragment : Fragment(), AssignComplainAdapter.OptionListener,
 
                     }
                 }
+
                 is Resource.Error -> {
                     DialogUtils.showFailedDialog(requireActivity(), resources.message.toString())
                 }
@@ -471,6 +491,7 @@ class PendingPMRFragment : Fragment(), AssignComplainAdapter.OptionListener,
                 is Resource.Loading -> {
                     DialogUtils.showProgressDialog(requireActivity(), "Fetching Complaint")
                 }
+
                 is Resource.Success -> {
                     DialogUtils.dismissDialog()
                     resource.data?.let { response ->
@@ -487,6 +508,7 @@ class PendingPMRFragment : Fragment(), AssignComplainAdapter.OptionListener,
                         }
                     }
                 }
+
                 is Resource.Error -> {
                     DialogUtils.showFailedDialog(requireActivity(), resource.message.toString())
                 }
@@ -500,6 +522,7 @@ class PendingPMRFragment : Fragment(), AssignComplainAdapter.OptionListener,
                 is Resource.Loading -> {
                     DialogUtils.showProgressDialog(requireActivity(), "Fetching Complaint")
                 }
+
                 is Resource.Success -> {
                     DialogUtils.dismissDialog()
                     resource.data?.let { response ->
@@ -515,6 +538,7 @@ class PendingPMRFragment : Fragment(), AssignComplainAdapter.OptionListener,
                         }
                     }
                 }
+
                 is Resource.Error -> {
                     DialogUtils.showFailedDialog(requireActivity(), resource.message.toString())
                 }
@@ -530,6 +554,7 @@ class PendingPMRFragment : Fragment(), AssignComplainAdapter.OptionListener,
                 is Resource.Loading -> {
                     DialogUtils.showProgressDialog(requireActivity(), "Fetching Engineer")
                 }
+
                 is Resource.Success -> {
                     DialogUtils.dismissDialog()
                     resource.data?.let { response ->
@@ -545,6 +570,7 @@ class PendingPMRFragment : Fragment(), AssignComplainAdapter.OptionListener,
                         }
                     }
                 }
+
                 is Resource.Error -> {
                     DialogUtils.showFailedDialog(requireActivity(), resource.message.toString())
                 }
@@ -558,6 +584,7 @@ class PendingPMRFragment : Fragment(), AssignComplainAdapter.OptionListener,
                 is Resource.Loading -> {
                     DialogUtils.showProgressDialog(requireActivity(), "Fetching Status")
                 }
+
                 is Resource.Success -> {
                     DialogUtils.dismissDialog()
                     resources.data?.let { response ->
@@ -573,6 +600,7 @@ class PendingPMRFragment : Fragment(), AssignComplainAdapter.OptionListener,
                         }
                     }
                 }
+
                 is Resource.Error -> {
                     DialogUtils.showFailedDialog(requireActivity(), resources.message.toString())
                 }
@@ -601,14 +629,20 @@ class PendingPMRFragment : Fragment(), AssignComplainAdapter.OptionListener,
             when (resources) {
                 is Resource.Success -> {
                     DialogUtils.dismissDialog()
-                    resources.data?.let { response ->
-                        binding.logDialog.rlComplainLogDialog.visibility = View.VISIBLE
-                        binding.logDialog.rvComplaintLog.adapter = ComplaintLogAdapter(response)
+                    try {
+                        resources.data?.let { response ->
+                            binding.logDialog.rlComplainLogDialog.visibility = View.VISIBLE
+                            binding.logDialog.rvComplaintLog.adapter = ComplaintLogAdapter(response)
+                        }
+                    } catch (e: Exception) {
+                        e.printStackTrace()
                     }
                 }
+
                 is Resource.Loading -> {
                     DialogUtils.showProgressDialog(requireActivity(), "Getting Log")
                 }
+
                 is Resource.Error -> {
                     DialogUtils.showFailedDialog(requireActivity(), resources.message.toString())
                 }
@@ -635,6 +669,7 @@ class PendingPMRFragment : Fragment(), AssignComplainAdapter.OptionListener,
                     e.printStackTrace()
                 }
             }
+
             binding.complainDetails.spinStatus -> {
                 try {
                     val selectedItem =
@@ -651,6 +686,7 @@ class PendingPMRFragment : Fragment(), AssignComplainAdapter.OptionListener,
                     e.printStackTrace()
                 }
             }
+
             binding.complainDetails.spinAssignto -> {
                 try {
                     val selectedItem = parent?.getItemAtPosition(position) as SE_UserResponse
@@ -659,6 +695,7 @@ class PendingPMRFragment : Fragment(), AssignComplainAdapter.OptionListener,
                     e.printStackTrace()
                 }
             }
+
             binding.complainDetails.spinComplainType -> {
                 try {
                     val selectedItem = parent?.getItemAtPosition(position) as ComplaintResponse
@@ -674,6 +711,7 @@ class PendingPMRFragment : Fragment(), AssignComplainAdapter.OptionListener,
                     e.printStackTrace()
                 }
             }
+
             binding.complainDetails.spinComplainItem -> {
                 try {
                     val selectedItem = parent?.getItemAtPosition(position) as HardwareResponse

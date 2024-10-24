@@ -5,11 +5,14 @@ import android.R
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.location.Address
 import android.location.Geocoder
 import android.location.Location
 import android.location.LocationManager
+import android.os.Build
 import android.os.Bundle
+import android.os.Looper
 import android.provider.Settings
 import android.text.Editable
 import android.text.TextUtils
@@ -20,11 +23,16 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.LocationSettingsRequest
 import com.one.cbsl.CbslMain
 import com.one.cbsl.databinding.FragmentMoveInOutBinding
 import com.one.cbsl.databinding.FragmentMyattendnanceBinding
@@ -66,6 +74,13 @@ class InOutFragment : Fragment(), View.OnClickListener,
     var clientPlaceName: String = ""
     var complaintType: String = ""
     var taskName = ""
+    var lastlocation: Location? = null
+    var isFlag: Boolean = false
+
+    private lateinit var mLocationRequest: LocationRequest
+    private val INTERVAL: Long = 3000
+    private val FASTEST_INTERVAL: Long = 500
+
     private lateinit var mFusedLocationClient: FusedLocationProviderClient
 
     private val binding get() = _binding!!
@@ -78,6 +93,14 @@ class InOutFragment : Fragment(), View.OnClickListener,
         bindViewModel()
         bindDropDownSelection()
         return binding.root
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        mLocationRequest = LocationRequest.create().apply { }
+
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
+
     }
 
     private fun bindDropDownSelection() {
@@ -248,13 +271,14 @@ class InOutFragment : Fragment(), View.OnClickListener,
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
+
         DialogUtils.showProgressDialog(requireActivity(), "loading...")
         binding.tvCheckIn.setOnClickListener(this)
         binding.tvCheckOut.setOnClickListener(this)
         binding.btnFetch.setOnClickListener(this)
         checkMovement()
         checkAllPermission()
+
 
         getTask()
     }
@@ -280,13 +304,97 @@ class InOutFragment : Fragment(), View.OnClickListener,
     }
 
     private fun checkAllPermission() {
-        PermissionRequestHandler.requestCustomPermissionGroup(
-            this,
-            "",
-            Manifest.permission.ACCESS_COARSE_LOCATION,
-            Manifest.permission.ACCESS_FINE_LOCATION
-        )
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            PermissionRequestHandler.requestCustomPermissionGroup(
+                this,
+                "",
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION,
 
+                )
+        } else {
+            PermissionRequestHandler.requestCustomPermissionGroup(
+                this,
+                "",
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION,
+
+                )
+        }
+
+    }
+
+    @SuppressLint("MissingPermission", "SetTextI18n")
+    private fun getLocation() {
+        if (isLocationEnabled()) {
+            mLocationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+            mLocationRequest.interval = INTERVAL
+            mLocationRequest.fastestInterval = FASTEST_INTERVAL
+
+            // Create LocationSettingsRequest object using location request
+            val builder = LocationSettingsRequest.Builder()
+            builder.addLocationRequest(mLocationRequest)
+            builder.setAlwaysShow(true)
+            val locationSettingsRequest = builder.build()
+
+            val settingsClient = LocationServices.getSettingsClient(requireActivity())
+            settingsClient.checkLocationSettings(locationSettingsRequest)
+
+            mFusedLocationClient =
+                LocationServices.getFusedLocationProviderClient(requireActivity())
+            // new Google API SDK v11 uses getFusedLocationProviderClient(this)
+            if (ActivityCompat.checkSelfPermission(
+                    requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION
+                ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                    requireActivity(), Manifest.permission.ACCESS_COARSE_LOCATION
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                return
+            }
+            mFusedLocationClient.requestLocationUpdates(
+                mLocationRequest, mLocationCallback, Looper.getMainLooper()
+            )
+
+
+        } else {
+            Toast.makeText(requireActivity(), "Please turn on location", Toast.LENGTH_LONG).show()
+            val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+            startActivity(intent)
+        }
+
+    }
+
+    private val mLocationCallback = object : LocationCallback() {
+        override fun onLocationResult(locationResult: LocationResult) {
+            locationResult.lastLocation
+            onLocationChanged(locationResult.lastLocation)
+        }
+    }
+
+    fun onLocationChanged(location: Location?) {
+        try {
+            lastlocation = location
+            lat = lastlocation!!.latitude
+            lng = lastlocation!!.longitude
+            getAddress()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+
+    }
+
+    private fun getAddress() {
+        try {
+            val geocoder = Geocoder(requireContext(), Locale.getDefault())
+            val address = geocoder.getFromLocation(lat!!, lng!!, 1)
+            binding.etToLocation.text =
+                Editable.Factory.getInstance().newEditable(address?.get(0)?.getAddressLine(0)?.toString())
+
+        } catch (e: Exception) {
+            DialogUtils.dismissDialog()
+            e.printStackTrace();
+        }
     }
 
     private fun isLocationEnabled(): Boolean {
@@ -295,30 +403,6 @@ class InOutFragment : Fragment(), View.OnClickListener,
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(
             LocationManager.NETWORK_PROVIDER
         )
-    }
-
-    @SuppressLint("MissingPermission", "SetTextI18n")
-    private fun getLocation() {
-        if (isLocationEnabled()) {
-            mFusedLocationClient.lastLocation.addOnCompleteListener(requireActivity()) { task ->
-                val location: Location = task.result
-                lat = location.latitude
-                lng = location.longitude
-                val geocoder = Geocoder(requireActivity(), Locale.getDefault())
-                val list: MutableList<Address>? =
-                    geocoder.getFromLocation(location.latitude, location.longitude, 1)
-                binding.etToLocation.text =
-                    Editable.Factory.getInstance().newEditable(list?.get(0)?.getAddressLine(0))
-                DialogUtils.dismissDialog()
-
-            }
-        } else {
-            Toast.makeText(requireActivity(), "Please turn on location", Toast.LENGTH_LONG).show()
-            val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
-            startActivity(intent)
-
-        }
-
     }
 
 
@@ -396,6 +480,7 @@ class InOutFragment : Fragment(), View.OnClickListener,
             }
 
             binding.btnFetch -> {
+                getLocation()
                 checkAllPermission()
             }
 
@@ -406,14 +491,18 @@ class InOutFragment : Fragment(), View.OnClickListener,
         viewModel?.getTask()?.observe(viewLifecycleOwner, Observer { resource ->
             when (resource) {
                 is Resource.Success -> {
-                    DialogUtils.dismissDialog()
-                    resource.data?.let { response ->
-                        val aa = ArrayAdapter(
-                            requireContext(),
-                            R.layout.simple_spinner_item,
-                            response
-                        )
-                        binding.spinTask.adapter = aa
+                    try {
+                        DialogUtils.dismissDialog()
+                        resource.data?.let { response ->
+                            val aa = ArrayAdapter(
+                                requireContext(),
+                                R.layout.simple_spinner_item,
+                                response
+                            )
+                            binding.spinTask.adapter = aa
+                        }
+                    } catch (e: Exception) {
+                        e.printStackTrace()
                     }
                 }
 
@@ -431,13 +520,16 @@ class InOutFragment : Fragment(), View.OnClickListener,
         viewModel?.getLastLocation()?.observe(viewLifecycleOwner, Observer { resources ->
             when (resources) {
                 is Resource.Success -> {
-                    DialogUtils.dismissDialog()
-                    resources.data?.let { response ->
-                        if (arguments?.getBoolean("isCheckIn")!!) {
-                            binding.etFromLocation.setText(response[0].LocationAddress)
-                            tourId = response[0].tourid
-                        }
+                    try {
+                        resources.data?.let { response ->
+                            if (arguments?.getBoolean("isCheckIn")!!) {
+                                binding.etFromLocation.setText(response[0].LocationAddress)
+                                tourId = response[0].tourid
+                            }
 
+                        }
+                    } catch (e: Exception) {
+                        e.printStackTrace()
                     }
                 }
 
@@ -481,13 +573,17 @@ class InOutFragment : Fragment(), View.OnClickListener,
         )?.observe(viewLifecycleOwner, Observer { resources ->
             when (resources) {
                 is Resource.Success -> {
-                    DialogUtils.dismissDialog()
-                    resources.data?.let { response ->
-                        DialogUtils.showSuccessDialog(
-                            requireActivity(),
-                            response[0].status.toString(),
-                            CbslMain::class.java
-                        )
+                    try {
+                        DialogUtils.dismissDialog()
+                        resources.data?.let { response ->
+                            DialogUtils.showSuccessDialog(
+                                requireActivity(),
+                                response[0].status.toString(),
+                                CbslMain::class.java
+                            )
+                        }
+                    } catch (e: Exception) {
+                        e.printStackTrace()
                     }
                 }
 
@@ -513,13 +609,17 @@ class InOutFragment : Fragment(), View.OnClickListener,
         )?.observe(requireActivity(), Observer { resources ->
             when (resources) {
                 is Resource.Success -> {
-                    DialogUtils.dismissDialog()
-                    resources.data?.let { response ->
-                        DialogUtils.showSuccessDialog(
-                            requireActivity(),
-                            response[0].status.toString(),
-                            CbslMain::class.java
-                        )
+                    try {
+                        DialogUtils.dismissDialog()
+                        resources.data?.let { response ->
+                            DialogUtils.showSuccessDialog(
+                                requireActivity(),
+                                response[0].status.toString(),
+                                CbslMain::class.java
+                            )
+                        }
+                    } catch (e: Exception) {
+                        e.printStackTrace()
                     }
                 }
 

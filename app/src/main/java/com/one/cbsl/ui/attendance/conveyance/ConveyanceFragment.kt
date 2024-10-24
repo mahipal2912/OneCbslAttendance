@@ -95,18 +95,24 @@ class ConveyanceFragment : Fragment(), ConveynaceAdapter.OptionListener,
                 when (resource) {
                     is Resource.Success -> {
                         DialogUtils.dismissDialog()
-                        if (resource.data != null) {
-                            binding.rvMyConveyance.adapter =
-                                ConveynaceAdapter(
-                                    resource.data, this
-                                )
+                        try {
+                            if (resource.data != null) {
+                                binding.rvMyConveyance.adapter =
+                                    ConveynaceAdapter(
+                                        resource.data, this
+                                    )
+                            }
+                        } catch (e: Exception) {
+                            e.printStackTrace()
                         }
                     }
+
                     is Resource.Loading -> {
                         DialogUtils.showProgressDialog(requireActivity(), "Fetching Conveyance")
 
 
                     }
+
                     is Resource.Error -> {
                         DialogUtils.showFailedDialog(
                             requireActivity(),
@@ -126,17 +132,22 @@ class ConveyanceFragment : Fragment(), ConveynaceAdapter.OptionListener,
             ) { resource ->
                 when (resource) {
                     is Resource.Success -> {
-                        DialogUtils.dismissDialog()
+                      try{  DialogUtils.dismissDialog()
                         if (resource.data != null) {
                             binding.rvMyTourConveyance.adapter =
                                 TourConveyanceAdapter(
                                     resource.data, this
                                 )
                         }
+                      } catch (e: Exception) {
+                          e.printStackTrace()
+                      }
                     }
+
                     is Resource.Loading -> {
                         DialogUtils.showProgressDialog(requireActivity(), "Fetching Tour ")
                     }
+
                     is Resource.Error -> {
                         DialogUtils.showFailedDialog(
                             requireActivity(),
@@ -155,7 +166,7 @@ class ConveyanceFragment : Fragment(), ConveynaceAdapter.OptionListener,
             ) { resource ->
                 when (resource) {
                     is Resource.Success -> {
-                        DialogUtils.dismissDialog()
+                       try{ DialogUtils.dismissDialog()
                         if (resource.data?.get(0)?.ConveyanceDate != null) {
                             binding.conveyanceLog.rlTourLogDialog.visibility = View.VISIBLE
 
@@ -163,17 +174,20 @@ class ConveyanceFragment : Fragment(), ConveynaceAdapter.OptionListener,
                                 TourLogAdapter(
                                     resource.data
                                 )
-                        }else
-                        {
+                        } else {
                             DialogUtils.showFailedDialog(
                                 requireActivity(),
-                               "No History Found"
+                                "No History Found"
                             )
-                        }
+                        }  } catch (e: Exception) {
+                           e.printStackTrace()
+                       }
                     }
+
                     is Resource.Loading -> {
                         DialogUtils.showProgressDialog(requireActivity(), "Fetching Tour ")
                     }
+
                     is Resource.Error -> {
                         DialogUtils.showFailedDialog(
                             requireActivity(),

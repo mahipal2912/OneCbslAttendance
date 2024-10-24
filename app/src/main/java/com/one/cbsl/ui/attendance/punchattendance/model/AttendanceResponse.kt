@@ -20,6 +20,7 @@ data class AttendanceResponse(
     @SerializedName("status") val MarkStatus: String? = null,
     @SerializedName("Approvedby") val approvedby: String? = "",
     @SerializedName("Attendancestatus") val Attendancestatus: String? = "",
+    @SerializedName("MarksStatus") val MarksStatus: String? = "",
     @SerializedName("Approveddate") val approveddate: String? = "",
     @SerializedName("StatusByHod") val hodStatus: String? = "",
     @SerializedName("Approvedbyhead") val Approvedbyhead: String? = "",

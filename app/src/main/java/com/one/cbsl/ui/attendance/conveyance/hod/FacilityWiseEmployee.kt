@@ -71,15 +71,21 @@ class FacilityWiseEmployee : Fragment(), HodFacilityEmplistAdapter.OpitionListen
         )?.observe(viewLifecycleOwner, Observer { resources ->
             when (resources) {
                 is Resource.Success -> {
-                    DialogUtils.dismissDialog()
-                    resources.data?.let { response ->
-                        binding.rvConyEmpDetail.adapter =
-                            HodFacilityEmplistAdapter(requireActivity(), this, response)
+                    try {
+                        DialogUtils.dismissDialog()
+                        resources.data?.let { response ->
+                            binding.rvConyEmpDetail.adapter =
+                                HodFacilityEmplistAdapter(requireActivity(), this, response)
+                        }
+                    } catch (e: Exception) {
+                        e.printStackTrace()
                     }
                 }
+
                 is Resource.Loading -> {
                     DialogUtils.showProgressDialog(requireContext(), "Fetching Employee")
                 }
+
                 is Resource.Error -> {
                     //Handle Error
                     DialogUtils.showFailedDialog(requireContext(), resources.message.toString())

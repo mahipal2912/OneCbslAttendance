@@ -1,9 +1,12 @@
 package com.one.cbsl.ui.attendance.home
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,12 +28,17 @@ import com.one.cbsl.ui.attendance.home.viewmodel.HomeViewModel
 import com.one.cbsl.ui.attendance.other.LoginActivity
 import com.one.cbsl.ui.complain.adapter.ComplaintMainAdapter
 import com.one.cbsl.ui.complain.viewmodel.ComplaintViewModel
+import com.one.cbsl.utils.Cbsl
 import com.one.cbsl.utils.Constants
 import com.one.cbsl.utils.DialogUtils
 import com.one.cbsl.utils.Resource
 import com.one.cbsl.utils.SessionManager
+import com.one.cbsl.utils.Utils
+import com.one.cbsl.utils.permissions.PermissionRequest
+import com.one.cbsl.utils.permissions.PermissionRequestHandler
 
-class HomeFragment : Fragment(), HomeAdapter.OpitionListener, ComplaintMainAdapter.OpitionListener {
+class HomeFragment : Fragment(), HomeAdapter.OpitionListener,
+    PermissionRequest.RequestCustomPermissionGroup, ComplaintMainAdapter.OpitionListener {
 
     private var _binding: FragmentHomeBinding? = null
     private var homeViewModel: HomeViewModel? = null
@@ -54,6 +62,13 @@ class HomeFragment : Fragment(), HomeAdapter.OpitionListener, ComplaintMainAdapt
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        /*   if (Constants.isDeveloperModeEnabled(Cbsl.getInstance())) {
+               Toast.makeText(
+                   activity,
+                   "Developer Mode enabled",
+                   Toast.LENGTH_LONG
+               ).show()
+           }*/
         if (SessionManager.getInstance().getString(Constants.COMPANY) == "SOLAR"
             || SessionManager.getInstance().getString(Constants.COMPANY) == "CBM"
             || SessionManager.getInstance().getString(Constants.COMPANY) == "CBMPL"
@@ -63,17 +78,43 @@ class HomeFragment : Fragment(), HomeAdapter.OpitionListener, ComplaintMainAdapt
         } else {
             binding.llComplaintDashboard.visibility = View.GONE
         }
-
+        checkAllPermission()
         loadTodayAttendance()
         loadDashboard()
         checkDeviceRegistered()
         _binding?.ivPunch?.setOnClickListener {
             if (binding.tvTodayDate.text.equals(Constants.getTodayData())) {
                 SessionManager.getInstance().putBoolean(Constants.isPunchIn, false)
+            } else {
+                SessionManager.getInstance().putBoolean(Constants.isPunchIn, true)
             }
             findNavController().navigate(R.id.navigate_to_mark_attendance)
 
         }
+
+    }
+
+    private fun checkAllPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            PermissionRequestHandler.requestCustomPermissionGroup(
+                this,
+                "",
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.CAMERA
+
+            )
+        } else {
+            PermissionRequestHandler.requestCustomPermissionGroup(
+                this,
+                "",
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.CAMERA
+
+            )
+        }
+
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -94,7 +135,6 @@ class HomeFragment : Fragment(), HomeAdapter.OpitionListener, ComplaintMainAdapt
                                 //                loadPdf()
                                 findNavController().navigate(R.id.home_to_change_pass)
                             }
-
                             if (response?.get(0)?.IsProfileUpdated == "0") {
                                 //loadPdf()
                                 findNavController().navigate(R.id.home_to_profile_change)
@@ -122,17 +162,15 @@ class HomeFragment : Fragment(), HomeAdapter.OpitionListener, ComplaintMainAdapt
     }
 
     private fun loadComplaintDashboard() {
-        DialogUtils.showProgressDialog(requireActivity(), "Loading...")
         complaintViewModel?.getComplaintDashboardData()
             ?.observe(requireActivity(), Observer { resource ->
                 when (resource) {
                     is Resource.Loading -> {
-                        DialogUtils.showProgressDialog(requireActivity(), "Loading...")
+                        Log.d("loading", "")
                     }
 
                     is Resource.Success -> {
                         try {
-                            DialogUtils.dismissDialog()
                             val response = resource.data
                             if (response?.get(0)?.Pending != null) {
                                 binding.rvComplaintDashboard.adapter =
@@ -157,54 +195,47 @@ class HomeFragment : Fragment(), HomeAdapter.OpitionListener, ComplaintMainAdapt
                     }
 
                     is Resource.Error -> {
-                        DialogUtils.showFailedDialog(requireActivity(), resource.message.toString())
+                        Log.d("", "")
                     }
                 }
             })
     }
 
     private fun checkDeviceRegistered() {
-        DialogUtils.showProgressDialog(requireActivity(), "Loading...")
         homeViewModel?.checkDevice()
             ?.observe(requireActivity(), Observer { resource ->
                 when (resource) {
                     is Resource.Loading -> {
-                        DialogUtils.showProgressDialog(requireActivity(), "Loading...")
+                        Log.d("loading", "")
+
 
 
                     }
 
                     is Resource.Success -> {
                         try {
-                            try {
-                                val response = resource.data
-                                if (response?.get(0)?.Status.toString() == "Not Found") {
-                                    SessionManager.getInstance()
-                                        .putBoolean(Constants.isLoginByDevice, false)
-                                    Toast.makeText(
-                                        activity,
-                                        "Device Id changed!! Login Again",
-                                        Toast.LENGTH_LONG
-                                    ).show()
-                                    SessionManager.getInstance().resetData()
-                                    (activity as CbslMain?)!!.updateValues()
-                                } else {
-                                    DialogUtils.showFailedDialog(
-                                        requireActivity(),
-                                        response?.get(0)?.Status.toString()
-                                    )
-                                }
-                            } catch (e: Exception) {
-                                e.printStackTrace()
+                            val response = resource.data
+                            if (response?.get(0)?.Status.toString() == "Not Found") {
+                                SessionManager.getInstance()
+                                    .putBoolean(Constants.isLoginByDevice, false)
+                                Toast.makeText(
+                                    activity,
+                                    "Device Id changed!! Login Again",
+                                    Toast.LENGTH_LONG
+                                ).show()
+                                SessionManager.getInstance().resetData()
+                                (activity as CbslMain?)!!.updateValues()
                             }
-                            DialogUtils.dismissDialog()
                         } catch (e: Exception) {
                             e.printStackTrace()
                         }
+
+
                     }
 
                     is Resource.Error -> {
-                        DialogUtils.showFailedDialog(requireActivity(), resource.message.toString())
+                        Log.d("error", "")
+
                     }
                 }
             })
@@ -314,6 +345,14 @@ class HomeFragment : Fragment(), HomeAdapter.OpitionListener, ComplaintMainAdapt
                 findNavController().navigate(R.id.home_to_conveyance_hod_approval)
             }
         }
+    }
+
+    override fun onAllCustomPermissionGroupGranted() {
+        Log.d("", "")
+    }
+
+    override fun onCustomPermissionGroupDenied() {
+checkAllPermission()
     }
 
 }

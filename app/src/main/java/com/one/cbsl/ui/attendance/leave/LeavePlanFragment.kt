@@ -69,12 +69,15 @@ class LeavePlanFragment : Fragment() {
                 TextUtils.isEmpty(binding.etFromDate.text.toString()) -> {
                     DialogUtils.showFailedDialog(requireContext(), "Enter From Date")
                 }
+
                 TextUtils.isEmpty(binding.etToDate.text.toString()) -> {
                     DialogUtils.showFailedDialog(requireContext(), "Enter To Date")
                 }
+
                 TextUtils.isEmpty(binding.etRemark.text.toString().trim()) -> {
                     DialogUtils.showFailedDialog(requireContext(), "Enter a Remark")
                 }
+
                 else -> {
                     saveLeavePlan()
                 }
@@ -94,16 +97,22 @@ class LeavePlanFragment : Fragment() {
                 is Resource.Loading -> {
                     DialogUtils.showProgressDialog(requireActivity(), "Marking Leave")
                 }
+
                 is Resource.Success -> {
-                    DialogUtils.dismissDialog()
-                    if (resource.data != null) {
-                        DialogUtils.showSuccessDialog(
-                            requireContext(),
-                            resource.data[0].status.toString(),
-                            CbslMain::class.java
-                        )
+                    try {
+                        DialogUtils.dismissDialog()
+                        if (resource.data != null) {
+                            DialogUtils.showSuccessDialog(
+                                requireContext(),
+                                resource.data[0].status.toString(),
+                                CbslMain::class.java
+                            )
+                        }
+                    } catch (e: Exception) {
+                        e.printStackTrace()
                     }
                 }
+
                 is Resource.Error -> {
                     DialogUtils.showFailedDialog(requireActivity(), resource.message.toString())
                 }

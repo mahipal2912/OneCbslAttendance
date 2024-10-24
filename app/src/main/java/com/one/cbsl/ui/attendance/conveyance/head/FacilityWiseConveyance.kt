@@ -61,8 +61,8 @@ class FacilityWiseConveyance : Fragment(), HodFacilityConveyanceAdapter.OpitionL
         super.onActivityCreated(savedInstanceState)
         setUpViewModel()
         list = ArrayList()
-        binding.tvAttendaneceDate.text=Constants.getCurrentDate()
-        binding.tvTodate.text=Constants.getOneMonthBeforeDate()
+        binding.tvAttendaneceDate.text = Constants.getCurrentDate()
+        binding.tvTodate.text = Constants.getOneMonthBeforeDate()
         binding.tvAttendaneceDate.setOnClickListener {
             showDateDialog(binding.tvAttendaneceDate)
         }
@@ -121,19 +121,25 @@ class FacilityWiseConveyance : Fragment(), HodFacilityConveyanceAdapter.OpitionL
         )?.observe(viewLifecycleOwner, Observer { resources ->
             when (resources) {
                 is Resource.Success -> {
-                    DialogUtils.dismissDialog()
-                    resources.data?.let { response ->
-                        binding.tvPending.text = "Pending : " + response[0].TotalPending
-                        binding.rvConyFacility.adapter =
-                            HodFacilityConveyanceAdapter(this, requireActivity(), response)
+                    try {
+                        DialogUtils.dismissDialog()
+                        resources.data?.let { response ->
+                            binding.tvPending.text = "Pending : " + response[0].TotalPending
+                            binding.rvConyFacility.adapter =
+                                HodFacilityConveyanceAdapter(this, requireActivity(), response)
+                        }
+                    } catch (e: Exception) {
+                        e.printStackTrace()
                     }
                 }
+
                 is Resource.Loading -> {
                     DialogUtils.showProgressDialog(
                         requireActivity(),
                         "Fetching Data"
                     )
                 }
+
                 is Resource.Error -> {
                     //Handle Error
                     DialogUtils.showFailedDialog(

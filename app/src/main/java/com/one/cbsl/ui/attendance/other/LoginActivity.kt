@@ -48,11 +48,13 @@ class LoginActivity : AppCompatActivity(),
                         this@LoginActivity, "UserName Can't Left Blank", Toast.LENGTH_SHORT
                     ).show()
                 }
+
                 TextUtils.isEmpty(binding.memberPass.text.toString()) -> {
                     Toast.makeText(
                         this@LoginActivity, "Password Can't Left Blank", Toast.LENGTH_SHORT
                     ).show()
                 }
+
                 else -> {
 
                     SessionManager.getInstance().putString(Constants.DEVICE_ID, deviceId)
@@ -79,23 +81,29 @@ class LoginActivity : AppCompatActivity(),
                     is Resource.Loading -> {
                         DialogUtils.showProgressDialog(this, "Fetching Data")
                     }
-                    is Resource.Success -> {
-                        DialogUtils.dismissDialog()
-                        // Handle success
-                        val response = resource.data
 
-                        // Handle success
-                        if (response?.get(0)?.loginStatus == "valid") {
-                            setSessionData(response)
-                            DialogUtils.showSuccessDialog(
-                                this, "Success", CbslMain::class.java
-                            )
-                        } else {
-                            DialogUtils.showFailedDialog(
-                                this, response?.get(0)?.loginStatus.toString()
-                            )
+                    is Resource.Success -> {
+                        try {
+                            DialogUtils.dismissDialog()
+                            // Handle success
+                            val response = resource.data
+
+                            // Handle success
+                            if (response?.get(0)?.loginStatus == "valid") {
+                                setSessionData(response)
+                                DialogUtils.showSuccessDialog(
+                                    this, "Success", CbslMain::class.java
+                                )
+                            } else {
+                                DialogUtils.showFailedDialog(
+                                    this, response?.get(0)?.loginStatus.toString()
+                                )
+                            }
+                        } catch (e: Exception) {
+                            e.printStackTrace()
                         }
                     }
+
                     is Resource.Error -> {
                         // Handle error
                         DialogUtils.showFailedDialog(this, resource.message.toString())

@@ -93,17 +93,22 @@ class CompleteComplainFragment : Fragment(), CompleteComplainAdapter.OpitionList
                     is Resource.Loading -> {
                         DialogUtils.showProgressDialog(requireActivity(), "Fetching Complaint")
                     }
-                    is Resource.Success -> {
-                        if (resource.data?.get(0)?.Status == null) {
-                            binding.rvMachineList.visibility = View.VISIBLE
-                            binding.rvMachineList.adapter =
-                                CompleteComplainAdapter(resource.data!!, this)
-                        } else {
-                            binding.rvMachineList.visibility = View.GONE
-                        }
-                        DialogUtils.dismissDialog()
 
+                    is Resource.Success -> {
+                        try {
+                            if (resource.data?.get(0)?.Status == null) {
+                                binding.rvMachineList.visibility = View.VISIBLE
+                                binding.rvMachineList.adapter =
+                                    CompleteComplainAdapter(resource.data!!, this)
+                            } else {
+                                binding.rvMachineList.visibility = View.GONE
+                            }
+                            DialogUtils.dismissDialog()
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
                     }
+
                     is Resource.Error -> {
                         DialogUtils.showFailedDialog(requireActivity(), resource.message.toString())
                     }
@@ -121,15 +126,22 @@ class CompleteComplainFragment : Fragment(), CompleteComplainAdapter.OpitionList
         viewModel?.getComplaintLog(ComplaintId)?.observe(viewLifecycleOwner, Observer { resources ->
             when (resources) {
                 is Resource.Success -> {
-                    DialogUtils.dismissDialog()
-                    resources.data?.let { response ->
-                        binding.complaintLog.rlComplainLogDialog.visibility = View.VISIBLE
-                        binding.complaintLog.rvComplaintLog.adapter = ComplaintLogAdapter(response)
+                    try {
+                        DialogUtils.dismissDialog()
+                        resources.data?.let { response ->
+                            binding.complaintLog.rlComplainLogDialog.visibility = View.VISIBLE
+                            binding.complaintLog.rvComplaintLog.adapter =
+                                ComplaintLogAdapter(response)
+                        }
+                    } catch (e: Exception) {
+                        e.printStackTrace()
                     }
                 }
+
                 is Resource.Loading -> {
                     DialogUtils.showProgressDialog(requireActivity(), "Getting Log")
                 }
+
                 is Resource.Error -> {
                     DialogUtils.showFailedDialog(requireActivity(), resources.message.toString())
                 }

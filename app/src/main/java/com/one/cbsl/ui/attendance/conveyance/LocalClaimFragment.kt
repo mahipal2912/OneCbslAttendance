@@ -83,6 +83,10 @@ class LocalClaimFragment : Fragment(), OnItemSelectedListener, TextWatcher {
                         imagesPathList.add(imageUri)
                     }
                     binding.rvImage.adapter = SelectImageAdapter(imagesPathList)
+                    imagebase = Base64.encodeToString(
+                        Utils.convertPDFToByteArray(Constants.generatePdf(imagesPathList)),
+                        Base64.DEFAULT
+                    )
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -95,9 +99,15 @@ class LocalClaimFragment : Fragment(), OnItemSelectedListener, TextWatcher {
     private var cameraActivityResultLauncher: ActivityResultLauncher<Intent> =
         registerForActivityResult(
             ActivityResultContracts.StartActivityForResult(), ActivityResultCallback {
+
                 if (it.resultCode === RESULT_OK) {
+
                     imagesPathList.add(photoUri!!)
                     binding.rvImage.adapter = SelectImageAdapter(imagesPathList)
+                    imagebase = Base64.encodeToString(
+                        Utils.convertPDFToByteArray(Constants.generatePdf(imagesPathList)),
+                        Base64.DEFAULT
+                    )
                 }
             }
         )
@@ -131,7 +141,7 @@ class LocalClaimFragment : Fragment(), OnItemSelectedListener, TextWatcher {
         binding.etFoodCharge.addTextChangedListener(this)
         binding.tvSave.setOnClickListener {
 
-            if (binding.etClientPlace.text.toString()
+            if (binding.etClientPlace.text.toString().trim()
                     .isEmpty()
             ) {
                 DialogUtils.showFailedDialog(
@@ -145,10 +155,7 @@ class LocalClaimFragment : Fragment(), OnItemSelectedListener, TextWatcher {
             } else {
                 if (imagesPathList.size > 0) {
                     saveLocalConveyance(
-                        Base64.encodeToString(
-                            Utils.convertPDFToByteArray(Constants.generatePdf(imagesPathList)),
-                            Base64.DEFAULT
-                        )
+                      imagebase
                     )
                 } else {
                     saveLocalConveyance("")
@@ -163,6 +170,7 @@ class LocalClaimFragment : Fragment(), OnItemSelectedListener, TextWatcher {
                 RawImageSelectionDialogBinding.inflate(layoutInflater)
             dialog.setContentView(customDialogLayoutBinding.root)
             dialog.show()
+            customDialogLayoutBinding.tvCamera.visibility=View.GONE
             customDialogLayoutBinding.tvCamera.setOnClickListener {
                 openCamera()
                 dialog.dismiss()
@@ -178,16 +186,18 @@ class LocalClaimFragment : Fragment(), OnItemSelectedListener, TextWatcher {
     }
 
     private fun openCamera() {
-
-        val values = ContentValues()
-        values.put(MediaStore.Images.Media.TITLE, "New Picture")
-        values.put(MediaStore.Images.Media.DESCRIPTION, "From the Camera")
+        photoUri = null
+        val values = ContentValues().apply {
+            put(MediaStore.Images.Media.TITLE, "New Picture")
+            put(MediaStore.Images.Media.DESCRIPTION, "From the Camera")
+        }
         photoUri = requireActivity().contentResolver.insert(
             MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
             values
         )
-        val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
+        val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE).apply {
+            putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
+        }
         cameraActivityResultLauncher.launch(cameraIntent)
 
     }
@@ -223,7 +233,7 @@ class LocalClaimFragment : Fragment(), OnItemSelectedListener, TextWatcher {
             .getAsObjectList(SaveResponse::class.java, object :
                 ParsedRequestListener<List<SaveResponse>> {
                 override fun onResponse(response: List<SaveResponse>?) {
-                    DialogUtils.dismissDialog()
+
                     DialogUtils.showSuccessDialog(
                         requireActivity(),
                         response?.get(0)?.status.toString(),

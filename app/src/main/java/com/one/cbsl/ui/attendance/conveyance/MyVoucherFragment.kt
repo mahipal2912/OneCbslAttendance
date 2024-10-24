@@ -69,19 +69,25 @@ class MyVoucherFragment : Fragment(), VoucherAdapter.OpitionListener {
             ) { resource ->
                 when (resource) {
                     is Resource.Success -> {
-                        DialogUtils.dismissDialog()
-                        if (resource.data != null) {
-                            binding.rvMyConvyence.adapter =
-                                VoucherAdapter(
-                                    resource.data, this
-                                )
+                        try {
+                            DialogUtils.dismissDialog()
+                            if (resource.data != null) {
+                                binding.rvMyConvyence.adapter =
+                                    VoucherAdapter(
+                                        resource.data, this
+                                    )
+                            }
+                        } catch (e: Exception) {
+                            e.printStackTrace()
                         }
                     }
+
                     is Resource.Loading -> {
                         DialogUtils.showProgressDialog(requireActivity(), "Fetching Voucher")
 
 
                     }
+
                     is Resource.Error -> {
                         DialogUtils.showFailedDialog(
                             requireActivity(),

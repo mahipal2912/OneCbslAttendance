@@ -12,9 +12,11 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.text.Editable
 import android.util.Base64
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.result.ActivityResultCallback
@@ -41,6 +43,7 @@ import com.one.cbsl.networkcall.base.ViewModelFactory
 import com.one.cbsl.ui.complain.adapter.AssignComplainAdapter
 import com.one.cbsl.ui.complain.adapter.ComplaintMainAdapter
 import com.one.cbsl.ui.complain.adapter.PendingInstallationAdapter
+import com.one.cbsl.ui.complain.model.ComplainClientResponse
 import com.one.cbsl.ui.complain.model.PendingInstallResponse
 import com.one.cbsl.ui.complain.viewmodel.ComplaintViewModel
 import com.one.cbsl.utils.*
@@ -50,14 +53,13 @@ import io.reactivex.schedulers.Schedulers
 import java.text.SimpleDateFormat
 import java.util.*
 
-class PendingInstallationFragment : Fragment(), PendingInstallationAdapter.OpitionListener {
+class PendingInstallationFragment : Fragment(),  AdapterView.OnItemSelectedListener,PendingInstallationAdapter.OpitionListener {
 
     private var _binding: FragmentPendingInstallationBinding? = null
     private var viewModel: ComplaintViewModel? = null
     var clientId: String = "0"
     private val binding get() = _binding!!
     var machineId: String = "0"
-    var clientid: String = "0"
 
     var imagesInstallList: ArrayList<Uri> = arrayListOf()
     var imagesCertificateList: ArrayList<Uri> = arrayListOf()
@@ -214,6 +216,7 @@ class PendingInstallationFragment : Fragment(), PendingInstallationAdapter.Opiti
         _binding = FragmentPendingInstallationBinding.inflate(inflater, container, false)
         val root: View = binding.root
         bindView()
+        binding.searchOption.spinClientName.onItemSelectedListener = this
         return root
     }
 
@@ -331,13 +334,19 @@ class PendingInstallationFragment : Fragment(), PendingInstallationAdapter.Opiti
                 }
 
                 is Resource.Success -> {
-                    DialogUtils.dismissDialog()
-                    binding.searchOption.spinClientName.adapter = ArrayAdapter(
-                        requireContext(),
-                        android.R.layout.simple_spinner_item,
-                        resource.data!!
-                    )
-                    clientId = resource.data[0].ClientId.toString()
+                    try {
+                        DialogUtils.dismissDialog()
+
+
+                        binding.searchOption.spinClientName.adapter = ArrayAdapter(
+                            requireContext(),
+                            android.R.layout.simple_spinner_item,
+                            resource.data!!
+                        )
+                        clientId = resource.data[0].ClientId.toString()
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
                 }
 
                 is Resource.Error -> {
@@ -348,7 +357,7 @@ class PendingInstallationFragment : Fragment(), PendingInstallationAdapter.Opiti
 
     }
 
-    private fun getPendingInstallation(branchId:String) {
+    private fun getPendingInstallation(branchId: String) {
         viewModel?.getPendingInstallation(
             SessionManager.getInstance().getString(Constants.COMPLAINT_USERID),
             "0",
@@ -362,17 +371,20 @@ class PendingInstallationFragment : Fragment(), PendingInstallationAdapter.Opiti
                     }
 
                     is Resource.Success -> {
-                        if (resource.data?.get(0)?.status == null) {
-                            binding.llNoData.visibility = View.GONE
-                            binding.rvMachineList.visibility = View.VISIBLE
-                            binding.rvMachineList.adapter =
-                                PendingInstallationAdapter(resource.data!!, this)
-                        } else {
-                            binding.rvMachineList.visibility = View.GONE
-                            binding.llNoData.visibility = View.VISIBLE
+                        try {
+                            if (resource.data?.get(0)?.status == null) {
+                                binding.llNoData.visibility = View.GONE
+                                binding.rvMachineList.visibility = View.VISIBLE
+                                binding.rvMachineList.adapter =
+                                    PendingInstallationAdapter(resource.data!!, this)
+                            } else {
+                                binding.rvMachineList.visibility = View.GONE
+                                binding.llNoData.visibility = View.VISIBLE
+                            }
+                            DialogUtils.dismissDialog()
+                        } catch (e: Exception) {
+                            e.printStackTrace()
                         }
-                        DialogUtils.dismissDialog()
-
                     }
 
                     is Resource.Error -> {
@@ -479,6 +491,25 @@ class PendingInstallationFragment : Fragment(), PendingInstallationAdapter.Opiti
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onItemSelected(parent: AdapterView<*>?, p1: View?, position: Int, p3: Long) {
+        when (parent!!.id) {
+            R.id.spin_client_name -> {
+                try {
+                    val selectedItem = parent.getItemAtPosition(position) as ComplainClientResponse
+                    clientId = selectedItem.ClientId!!
+                    //        loadBranchName(cityId!!)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+        }
+    }
+
+    override fun onNothingSelected(p0: AdapterView<*>?) {
+        Log.d("Not yet implemented","")
+
     }
 
 }

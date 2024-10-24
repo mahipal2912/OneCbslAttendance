@@ -130,7 +130,7 @@ class InOutComplaintFragment : Fragment(), View.OnClickListener,
                 val location: Location = task.result
                 lat = location.latitude
                 lng = location.longitude
-                val geocoder = Geocoder(requireActivity(), Locale.getDefault())
+                val geocoder = Geocoder(requireContext(), Locale.getDefault())
                 val list: MutableList<Address>? =
                     geocoder.getFromLocation(location.latitude, location.longitude, 1)
                 binding.etToLocation.text =
@@ -165,16 +165,19 @@ class InOutComplaintFragment : Fragment(), View.OnClickListener,
         when (view) {
             binding.tvCheckIn -> {
                 val taskResponse: TaskResponse = binding.spinTask.selectedItem as TaskResponse
-                checkIn(taskResponse.TaskId.toString(),  complaintNo,
+                checkIn(
+                    taskResponse.TaskId.toString(), complaintNo,
                     machineNumber,
                     clientName,
                     clientPlaceName,
-                    complaintType)
+                    complaintType
+                )
             }
 
             binding.tvCheckOut -> {
                 checkOutMovement()
             }
+
             binding.btnFetch -> {
                 checkAllPermission()
             }
@@ -186,19 +189,25 @@ class InOutComplaintFragment : Fragment(), View.OnClickListener,
         viewModel?.getTask()?.observe(viewLifecycleOwner, Observer { resource ->
             when (resource) {
                 is Resource.Success -> {
-                    DialogUtils.dismissDialog()
-                    resource.data?.let { response ->
-                        val aa = ArrayAdapter(
-                            requireContext(),
-                            R.layout.simple_spinner_item,
-                            response
-                        )
-                        binding.spinTask.adapter = aa
+                    try {
+                        DialogUtils.dismissDialog()
+                        resource.data?.let { response ->
+                            val aa = ArrayAdapter(
+                                requireContext(),
+                                R.layout.simple_spinner_item,
+                                response
+                            )
+                            binding.spinTask.adapter = aa
+                        }
+                    } catch (e: Exception) {
+                        e.printStackTrace()
                     }
                 }
+
                 is Resource.Loading -> {
                     DialogUtils.showProgressDialog(requireActivity(), "Fetching Task")
                 }
+
                 is Resource.Error -> {
                     //Handle Error
                     DialogUtils.showFailedDialog(requireActivity(), resource.message.toString())
@@ -209,18 +218,24 @@ class InOutComplaintFragment : Fragment(), View.OnClickListener,
         viewModel?.getLastLocation()?.observe(viewLifecycleOwner, Observer { resources ->
             when (resources) {
                 is Resource.Success -> {
-                    DialogUtils.dismissDialog()
-                    resources.data?.let { response ->
-                        if (arguments?.getBoolean("isCheckIn")!!) {
-                            binding.etFromLocation.setText(response[0].LocationAddress)
-                            tourId = response[0].tourid
-                        }
+                    try {
+                        DialogUtils.dismissDialog()
+                        resources.data?.let { response ->
+                            if (arguments?.getBoolean("isCheckIn")!!) {
+                                binding.etFromLocation.setText(response[0].LocationAddress)
+                                tourId = response[0].tourid
+                            }
 
+                        }
+                    } catch (e: Exception) {
+                        e.printStackTrace()
                     }
                 }
+
                 is Resource.Loading -> {
                     DialogUtils.showProgressDialog(requireActivity(), "Fetching Location")
                 }
+
                 is Resource.Error -> {
                     //Handle Error
                     if (arguments?.getBoolean("isCheckIn")!!) {
@@ -233,41 +248,49 @@ class InOutComplaintFragment : Fragment(), View.OnClickListener,
 
     }
 
-        private fun checkIn(taskId: String,
-                            complaint: String,
-                            machine: String,
-                            client: String,
-                            clientPlace: String,
-                            Type: String) {
-            viewModel?.checkInMovement(
-                SessionManager.getInstance().getString(Constants.UserId),
-                binding.etFromLocation.text.toString(),
-                binding.etToLocation.text.toString(),
-                taskId,
-                binding.etRemark.text.toString(),
-                binding.etToLocation.text.toString(),
-                lat.toString(),
-                lng.toString(), tourId,complaint,
-                machine,
-                client,
-                clientPlace,
-                Type
-            )?.observe(viewLifecycleOwner, Observer { resources ->
+    private fun checkIn(
+        taskId: String,
+        complaint: String,
+        machine: String,
+        client: String,
+        clientPlace: String,
+        Type: String
+    ) {
+        viewModel?.checkInMovement(
+            SessionManager.getInstance().getString(Constants.UserId),
+            binding.etFromLocation.text.toString(),
+            binding.etToLocation.text.toString(),
+            taskId,
+            binding.etRemark.text.toString(),
+            binding.etToLocation.text.toString(),
+            lat.toString(),
+            lng.toString(), tourId, complaint,
+            machine,
+            client,
+            clientPlace,
+            Type
+        )?.observe(viewLifecycleOwner, Observer { resources ->
             when (resources) {
                 is Resource.Success -> {
-                    DialogUtils.dismissDialog()
-                    resources.data?.let { response ->
-                        DialogUtils.showSuccessDialog(
-                            requireActivity(),
-                            response[0].status.toString(),
-                            CbslMain::class.java
-                        )
+                    try {
+                        DialogUtils.dismissDialog()
+                        resources.data?.let { response ->
+                            DialogUtils.showSuccessDialog(
+                                requireActivity(),
+                                response[0].status.toString(),
+                                CbslMain::class.java
+                            )
+                        }
+                    } catch (e: Exception) {
+                        e.printStackTrace()
                     }
                 }
+
                 is Resource.Loading -> {
                     DialogUtils.showProgressDialog(requireActivity(), "Check In Progress")
 
                 }
+
                 is Resource.Error -> {
                     //Handle Error
                     DialogUtils.showFailedDialog(requireActivity(), resources.message.toString())
@@ -285,19 +308,25 @@ class InOutComplaintFragment : Fragment(), View.OnClickListener,
         )?.observe(requireActivity(), Observer { resources ->
             when (resources) {
                 is Resource.Success -> {
-                    DialogUtils.dismissDialog()
-                    resources.data?.let { response ->
-                        DialogUtils.showSuccessDialog(
-                            requireActivity(),
-                            response[0].status.toString(),
-                            CbslMain::class.java
-                        )
+                    try {
+                        DialogUtils.dismissDialog()
+                        resources.data?.let { response ->
+                            DialogUtils.showSuccessDialog(
+                                requireActivity(),
+                                response[0].status.toString(),
+                                CbslMain::class.java
+                            )
+                        }
+                    } catch (e: Exception) {
+                        e.printStackTrace()
                     }
                 }
+
                 is Resource.Loading -> {
                     DialogUtils.showProgressDialog(requireActivity(), "Check Out Progress")
 
                 }
+
                 is Resource.Error -> {
                     //Handle Error
                     DialogUtils.showFailedDialog(requireActivity(), resources.message.toString())

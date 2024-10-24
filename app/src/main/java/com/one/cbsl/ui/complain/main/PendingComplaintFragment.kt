@@ -150,12 +150,12 @@ class PendingComplaintFragment : Fragment(), AssignComplainAdapter.OptionListene
         binding.complainDetails.spinComplainItem.onItemSelectedListener = this
         binding.complainDetails.checkType.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
-                binding.complainDetails.llComplainItemType.visibility = View.VISIBLE
+                binding.complainDetails.llComplainType.visibility = View.VISIBLE
                 complainChangeStatus = "1"
             } else {
                 complainChangeStatus = "0"
                 itemId = "0"
-                binding.complainDetails.llComplainItemType.visibility = View.GONE
+                binding.complainDetails.llComplainType.visibility = View.GONE
             }
         }
 
@@ -257,11 +257,15 @@ class PendingComplaintFragment : Fragment(), AssignComplainAdapter.OptionListene
             when (resources) {
                 is Resource.Success -> {
                     resources.data?.let { response ->
-                        binding.complainDetails.spinStatus.adapter = ArrayAdapter(
-                            requireActivity(),
-                            android.R.layout.simple_spinner_dropdown_item,
-                            resources.data
-                        )
+                        try {
+                            binding.complainDetails.spinStatus.adapter = ArrayAdapter(
+                                requireActivity(),
+                                android.R.layout.simple_spinner_dropdown_item,
+                                resources.data
+                            )
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
                     }
                 }
 
@@ -287,11 +291,15 @@ class PendingComplaintFragment : Fragment(), AssignComplainAdapter.OptionListene
                 }
 
                 is Resource.Success -> {
-                    DialogUtils.dismissDialog()
-                    binding.searchOption.spinClientName.adapter = ArrayAdapter(
-                        requireContext(), android.R.layout.simple_spinner_item, resource.data!!
-                    )
-                    clientId = resource.data[0].ClientId.toString()
+                    try {
+                        DialogUtils.dismissDialog()
+                        binding.searchOption.spinClientName.adapter = ArrayAdapter(
+                            requireContext(), android.R.layout.simple_spinner_item, resource.data!!
+                        )
+                        clientId = resource.data[0].ClientId.toString()
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
                 }
 
                 is Resource.Error -> {
@@ -311,17 +319,20 @@ class PendingComplaintFragment : Fragment(), AssignComplainAdapter.OptionListene
                     }
 
                     is Resource.Success -> {
-                        if (resource.data?.get(0)?.Status == null) {
-                            binding.llNoData.visibility = View.GONE
-                            binding.rvMachineList.visibility = View.VISIBLE
-                            binding.rvMachineList.adapter =
-                                AssignComplainAdapter(resource.data!!, this)
-                        } else {
-                            binding.rvMachineList.visibility = View.GONE
-                            binding.llNoData.visibility = View.VISIBLE
+                        try {
+                            if (resource.data?.get(0)?.Status == null) {
+                                binding.llNoData.visibility = View.GONE
+                                binding.rvMachineList.visibility = View.VISIBLE
+                                binding.rvMachineList.adapter =
+                                    AssignComplainAdapter(resource.data!!, this)
+                            } else {
+                                binding.rvMachineList.visibility = View.GONE
+                                binding.llNoData.visibility = View.VISIBLE
+                            }
+                            DialogUtils.dismissDialog()
+                        } catch (e: Exception) {
+                            e.printStackTrace()
                         }
-                        DialogUtils.dismissDialog()
-
                     }
 
                     is Resource.Error -> {
@@ -541,10 +552,14 @@ class PendingComplaintFragment : Fragment(), AssignComplainAdapter.OptionListene
         viewModel?.getComplaintLog(ComplaintId)?.observe(viewLifecycleOwner, Observer { resources ->
             when (resources) {
                 is Resource.Success -> {
-                    DialogUtils.dismissDialog()
-                    resources.data?.let { response ->
-                        binding.logDialog.rlComplainLogDialog.visibility = View.VISIBLE
-                        binding.logDialog.rvComplaintLog.adapter = ComplaintLogAdapter(response)
+                    try {
+                        DialogUtils.dismissDialog()
+                        resources.data?.let { response ->
+                            binding.logDialog.rlComplainLogDialog.visibility = View.VISIBLE
+                            binding.logDialog.rvComplaintLog.adapter = ComplaintLogAdapter(response)
+                        }
+                    } catch (e: Exception) {
+                        e.printStackTrace()
                     }
                 }
 

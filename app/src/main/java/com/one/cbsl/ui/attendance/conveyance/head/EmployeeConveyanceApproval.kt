@@ -76,9 +76,11 @@ class EmployeeConveyanceApproval : Fragment(), HodConveyEmpDetailAdapter.Opition
                         }
                     }
                 }
+
                 is Resource.Loading -> {
                     DialogUtils.showProgressDialog(requireActivity(), "Getting Conveyance ")
                 }
+
                 is Resource.Error -> {
                     DialogUtils.showFailedDialog(requireActivity(), resources.message.toString())
                 }
@@ -94,17 +96,24 @@ class EmployeeConveyanceApproval : Fragment(), HodConveyEmpDetailAdapter.Opition
             markStatus,
             amt,
             remarks
-        )?.observe(viewLifecycleOwner, Observer {resources->
+        )?.observe(viewLifecycleOwner, Observer { resources ->
             when (resources) {
                 is Resource.Success -> {
-                    DialogUtils.dismissDialog()
-                    resources.data?.let { response ->
-                        Toast.makeText(context, response[0].Status, Toast.LENGTH_SHORT).show()
+                    try {
+                        DialogUtils.dismissDialog()
+
+                        resources.data?.let { response ->
+                            Toast.makeText(context, response[0].Status, Toast.LENGTH_SHORT).show()
+                        }
+                    } catch (e: Exception) {
+                        e.printStackTrace()
                     }
                 }
+
                 is Resource.Loading -> {
                     DialogUtils.showProgressDialog(requireActivity(), "Updating...")
                 }
+
                 is Resource.Error -> {
                     //Handle Error
                     DialogUtils.showFailedDialog(requireActivity(), resources.message.toString())
