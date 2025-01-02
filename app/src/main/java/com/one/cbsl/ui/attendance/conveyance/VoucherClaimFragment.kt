@@ -281,7 +281,7 @@ class VoucherClaimFragment : Fragment() {
             }
         }
         binding.etSelectTo.setOnClickListener {
-            Constants.getDateSelection(requireActivity()) { selectedDate ->
+            Constants.getDateToSelection(requireActivity()) { selectedDate ->
                 // Handle the selected date here
                 binding.etSelectTo.text = selectedDate
             }
@@ -315,7 +315,7 @@ class VoucherClaimFragment : Fragment() {
             }
         DialogUtils.showProgressDialog(requireActivity(), "Processing..")
         AndroidNetworking.initialize(requireContext())
-        AndroidNetworking.post("https://dms.crconline.in/cbslattendance/webmethods/apiwebservice.asmx/VoucherSaveNew")
+        AndroidNetworking.post("https://hrisapi.cbslgroup.in/webmethods/apiwebservice.asmx/VoucherSaveNew")
             .addBodyParameter(
                 "userId",
                 SessionManager.getInstance().getString(Constants.UserId)

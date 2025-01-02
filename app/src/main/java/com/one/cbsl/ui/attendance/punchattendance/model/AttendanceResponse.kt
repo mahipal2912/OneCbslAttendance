@@ -3,6 +3,8 @@ package com.one.cbsl.ui.attendance.punchattendance.model
 import com.google.gson.annotations.SerializedName
 
 data class AttendanceResponse(
+    @SerializedName("message") val message: String="",
+    @SerializedName("error") val error: String="",
     @SerializedName("UserId") val UserId: String,
     @SerializedName("PunchDate") val PunchDate: String,
     @SerializedName("PunchIn") val PunchIn: String,

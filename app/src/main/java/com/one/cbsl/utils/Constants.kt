@@ -1,10 +1,15 @@
 package com.one.cbsl.utils
 
+import SaveResponse
 import android.app.DatePickerDialog
 import android.content.Context
 import android.graphics.Bitmap
 import android.net.Uri
 import android.provider.Settings
+import android.widget.Toast
+import com.androidnetworking.AndroidNetworking
+import com.androidnetworking.error.ANError
+import com.androidnetworking.interfaces.ParsedRequestListener
 import com.itextpdf.text.*
 import com.itextpdf.text.pdf.PdfWriter
 import com.one.cbsl.utils.Utils.getBitmap
@@ -27,6 +32,7 @@ class Constants {
         const val KEY_FOREGROUND_ENABLED = "KEY_FOREGROUND_ENABLED"
         const val Conveyance = "Conveyance"
         const val LeavePlan = "Leave Plan"
+        const val VerifyType = "VerifyType"
         const val Complaint = "Complaint"
         const val Voucher = "Voucher"
         const val ApprovalHod = "Conveyance HOD"
@@ -47,7 +53,10 @@ class Constants {
         const val IsTourActive = "IsTourActive"
         const val isPunchIn = "isPunchIn"
         const val UserName = "UserName"
+        const val CityName = "CityName"
+        const val Division = "division"
         const val IMAGE = "iamge"
+        const val faceEnabled = "faceEnabled"
         const val UserTypeID = "UserTypeId"
         const val UserId = "UserId"
         const val EmpCode = "EmpCode"
@@ -73,8 +82,11 @@ class Constants {
             "December"
         )
         val voucherList = arrayOf(
-            "Mobile Expenses", "Printout & Zerox",
-            "Postage & Courier Expenses", "Machines repair & Maintenance Expenses", "Fright Charges"
+            "Mobile Expenses",
+            "Printout & Zerox",
+            "Postage & Courier Expenses",
+            "Machines repair & Maintenance Expenses",
+            "Fright Charges"
         )
 
         fun getTodayData(): String {
@@ -136,6 +148,27 @@ class Constants {
             }
         }
 
+        fun getDateToSelection(context: Context, callback: (String) -> Unit) {
+            try {
+                val cal = Calendar.getInstance()
+                val dpd = DatePickerDialog(
+                    context,
+                    { _, year, monthOfYear, dayOfMonth ->
+                        val selectedDate = "" + (monthOfYear + 1) + "-" + dayOfMonth + "-" + year
+                        callback(selectedDate)
+                    },
+                    cal.get(Calendar.YEAR),
+                    cal.get(Calendar.MONTH),
+                    cal.get(Calendar.DAY_OF_MONTH)
+                )
+
+                dpd.show()
+            } catch (e: Exception) {
+                e.printStackTrace()
+                callback("")
+            }
+        }
+
         fun getPostDateSelection(context: Context, callback: (String) -> Unit) {
             try {
                 val cal = Calendar.getInstance()
@@ -156,12 +189,13 @@ class Constants {
                 callback("")
             }
         }
+
         fun isDeveloperModeEnabled(context: Context): Boolean {
             return Settings.Global.getInt(
-                context.contentResolver,
-                Settings.Global.DEVELOPMENT_SETTINGS_ENABLED, 0
+                context.contentResolver, Settings.Global.DEVELOPMENT_SETTINGS_ENABLED, 0
             ) !== 0
         }
+
         internal fun generatePdf(path: ArrayList<Uri>): String {
             val document = Document()
 
@@ -169,8 +203,7 @@ class Constants {
             val pathPdf = "$directoryPath/${System.currentTimeMillis()}.pdf"
             try {
                 PdfWriter.getInstance(
-                    document,
-                    FileOutputStream(pathPdf)
+                    document, FileOutputStream(pathPdf)
                 )
             } catch (e: DocumentException) {
                 e.printStackTrace()
@@ -206,6 +239,29 @@ class Constants {
             return pathPdf
 
         }
+
+        @JvmStatic
+        fun saveEmbeding() {
+            AndroidNetworking.initialize(Cbsl.getInstance())
+            AndroidNetworking.post("https://app.crconline.in/hrisapi/webmethods/apiwebservice.asmx/faceData")
+                .addBodyParameter(
+                    "userId", SessionManager.getInstance().getString(Constants.UserId)
+                ).addBodyParameter(
+                    "type", "I"
+                ).addBodyParameter("data", "1")
+                .addBodyParameter("AuthHeader", Constants.AUTH_HEADER).build().getAsObjectList(
+                    SaveResponse::class.java,
+                    object : ParsedRequestListener<List<SaveResponse>> {
+                        override fun onResponse(response: List<SaveResponse>?) {
+
+                        }
+
+                        override fun onError(anError: ANError?) {
+
+                        }
+                    });
+        }
+
 
     }
 }

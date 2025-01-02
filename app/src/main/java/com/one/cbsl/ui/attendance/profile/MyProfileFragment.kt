@@ -112,6 +112,9 @@ class MyProfileFragment : Fragment() {
         binding.startBtn.setOnClickListener {
             takePhoto()
         }
+        binding.tvChangePass.setOnClickListener {
+            findNavController().navigate(R.id.changePasswordFragment)
+        }
         binding.tvChangeImage.setOnClickListener {
             binding.cameraLayout.visibility = View.VISIBLE
             binding.llProfileLayout.visibility = View.GONE
@@ -129,7 +132,7 @@ class MyProfileFragment : Fragment() {
     private fun uploadImage() {
         binding.progressBar.visibility = View.VISIBLE // Use binding for progressBar
         AndroidNetworking.initialize(requireContext())
-        AndroidNetworking.post("https://dms.crconline.in/cbslattendance/webmethods/apiwebservice.asmx/uploadUserImage")
+        AndroidNetworking.post("https://hrisapi.cbslgroup.in/webmethods/apiwebservice.asmx/uploadUserImage")
             .addBodyParameter("userId", SessionManager.getInstance().getString(Constants.UserId))
             .addBodyParameter("empcode", SessionManager.getInstance().getString(Constants.EmpCode))
             .addBodyParameter("address", binding.etAddress.text.toString())

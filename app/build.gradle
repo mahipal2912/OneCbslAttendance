@@ -11,8 +11,8 @@ android {
         applicationId "com.one.cbsl"
         minSdk 24
         targetSdk 34
-        versionCode 12
-        versionName "1.1.1"
+        versionCode 19
+        versionName "1.1.8"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -81,6 +81,7 @@ dependencies {
     implementation("com.google.android.play:app-update-ktx:2.1.0")
 
     implementation 'androidx.work:work-runtime-ktx:2.9.0'
+    implementation 'androidx.activity:activity:1.9.3'
     annotationProcessor "androidx.room:room-compiler:2.6.1"
     implementation 'com.github.bumptech.glide:glide:4.16.0'
     implementation 'com.itextpdf:itextg:5.5.10'
@@ -102,4 +103,13 @@ dependencies {
     implementation "androidx.camera:camera-camera2:$camerax_version"
     implementation "androidx.camera:camera-lifecycle:$camerax_version"
     implementation "androidx.camera:camera-view:1.0.0-alpha14"
+
+
+    //face detection
+    implementation 'com.google.android.gms:play-services-mlkit-face-detection:17.1.0'
+    implementation 'com.google.mlkit:face-detection:16.0.4'
+    implementation 'org.tensorflow:tensorflow-lite:2.9.0'
+    implementation 'org.tensorflow:tensorflow-lite-task-vision:0.3.0'
+    implementation 'org.tensorflow:tensorflow-lite-support:0.3.0'
+    implementation 'org.tensorflow:tensorflow-lite:0.0.0-nightly-SNAPSHOT'
 }

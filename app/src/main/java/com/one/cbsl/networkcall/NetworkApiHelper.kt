@@ -253,6 +253,12 @@ class NetworkApiHelper(private val apiService: RetrofitService) {
         userId: String?, fromDate: String?, toDate: String?, Reason: String?, leavetype: String?
     ) = apiService.saveLeavePlan(userId, fromDate, toDate, Reason, leavetype, Constants.AUTH_HEADER)
 
+    suspend fun LeavePlanUpdate(userid: String, id: String, leave_userid: String, status: String) =
+        apiService.LeavePlanUpdate(
+            userid,
+            id, leave_userid, status, Constants.AUTH_HEADER
+        )
+
 
     suspend fun getHodFacilityWiseConveyance(fromDate: String, toDate: String) =
         apiService.getHodFacilityWiseConveyance(

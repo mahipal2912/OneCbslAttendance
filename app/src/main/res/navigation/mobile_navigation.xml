@@ -25,15 +25,16 @@
         <action
             android:id="@+id/home_to_mark_attendance"
             app:destination="@+id/navigate_to_mark_attendance" />
-
+        <action
+            android:id="@+id/home_to_face_capture"
+            app:destination="@+id/navigate_to_face_capture"
+            />
         <action
             android:id="@+id/home_to_attendance"
             app:destination="@+id/navigate_to_attendance" />
-
         <action
             android:id="@+id/home_to_my_movement"
             app:destination="@+id/navigate_to_my_movement" />
-
         <action
             android:id="@+id/home_to_my_conveyance"
             app:destination="@+id/navigate_to_my_conveyance" />
@@ -77,9 +78,7 @@
         <action
             android:id="@+id/home_to_profile_change"
             app:destination="@id/changeProfile"
-            app:popUpToInclusive="true"
-            />
-
+            app:popUpToInclusive="true" />
     </fragment>
 
     <fragment
@@ -106,7 +105,10 @@
         android:name="com.one.cbsl.ui.attendance.conveyance.LocalClaimFragment"
         android:label="Local Claim"
         tools:layout="@layout/fragment_local_claim" />
-
+    <fragment
+        android:id="@+id/track_leave_plan_admin"
+        android:name="com.one.cbsl.ui.attendance.leave.AdminLeavePlan"
+        android:label="Leave Plan" />
     <fragment
         android:id="@+id/navigate_to_my_movement"
         android:name="com.one.cbsl.ui.attendance.movement.MovementFragment"
@@ -147,7 +149,7 @@
     <fragment
         android:id="@+id/changeProfile"
         android:name="com.one.cbsl.ui.attendance.profile.MyProfileFragment"
-        android:label="My Profile"/>
+        android:label="My Profile" />
 
     <fragment
         android:id="@+id/markLeave"
@@ -166,6 +168,17 @@
         android:name="com.one.cbsl.ui.attendance.punchattendance.MarkAttendance"
         android:label="Mark Attendance"
         tools:layout="@layout/fragment_mark_attendance" />
+    <fragment
+        android:id="@+id/navigate_to_face_capture"
+        android:name="com.one.cbsl.ui.attendance.profile.FaceVerificationCapture"
+        android:label="Face Verification"
+
+        tools:layout="@layout/fragment_capture_face" />
+    <fragment
+        android:id="@+id/navigate_to_face_webview"
+        android:name="com.one.cbsl.ui.attendance.punchattendance.FaceWebView"
+        android:label="Face Attendance"
+        tools:layout="@layout/fragment_frag_upload_reciept" />
 
     <fragment
         android:id="@+id/navigation_to_voucher"

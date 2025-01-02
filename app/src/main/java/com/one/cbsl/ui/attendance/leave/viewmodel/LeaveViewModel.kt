@@ -60,5 +60,26 @@ class LeaveViewModel constructor(private val mainRepository: MainRepository) : V
 
     }
 
+    fun LeavePlanUpdate(userid: String, id: String, leave_userid: String, status: String) =
+        liveData(
+            Dispatchers.IO
+        ) {
+            emit(Resource.Loading())
+            try {
+                val response = mainRepository.LeavePlanUpdate(
+                    userid,
+                    id, leave_userid, status
+                )
+                if (response.isSuccessful) {
+                    emit(Resource.Success(data = response.body()))
+                } else {
+                    emit(Resource.Error(message = "Error: ${response.message()}"))
+                }
+            } catch (exception: Exception) {
+                emit(Resource.Error(message = exception.message ?: "Error Occurred!"))
+            }
+
+        }
+
 
 }

@@ -82,7 +82,7 @@ class MainRepository constructor(private val apiHelper: NetworkApiHelper) {
             latitude,
             longitude,
             CreatedOn,
-            PunchoutDate,logoutlocation
+            PunchoutDate, logoutlocation
         )
 
     //movement
@@ -204,6 +204,12 @@ class MainRepository constructor(private val apiHelper: NetworkApiHelper) {
         reason,
         leavetype
     )
+
+    suspend fun LeavePlanUpdate(userid: String, id: String, leave_userid: String, status: String) =
+        apiHelper.LeavePlanUpdate(
+            userid,
+            id, leave_userid, status
+        )
 
     suspend fun getHodFacilityWiseConveyance(fromDate: String, toDate: String) =
         apiHelper.getHodFacilityWiseConveyance(fromDate, toDate)

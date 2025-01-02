@@ -22,7 +22,9 @@ data class DashboardResponse(
     var onTour: String? = null,
     var isAccepted: Int? = 0,
     var IsPassUpdated: Int? = 0,
-    var IsProfileUpdated: String? = "0"
+    var faceData: String? = "0",
+    var IsProfileUpdated: String? = "0",
+    var faceEnabled: String? = "0"
 ) {
     override fun toString(): String {
         return NickName.toString()

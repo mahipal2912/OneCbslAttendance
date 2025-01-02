@@ -112,6 +112,7 @@ class PendingComplaintFragment : Fragment(), AssignComplainAdapter.OptionListene
     ): View {
         bindView()
         _binding = FragmentPendingComplaintBinding.inflate(inflater, container, false)
+        binding.complainDetails.llDocumentLayout.visibility = View.VISIBLE
 
 
         return binding.root
@@ -593,6 +594,7 @@ class PendingComplaintFragment : Fragment(), AssignComplainAdapter.OptionListene
                 "cby", SessionManager.getInstance().getString(Constants.COMPLAINT_USERID)
             ).addBodyParameter("check", check)
             .addBodyParameter("resolveDate", binding.complainDetails.tvAssingDate.text.toString())
+
             .build()
             .getAsObjectList(ProjectResponse::class.java, object :
                 ParsedRequestListener<List<ProjectResponse>> {
@@ -747,7 +749,12 @@ class PendingComplaintFragment : Fragment(), AssignComplainAdapter.OptionListene
                             binding.complainDetails.llPendingLayout.visibility = View.GONE
                             binding.complainDetails.llAssignUserLayout.visibility = View.VISIBLE
                             binding.complainDetails.llUserSelection.visibility = View.GONE
-                            binding.complainDetails.checkType.visibility = View.GONE
+                            if (statusId == 2) {
+                                binding.complainDetails.checkType.visibility = View.GONE
+                                binding.complainDetails.llDocumentLayout.visibility = View.VISIBLE
+                            } else {
+                                binding.complainDetails.checkType.visibility = View.GONE
+                            }
                             check = "R"
                         }
                     }

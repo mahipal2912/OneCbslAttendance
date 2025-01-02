@@ -379,6 +379,15 @@ interface RetrofitService {
     ): Response<List<SaveResponse>>
 
 
+    @GET("LeavePlanUpdate")
+    suspend fun LeavePlanUpdate(
+        @Query("userId") userId: String?,
+        @Query("usertype") id: String,
+        @Query("EmpId") leave_userid: String,
+        @Query("leaveApprovalStatus") leaveApprovalStatus: String?,
+        @Query("AuthHeader") AuthHeader: String?
+
+    ): Response<List<SaveResponse>>
     //ComplaintModule
 
     @GET("getUserType")

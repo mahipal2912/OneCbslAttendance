@@ -13,6 +13,7 @@ import android.location.Location
 import android.location.LocationManager
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
 import android.os.Looper
 import android.provider.Settings
 import android.util.Log
@@ -112,6 +113,7 @@ class MarkAttendance : Fragment(), OnMapReadyCallback,
         super.onViewCreated(view, savedInstanceState)
 
         DialogUtils.showProgressDialog(requireActivity(), "Fetching Location")
+
         initMapView()
 
         checkAllPermission()
@@ -135,8 +137,8 @@ class MarkAttendance : Fragment(), OnMapReadyCallback,
                 ) {
                     try {
                         attendanceTypeId = (pos + 1).toString()
-                    /*    val response = parent.getItemAtPosition(pos) as AttendanceTypeResponse
-                        attendanceTypeId = response.AttendanceTypeId*/
+                        /*    val response = parent.getItemAtPosition(pos) as AttendanceTypeResponse
+                            attendanceTypeId = response.AttendanceTypeId*/
                         if (attendanceTypeId == "2") {
                             binding.llOdLayout.visibility = View.VISIBLE
                         } else {
@@ -193,6 +195,8 @@ class MarkAttendance : Fragment(), OnMapReadyCallback,
                 Manifest.permission.ACCESS_COARSE_LOCATION,
                 Manifest.permission.ACCESS_FINE_LOCATION,
 
+
+
                 )
         }
 
@@ -200,6 +204,7 @@ class MarkAttendance : Fragment(), OnMapReadyCallback,
 
     @SuppressLint("MissingPermission", "SetTextI18n")
     private fun getLocation() {
+        isFlag=false
         if (isLocationEnabled()) {
             mLocationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
             mLocationRequest.interval = INTERVAL
@@ -265,7 +270,9 @@ class MarkAttendance : Fragment(), OnMapReadyCallback,
             binding.tvCurrentLoc.text = address?.get(0)?.getAddressLine(0)?.toString()
             addMarkerToCurrentLocation()
         } catch (e: Exception) {
-            DialogUtils.dismissDialog()
+            if (!isFlag) {
+                DialogUtils.dismissDialog()
+            }
             e.printStackTrace();
         }
     }
@@ -292,6 +299,9 @@ class MarkAttendance : Fragment(), OnMapReadyCallback,
                 )
             )
 
+            if (!isFlag) {
+                DialogUtils.dismissDialog()
+            }
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -440,12 +450,15 @@ class MarkAttendance : Fragment(), OnMapReadyCallback,
 
             binding.ivCurrentLoc -> {
                 DialogUtils.showProgressDialog(requireActivity(), "Fetching Location")
+
                 getLocation()
             }
         }
     }
 
     private fun punchInAttendance() {
+        isFlag = true
+
         viewModel?.punchInAttendance(
             binding.tvCurrentLoc.text.toString(),
             lat.toString(),
@@ -457,6 +470,7 @@ class MarkAttendance : Fragment(), OnMapReadyCallback,
             when (resources) {
                 is Resource.Success -> {
                     try {
+
                         resources.data?.let { response ->
                             continueProcess(response, "PunchIn")
 

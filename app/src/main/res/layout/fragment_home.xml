@@ -145,8 +145,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="@dimen/_20sdp"
                         android:gravity="center"
-                        android:text="Total Hour"
-                        android:textColor="@color/material_blue_grey_80"
+                        android:text="Total Hours"
+                        android:textColor="@color/black"
                         android:textSize="@dimen/_10sdp"
                         android:textStyle="bold" />
                 </LinearLayout>

@@ -143,7 +143,10 @@ class LoginActivity : AppCompatActivity(),
 
         SessionManager.getInstance()
             .putString(Constants.UserName, loginResponse[0].employeeName)
-
+        SessionManager.getInstance()
+            .putString(Constants.CityName, loginResponse[0].CityName)
+        SessionManager.getInstance()
+            .putString(Constants.Division, loginResponse[0].division)
         SessionManager.getInstance()
             .putString(Constants.COMPANY, loginResponse[0].companyName)
 

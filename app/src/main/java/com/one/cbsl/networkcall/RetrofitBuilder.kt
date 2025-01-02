@@ -10,8 +10,10 @@ import java.util.concurrent.TimeUnit
 
 object RetrofitBuilder {
     private const val BASE_URL =
-        "https://dms.crconline.in/cbslattendance/webmethods/apiwebservice.asmx/"
-    private const val BMD_COMPLAINT_URL =
+        "https://hrisapi.cbslgroup.in/webmethods/apiwebservice.asmx/"
+  /* private const val BASE_URL =
+        "https://hrisapi.cbslgroup.in/webmethods/apiwebservice.asmx/"
+  */  private const val BMD_COMPLAINT_URL =
         "http://crmapi.cbslprojects.com/webmethods/apiwebservice.asmx/"
     private const val SOLAR_COMPLAINT_URL =
         "https://dms.crconline.in/solarappnew/webmethods/apiwebservice.asmx/"

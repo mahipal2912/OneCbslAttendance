@@ -207,7 +207,7 @@ class LocalClaimFragment : Fragment(), OnItemSelectedListener, TextWatcher {
         DialogUtils.showProgressDialog(requireActivity(), "Processing..")
         AndroidNetworking.initialize(requireContext())
 
-        AndroidNetworking.post("https://dms.crconline.in/cbslattendance/webmethods/apiwebservice.asmx/ConveyanceSaveNew")
+        AndroidNetworking.post("https://hrisapi.cbslgroup.in/webmethods/apiwebservice.asmx/ConveyanceSaveNew")
             .addBodyParameter(
                 "userId",
                 SessionManager.getInstance().getString(Constants.UserId)
@@ -428,7 +428,12 @@ class LocalClaimFragment : Fragment(), OnItemSelectedListener, TextWatcher {
                 try {
                     val selectedItem = parent?.getItemAtPosition(position) as BankResponse
                     bankid = selectedItem.bankid!!
-//                    getCompanyDetail(bankid)
+                    if ( SessionManager.getInstance().getString(Constants.COMPANY) == "CBM"
+                        || SessionManager.getInstance().getString(Constants.COMPANY) == "CBMPL"
+                        || SessionManager.getInstance().getString(Constants.COMPANY) == "BMD"
+                    ) {
+                             getCompanyDetail(bankid)
+                      }
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }

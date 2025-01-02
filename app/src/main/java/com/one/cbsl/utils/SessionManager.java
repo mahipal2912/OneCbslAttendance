@@ -47,6 +47,30 @@ public class SessionManager {
         }
     }
 
+    public void putFloat(String key, float value) {
+        try {
+            mEditor = mPref.edit();
+            mEditor.putFloat(key, value);
+            mEditor.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Get long value from sharedpreference
+     **/
+    public float getFloat(String key) {
+        try {
+            float lvalue;
+            lvalue = mPref.getFloat(key, 1.0f);
+            return lvalue;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
     /**
      * Put int value into sharedpreference
      **/
@@ -89,6 +113,16 @@ public class SessionManager {
         try {
             String lvalue;
             lvalue = mPref.getString(key, "");
+            return lvalue;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
+        }
+    }
+    public String getMapString(String key,String defValue) {
+        try {
+            String lvalue;
+            lvalue = mPref.getString(key, defValue);
             return lvalue;
         } catch (Exception e) {
             e.printStackTrace();

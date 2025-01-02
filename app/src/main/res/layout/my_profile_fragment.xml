@@ -180,12 +180,27 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/_20sdp"
-                android:layout_marginBottom="@dimen/_50sdp"
+
                 android:background="@drawable/shape_header"
                 android:gravity="center"
                 android:padding="@dimen/_5sdp"
                 android:text="Update"
                 android:textColor="@color/white"
+                android:textSize="@dimen/_15ssp"></TextView>
+
+            <TextView
+                android:id="@+id/tv_changePass"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_20sdp"
+
+                android:layout_marginRight="@dimen/_20sdp"
+                android:layout_marginBottom="@dimen/_20sdp"
+                android:background="@drawable/shape_column"
+                android:gravity="center"
+                android:padding="@dimen/_5sdp"
+                android:text="Change Password"
+                android:textColor="@color/black"
                 android:textSize="@dimen/_15ssp">
 
             </TextView>

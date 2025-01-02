@@ -297,7 +297,7 @@ class TourClaimFragment : Fragment(), TextWatcher, OnItemSelectedListener {
     private fun saveTourConveyance() {
         DialogUtils.showProgressDialog(requireActivity(), "Processing..")
         AndroidNetworking.initialize(requireContext())
-        AndroidNetworking.post("https://dms.crconline.in/cbslattendance/webmethods/apiwebservice.asmx/TourConveyanceSave")
+        AndroidNetworking.post("https://hrisapi.cbslgroup.in/webmethods/apiwebservice.asmx/TourConveyanceSave")
             .addBodyParameter("tourid", tourid)
             .addBodyParameter("movementId", movementId)
             .addBodyParameter("movementCode", movementCode)

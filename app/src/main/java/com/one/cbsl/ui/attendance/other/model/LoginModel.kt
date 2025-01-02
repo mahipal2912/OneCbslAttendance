@@ -5,8 +5,10 @@ import com.google.gson.annotations.SerializedName
 data class LoginModel(
     @SerializedName("UserId") val userId : String,
     @SerializedName("EmployeeCode") val employeeCode : String,
+    @SerializedName("division") val division : String,
     @SerializedName("UserTypeId") val userTypeId : String,
     @SerializedName("Password") val password : String,
+    @SerializedName("CityName") val CityName : String,
     @SerializedName("EmployeeName") val employeeName : String,
     @SerializedName("EmployeeType") val employeeType : String,
     @SerializedName("companyName") val companyName : String,

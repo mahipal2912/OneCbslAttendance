@@ -14,18 +14,22 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
 import com.one.cbsl.CbslMain
 import com.one.cbsl.R
 import com.one.cbsl.databinding.FragmentHomeBinding
+import com.one.cbsl.face.activityhyh.FaceActivity
+import com.one.cbsl.face.activityhyh.FaceRecognizeActivity
 import com.one.cbsl.networkcall.NetworkApiHelper
 import com.one.cbsl.networkcall.RetrofitBuilder
 import com.one.cbsl.networkcall.base.ViewModelFactory
 import com.one.cbsl.ui.attendance.home.adapter.HomeAdapter
 import com.one.cbsl.ui.attendance.home.viewmodel.HomeViewModel
 import com.one.cbsl.ui.attendance.other.LoginActivity
+import com.one.cbsl.ui.attendance.punchattendance.FaceRecognizeActivitynew
 import com.one.cbsl.ui.complain.adapter.ComplaintMainAdapter
 import com.one.cbsl.ui.complain.viewmodel.ComplaintViewModel
 import com.one.cbsl.utils.Cbsl
@@ -45,11 +49,8 @@ class HomeFragment : Fragment(), HomeAdapter.OpitionListener,
     private var complaintViewModel: ComplaintViewModel? = null
 
     private val binding get() = _binding!!
-
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
 
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
@@ -69,18 +70,19 @@ class HomeFragment : Fragment(), HomeAdapter.OpitionListener,
                    Toast.LENGTH_LONG
                ).show()
            }*/
-        if (SessionManager.getInstance().getString(Constants.COMPANY) == "SOLAR"
-            || SessionManager.getInstance().getString(Constants.COMPANY) == "CBM"
-            || SessionManager.getInstance().getString(Constants.COMPANY) == "CBMPL"
-            || SessionManager.getInstance().getString(Constants.COMPANY) == "CSSPL"
+        if (SessionManager.getInstance()
+                .getString(Constants.COMPANY) == "SOLAR" || SessionManager.getInstance()
+                .getString(Constants.COMPANY) == "CBM" || SessionManager.getInstance()
+                .getString(Constants.COMPANY) == "CBMPL" || SessionManager.getInstance()
+                .getString(Constants.COMPANY) == "CSSPL"
         ) {
             loadComplaintDashboard()
         } else {
             binding.llComplaintDashboard.visibility = View.GONE
         }
         checkAllPermission()
-        loadTodayAttendance()
         loadDashboard()
+        loadTodayAttendance()
         checkDeviceRegistered()
         _binding?.ivPunch?.setOnClickListener {
             if (binding.tvTodayDate.text.equals(Constants.getTodayData())) {
@@ -88,7 +90,15 @@ class HomeFragment : Fragment(), HomeAdapter.OpitionListener,
             } else {
                 SessionManager.getInstance().putBoolean(Constants.isPunchIn, true)
             }
-            findNavController().navigate(R.id.navigate_to_mark_attendance)
+            //startActivity(Intent(activity,FaceRecognizeActivity::class.java))
+            if (SessionManager.getInstance().getString(Constants.faceEnabled) == "0") {
+                findNavController().navigate(R.id.navigate_to_mark_attendance)
+            } else {
+                findNavController().navigate(R.id.home_to_face_capture)
+            }
+            //findNavController().navigate(R.id.home_to_face_capture)
+            //findNavController().navigate(R.id.navigate_to_face_webview)
+
 
         }
 
@@ -132,8 +142,23 @@ class HomeFragment : Fragment(), HomeAdapter.OpitionListener,
                         val response = resource.data
                         if (resource.data != null) {
                             if (response?.get(0)?.IsPassUpdated == 0) {
-                                //                loadPdf()
                                 findNavController().navigate(R.id.home_to_change_pass)
+                            }
+                            SessionManager.getInstance()
+                                .putString(Constants.faceEnabled, response?.get(0)?.faceEnabled)
+                            SessionManager.getInstance()
+                                .putString(Constants.VerifyType, response?.get(0)?.faceData)
+
+                            if (response?.get(0)?.faceEnabled == "1") {
+                                if (response[0].faceData == "0") {
+
+                                    findNavController().navigate(R.id.home_to_face_capture)
+
+                                } else {
+                                    SessionManager.getInstance()
+                                        .putString(Constants.VerifyType, response[0].faceData)/*  SessionManager.getInstance()
+                                      .putString("embed", response?.get(0)?.faceData)*/
+                                }
                             }
                             if (response?.get(0)?.IsProfileUpdated == "0") {
                                 //loadPdf()
@@ -143,10 +168,9 @@ class HomeFragment : Fragment(), HomeAdapter.OpitionListener,
                                     .putString(Constants.IMAGE, response?.get(0)?.IsProfileUpdated)
                                 (activity as CbslMain?)!!.updateValues()
                             }
-                            binding.rvDashboard.adapter =
-                                HomeAdapter(
-                                    response?.get(0)!!, this
-                                )
+                            binding.rvDashboard.adapter = HomeAdapter(
+                                response?.get(0)!!, this
+                            )
                             SessionManager.getInstance()
                                 .putString(Constants.IsTourActive, response[0].onTour!!)
 
@@ -173,16 +197,14 @@ class HomeFragment : Fragment(), HomeAdapter.OpitionListener,
                         try {
                             val response = resource.data
                             if (response?.get(0)?.Pending != null) {
-                                binding.rvComplaintDashboard.adapter =
-                                    ComplaintMainAdapter(
-                                        response?.get(0)!!, this
-                                    )
+                                binding.rvComplaintDashboard.adapter = ComplaintMainAdapter(
+                                    response?.get(0)!!, this
+                                )
                                 binding.llComplaintDashboard.visibility = View.VISIBLE
-                                SessionManager.getInstance()
-                                    .putString(
-                                        Constants.COMPLAINT_USERID,
-                                        response[0].CRMUsersId.toString()
-                                    )
+                                SessionManager.getInstance().putString(
+                                    Constants.COMPLAINT_USERID,
+                                    response[0].CRMUsersId.toString()
+                                )
                                 SessionManager.getInstance()
                                     .putString(Constants.GROUP_ID, response[0].GroupTypeId)
 
@@ -202,43 +224,39 @@ class HomeFragment : Fragment(), HomeAdapter.OpitionListener,
     }
 
     private fun checkDeviceRegistered() {
-        homeViewModel?.checkDevice()
-            ?.observe(requireActivity(), Observer { resource ->
-                when (resource) {
-                    is Resource.Loading -> {
-                        Log.d("loading", "")
+        homeViewModel?.checkDevice()?.observe(requireActivity(), Observer { resource ->
+            when (resource) {
+                is Resource.Loading -> {
+                    Log.d("loading", "")
 
 
-
-                    }
-
-                    is Resource.Success -> {
-                        try {
-                            val response = resource.data
-                            if (response?.get(0)?.Status.toString() == "Not Found") {
-                                SessionManager.getInstance()
-                                    .putBoolean(Constants.isLoginByDevice, false)
-                                Toast.makeText(
-                                    activity,
-                                    "Device Id changed!! Login Again",
-                                    Toast.LENGTH_LONG
-                                ).show()
-                                SessionManager.getInstance().resetData()
-                                (activity as CbslMain?)!!.updateValues()
-                            }
-                        } catch (e: Exception) {
-                            e.printStackTrace()
-                        }
-
-
-                    }
-
-                    is Resource.Error -> {
-                        Log.d("error", "")
-
-                    }
                 }
-            })
+
+                is Resource.Success -> {
+                    try {
+                        val response = resource.data
+                        if (response?.get(0)?.Status.toString() == "Not Found") {
+                            SessionManager.getInstance()
+                                .putBoolean(Constants.isLoginByDevice, false)
+                            Toast.makeText(
+                                activity, "Device Id changed!! Login Again", Toast.LENGTH_LONG
+                            ).show()
+                            SessionManager.getInstance().resetData()
+                            (activity as CbslMain?)!!.updateValues()
+                        }
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+
+
+                }
+
+                is Resource.Error -> {
+                    Log.d("error", "")
+
+                }
+            }
+        })
     }
 
 
@@ -314,7 +332,11 @@ class HomeFragment : Fragment(), HomeAdapter.OpitionListener,
             }
 
             Constants.LeavePlan -> {
-                findNavController().navigate(R.id.home_to_leave_fragment)
+                if (SessionManager.getInstance().getString(Constants.UserTypeID) != "2") {
+                    findNavController().navigate(R.id.track_leave_plan_admin)
+                } else {
+                    findNavController().navigate(R.id.home_to_leave_fragment)
+                }
             }
 
             Constants.Voucher -> {
@@ -352,7 +374,7 @@ class HomeFragment : Fragment(), HomeAdapter.OpitionListener,
     }
 
     override fun onCustomPermissionGroupDenied() {
-checkAllPermission()
+        checkAllPermission()
     }
 
 }

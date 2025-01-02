@@ -52,20 +52,41 @@ class CbslMain : AppCompatActivity(), MainActivityListener, MainOptionsAdapter.O
             findNavController(R.id.nav_host_fragment_content_cbsl_main).navigate(R.id.changeProfile)
         }
         checkAppUpdate()
-
+        var type = intent.getStringExtra("type") ?: "Unknown"
+        if (type == "success") {
+            findNavController(R.id.nav_host_fragment_content_cbsl_main).navigate(R.id.home_to_mark_attendance)
+        }
         val drawerLayout: DrawerLayout = binding.drawerLayout
         val navView: NavigationView = binding.navView
         val navController =
             Navigation.findNavController(this, R.id.nav_host_fragment_content_cbsl_main)
         // Passing each menu ID as a set fof Ids because each
         // menu should be considered as top level destinations.
+
         appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.navigation_home, R.id.navigation_leave
             ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            // Change the title based on the destination fragment
+            setAppBarTitle(destination.id)
+        }
         navView.setupWithNavController(navController)
+    }
+
+    private fun setAppBarTitle(id: Int) {
+        if (id == R.id.navigate_to_face_capture) {
+            if (SessionManager.getInstance().getString(Constants.VerifyType) == "0") {
+                supportActionBar?.title = "Face Registration"
+
+            } else {
+                supportActionBar?.title = "Identity Verification"
+            }
+
+        }
+
     }
 
 
@@ -171,10 +192,7 @@ class CbslMain : AppCompatActivity(), MainActivityListener, MainOptionsAdapter.O
                 && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)
             ) {
                 appUpdateManager.startUpdateFlowForResult(
-                    appUpdateInfo,
-                    AppUpdateType.IMMEDIATE,
-                    this,
-                    101
+                    appUpdateInfo, AppUpdateType.IMMEDIATE, this, 101
                 )
             }
         }

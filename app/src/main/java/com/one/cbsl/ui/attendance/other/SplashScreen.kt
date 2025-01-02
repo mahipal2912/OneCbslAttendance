@@ -9,6 +9,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.one.cbsl.CbslMain
 import com.one.cbsl.MainActivityListener
 import com.one.cbsl.R
+import com.one.cbsl.face.FaceDetectionActivity
+import com.one.cbsl.face.activityhyh.FaceActivity
 import com.one.cbsl.utils.Constants
 import com.one.cbsl.utils.SessionManager
 
@@ -16,7 +18,6 @@ import com.one.cbsl.utils.SessionManager
 class SplashScreen : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContentView(R.layout.activity_splash_screen)
 
         Handler(Looper.getMainLooper()).postDelayed({

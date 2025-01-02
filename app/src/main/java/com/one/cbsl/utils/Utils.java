@@ -11,6 +11,7 @@ import android.os.Build;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.util.Log;
 
 import androidx.annotation.RequiresApi;
@@ -34,6 +35,37 @@ import java.util.Locale;
 
 public class Utils {
 
+
+    public static String encodeToBase64(byte[] data) {
+        return Base64.encodeToString(data, Base64.DEFAULT);
+    }
+    public static String floatArrayToString(float[][] array) {
+        StringBuilder sb = new StringBuilder();
+        for (float[] innerArray : array) {
+            for (float value : innerArray) {
+                sb.append(value).append(","); // Use a comma as a delimiter
+            }
+            sb.append(";"); // Use a semicolon to separate different inner arrays
+        }
+        return sb.toString();
+    }
+    public static float[][] stringToFloatArray(String str) {
+        String[] outerArray = str.split(";");
+        float[][] result = new float[outerArray.length][];
+        for (int i = 0; i < outerArray.length; i++) {
+            String[] innerArray = outerArray[i].split(",");
+            result[i] = new float[innerArray.length];
+            for (int j = 0; j < innerArray.length; j++) {
+                result[i][j] = Float.parseFloat(innerArray[j]);
+            }
+        }
+        return result;
+    }
+
+    // Decode Base64 String to byte array
+    public static byte[] decodeFromBase64(String encodedData) {
+        return Base64.decode(encodedData, Base64.DEFAULT);
+    }
     public static Uri getImageUri(Context inContext, Bitmap inImage) {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
@@ -287,6 +319,8 @@ public class Utils {
         matrix.postRotate(angle);
         return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
     }
+
+
     public static Bitmap getBitmap(Uri uri) {
 
         if (Cbsl.getInstance() == null)
