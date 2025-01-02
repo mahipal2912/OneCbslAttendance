@@ -1,0 +1,4 @@
+package com.one.cbsl.face.cameraxx
+
+enum class Status { NO_FACE, MULTIPLE_FACES,VALID_FACE,FAKE_FACE,LEFT_EYE_CLOSED,RIGHT_EYE_CLOSED,BOTH_EYES_CLOSED
+}

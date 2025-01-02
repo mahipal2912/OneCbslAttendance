@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/ll_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_header"
+            android:padding="@dimen/_2sdp"
+            android:text="Name"
+            android:textColor="@color/white">
+
+        </TextView>
+
+        <TextView
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_header"
+            android:padding="@dimen/_2sdp"
+            android:text="From Date"
+            android:textColor="@color/white">
+
+        </TextView>
+
+        <TextView
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_header"
+            android:padding="@dimen/_2sdp"
+            android:text="To Date"
+            android:textColor="@color/white">
+
+        </TextView>
+
+        <TextView
+            android:layout_width="@dimen/_160sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_header"
+            android:padding="@dimen/_2sdp"
+            android:text="Reason"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:layout_width="@dimen/_80sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_header"
+            android:padding="@dimen/_2sdp"
+            android:text="Status"
+            android:textColor="@color/white" />
+    <TextView
+            android:layout_width="@dimen/_120sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_header"
+            android:padding="@dimen/_2sdp"
+            android:text="Leave Type"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_header"
+            android:padding="@dimen/_2sdp"
+            android:text="Approved By"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:layout_width="@dimen/_180sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_header"
+            android:padding="@dimen/_2sdp"
+            android:text="Approved/Reject"
+            android:textColor="@color/white" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_emp_name"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_column"
+            android:padding="@dimen/_2sdp"
+            android:singleLine="true"
+            android:textColor="@color/black">
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/tv_from_date"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_column"
+            android:padding="@dimen/_2sdp"
+            android:textColor="@color/black">
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/tv_to_date"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_column"
+            android:padding="@dimen/_2sdp"
+            android:textColor="@color/black">
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/tv_reason"
+            android:layout_width="@dimen/_160sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_column"
+            android:padding="@dimen/_2sdp"
+            android:singleLine="true"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/tv_status"
+            android:layout_width="@dimen/_80sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_column"
+            android:padding="@dimen/_2sdp"
+            android:singleLine="true"
+            android:textColor="@color/black" />
+
+         <TextView
+            android:id="@+id/tv_ltype"
+            android:layout_width="@dimen/_120sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_column"
+            android:padding="@dimen/_2sdp"
+            android:singleLine="true"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/tv_ApprovedBy"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:singleLine="true"
+            android:background="@drawable/shape_column"
+            android:padding="@dimen/_2sdp"
+            android:textColor="@color/black">
+
+        </TextView>
+
+
+            <LinearLayout
+                android:layout_width="@dimen/_180sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:padding="@dimen/_2sdp"
+                android:background="@drawable/shape_column"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+          <LinearLayout
+              android:id="@+id/ll_approve_reject"
+              android:layout_width="@dimen/_180sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <TextView
+                    android:id="@+id/tv_approve"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_30sdp"
+                    android:layout_weight=".5"
+                    android:text="    Approve"
+                    android:textStyle="bold"
+                    android:textColor="@color/green" />
+
+                <TextView
+                    android:id="@+id/tv_reject"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_30sdp"
+                    android:layout_weight=".5"
+                    android:text="Reject"
+                    android:textStyle="bold"
+                    android:textColor="@color/red" />
+          </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
