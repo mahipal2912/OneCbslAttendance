@@ -7,11 +7,14 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.provider.Settings
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.core.app.ActivityCompat.finishAffinity
 import com.androidnetworking.AndroidNetworking
 import com.androidnetworking.error.ANError
 import com.androidnetworking.interfaces.ParsedRequestListener
 import com.itextpdf.text.*
 import com.itextpdf.text.pdf.PdfWriter
+import com.one.cbsl.R
 import com.one.cbsl.utils.Utils.getBitmap
 import java.io.ByteArrayOutputStream
 import java.io.FileNotFoundException
@@ -33,8 +36,11 @@ class Constants {
         const val Conveyance = "Conveyance"
         const val LeavePlan = "Leave Plan"
         const val VerifyType = "VerifyType"
+        const val HodVerifyType = "hodVerifyType"
+        const val faceDomain = "facedomain"
         const val Complaint = "Complaint"
         const val Voucher = "Voucher"
+        const val PAYHISTORY = "Pay History"
         const val ApprovalHod = "Conveyance HOD"
         const val ApprovalHead = "Conveyance HEAD"
         const val FacilityId = "FacilityId"
@@ -54,19 +60,25 @@ class Constants {
         const val isPunchIn = "isPunchIn"
         const val UserName = "UserName"
         const val CityName = "CityName"
+        const val HodCityName = "HodCityName"
         const val Division = "division"
         const val IMAGE = "iamge"
         const val faceEnabled = "faceEnabled"
         const val UserTypeID = "UserTypeId"
         const val UserId = "UserId"
+        const val HodEmpID = "HodEmpID"
         const val EmpCode = "EmpCode"
+        const val HodEmpCode = "HodEmpCode"
         const val Email = "Email"
         const val Mobile = "Mobile"
         const val isLogin = "isLogin"
         const val isLoginByDevice = "isLoginByDevice"
+        const val IsChangeServer = "IsChangeServer"
 
 
-        val headList = arrayOf("CBSPL", "CBMPL", "CRCPL", "CSSPL")
+//        val headList = arrayOf("CBSPL", "CBMPL", "CRCPL", "CSSPL")
+        val headList = arrayOf("CBSPL", "CBMPL", "CBSPL-SOLAR", "CSSPL")
+
         val monthList = arrayOf(
             "January",
             "February",
@@ -189,7 +201,7 @@ class Constants {
                 callback("")
             }
         }
-
+        @JvmStatic
         fun isDeveloperModeEnabled(context: Context): Boolean {
             return Settings.Global.getInt(
                 context.contentResolver, Settings.Global.DEVELOPMENT_SETTINGS_ENABLED, 0
@@ -241,19 +253,19 @@ class Constants {
         }
 
         @JvmStatic
-        fun saveEmbeding() {
+        fun saveEmbeding(image_base:String) {
             AndroidNetworking.initialize(Cbsl.getInstance())
-            AndroidNetworking.post("https://app.crconline.in/hrisapi/webmethods/apiwebservice.asmx/faceData")
+            AndroidNetworking.post("https://hrisapi.cbslgroup.in/webmethods/apiwebservice.asmx/faceData")
                 .addBodyParameter(
                     "userId", SessionManager.getInstance().getString(Constants.UserId)
                 ).addBodyParameter(
                     "type", "I"
-                ).addBodyParameter("data", "1")
+                ).addBodyParameter("data", image_base)
                 .addBodyParameter("AuthHeader", Constants.AUTH_HEADER).build().getAsObjectList(
                     SaveResponse::class.java,
                     object : ParsedRequestListener<List<SaveResponse>> {
                         override fun onResponse(response: List<SaveResponse>?) {
-
+                            SessionManager.getInstance().putString(Constants.VerifyType, "1")
                         }
 
                         override fun onError(anError: ANError?) {
@@ -261,7 +273,6 @@ class Constants {
                         }
                     });
         }
-
 
     }
 }

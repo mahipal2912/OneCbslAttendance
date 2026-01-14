@@ -22,8 +22,7 @@
         app:cardCornerRadius="100sp"
         app:cardElevation="@dimen/_10sdp"
         tools:ignore="MissingConstraints">
-
-        <ImageView
+          <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:src="@drawable/iv_one_cbsl_logo"

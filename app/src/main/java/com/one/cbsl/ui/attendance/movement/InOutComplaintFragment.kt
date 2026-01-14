@@ -68,7 +68,7 @@ class InOutComplaintFragment : Fragment(), View.OnClickListener,
 
     private fun bindViewModel() {
         viewModel = ViewModelProvider(
-            this, ViewModelFactory(NetworkApiHelper(RetrofitBuilder.apiService))
+            this, ViewModelFactory(NetworkApiHelper(RetrofitBuilder.getApi()))
         )[MovementViewModel::class.java]
 
     }

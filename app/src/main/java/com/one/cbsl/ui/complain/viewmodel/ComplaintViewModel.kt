@@ -315,7 +315,6 @@ class ComplaintViewModel constructor(private val mainRepository: MainRepository)
                 emit(Resource.Error(message = exception.message ?: "Error Occurred!"))
             }
         }
-
     fun getPendingInstallation(
         thid: String,
         seid: String,

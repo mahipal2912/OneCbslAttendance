@@ -20,6 +20,7 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -66,7 +67,7 @@ class VoucherClaimFragment : Fragment() {
     private var pdfName = ""
     private var photoUri: Uri? = null
 
-    private val galleryLauncher =
+  /*  private val galleryLauncher =
         registerForActivityResult(ActivityResultContracts.GetMultipleContents()) { galleryUri ->
             try {
                 imagesPathList.clear()
@@ -83,10 +84,40 @@ class VoucherClaimFragment : Fragment() {
             }
 
         }
+*/
+  private val galleryLauncher =
+      registerForActivityResult(
+          ActivityResultContracts.PickMultipleVisualMedia()
+      ) { uris ->
 
+          try {
+              imagesPathList.clear()
+              pdfName = "${System.currentTimeMillis()}.pdf"
+
+              if (!uris.isNullOrEmpty()) {
+                  imagesPathList.addAll(uris)
+                  binding.rvImage.adapter = SelectImageAdapter(imagesPathList)
+              }
+
+          } catch (e: Exception) {
+              e.printStackTrace()
+          }
+      }
+    private val cameraActivityResultLauncher =
+        registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) { result ->
+
+            if (result.resultCode == Activity.RESULT_OK && photoUri != null) {
+
+                pdfName = "${System.currentTimeMillis()}.pdf"
+                imagesPathList.add(photoUri!!)
+                binding.rvImage.adapter = SelectImageAdapter(imagesPathList)
+            }
+        }
 
     //TODO capture the image using camera and display it
-    private var cameraActivityResultLauncher: ActivityResultLauncher<Intent> =
+   /* private var cameraActivityResultLauncher: ActivityResultLauncher<Intent> =
         registerForActivityResult(
             ActivityResultContracts.StartActivityForResult(), ActivityResultCallback {
                 if (it.resultCode === Activity.RESULT_OK) {
@@ -96,14 +127,14 @@ class VoucherClaimFragment : Fragment() {
 
                 }
             })
-
+*/
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         viewModel =
             ViewModelProvider(
-                this, ViewModelFactory(NetworkApiHelper(RetrofitBuilder.apiService))
+                this, ViewModelFactory(NetworkApiHelper(RetrofitBuilder.getApi()))
             )[ConveyanceViewModel::class.java]
 
         _binding = FragmentClaimVoucherBinding.inflate(inflater, container, false)
@@ -220,7 +251,10 @@ class VoucherClaimFragment : Fragment() {
                 dialog.dismiss()
             }
             customDialogLayoutBinding.tvGallery.setOnClickListener {
-                galleryLauncher.launch("image/*")
+                galleryLauncher.launch(
+                    PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+                )
+
                 dialog.dismiss()
             }
             customDialogLayoutBinding.tvCancel.setOnClickListener {

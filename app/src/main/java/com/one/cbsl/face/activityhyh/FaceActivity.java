@@ -1,5 +1,7 @@
 package com.one.cbsl.face.activityhyh;
 
+import static com.one.cbsl.utils.Constants.saveEmbeding;
+
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -251,7 +253,7 @@ public class FaceActivity extends AppCompatActivity {
                     SessionManager.getInstance().putString("embed", encodedEmbeddings);
                     registered.put(input.getText().toString(), result);
                     start = true;
-                    Constants.saveEmbeding();
+                    saveEmbeding("1");
                     startActivity(new Intent(context, CbslMain.class));
                     finish();
                 }

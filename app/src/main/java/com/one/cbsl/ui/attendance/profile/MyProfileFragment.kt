@@ -1,16 +1,24 @@
 package com.one.cbsl.ui.attendance.profile
 
 import android.annotation.SuppressLint
+import android.app.Activity.RESULT_OK
+import android.app.Dialog
+import android.content.ContentValues
+import android.content.Intent
 import android.graphics.Bitmap
 import android.icu.text.SimpleDateFormat
 import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Base64
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.ActivityResultCallback
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.PickVisualMediaRequest
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
@@ -30,6 +38,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.one.cbsl.R
 import com.one.cbsl.databinding.MyProfileFragmentBinding
+import com.one.cbsl.databinding.RawImageSelectionDialogBinding
 import com.one.cbsl.networkcall.NetworkApiHelper
 import com.one.cbsl.networkcall.RetrofitBuilder
 import com.one.cbsl.networkcall.base.ViewModelFactory
@@ -47,6 +56,8 @@ import java.io.File
 import java.util.Locale
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
+import androidx.activity.result.contract.ActivityResultContracts
+import com.one.cbsl.adapter.SelectImageAdapter
 
 
 class MyProfileFragment : Fragment() {
@@ -66,12 +77,92 @@ class MyProfileFragment : Fragment() {
     private val PICK_CAM = 2
 
     private lateinit var imagePath: String
-    private val imagesPathList: ArrayList<String> = arrayListOf()
-    private val imagesuriList: ArrayList<Uri> = arrayListOf()
+    var imagesPathList: ArrayList<Uri> = arrayListOf()
 
     private var profilePic: String = ""
     private var image_base: String = ""
+    private var pdfName: String = ""
+    private var imageAadharbase: String = ""
 
+   /* private val galleryLauncher =
+        registerForActivityResult(ActivityResultContracts.GetMultipleContents()) { galleryUri ->
+            try {
+                imagesPathList.clear()
+                pdfName = System.currentTimeMillis().toString() + ".pdf"
+                galleryUri?.let {
+                    for (uri in galleryUri) {
+                        val imageUri: Uri = uri
+                        imagesPathList.add(imageUri)
+                    }
+                    binding.rvImage.adapter = SelectImageAdapter(imagesPathList)
+                    imageAadharbase = Base64.encodeToString(
+                        Utils.convertPDFToByteArray(Constants.generatePdf(imagesPathList)),
+                        Base64.DEFAULT
+                    )
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+
+        }
+*/
+   private val galleryLauncher =
+       registerForActivityResult(ActivityResultContracts.PickMultipleVisualMedia()) { uris ->
+           try {
+               imagesPathList.clear()
+               pdfName = "${System.currentTimeMillis()}.pdf"
+
+               uris?.let {
+                   imagesPathList.addAll(it)
+
+                   binding.rvImage.adapter = SelectImageAdapter(imagesPathList)
+
+                   imageAadharbase = Base64.encodeToString(
+                       Utils.convertPDFToByteArray(Constants.generatePdf(imagesPathList)),
+                       Base64.DEFAULT
+                   )
+               }
+
+           } catch (e: Exception) {
+               e.printStackTrace()
+           }
+       }
+
+    //TODO capture the image using camera and display it
+    /*private var cameraActivityResultLauncher: ActivityResultLauncher<Intent> =
+        registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult(), ActivityResultCallback {
+
+                if (it.resultCode === RESULT_OK) {
+
+                    imagesPathList.add(photoUri!!)
+                    binding.rvImage.adapter = SelectImageAdapter(imagesPathList)
+                    imageAadharbase = Base64.encodeToString(
+                        Utils.convertPDFToByteArray(Constants.generatePdf(imagesPathList)),
+                        Base64.DEFAULT
+                    )
+                }
+            }
+        )
+*/
+    private val cameraActivityResultLauncher =
+        registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) { result ->
+
+            if (result.resultCode == RESULT_OK) {
+
+                photoUri?.let { uri ->
+                    imagesPathList.add(uri)
+                    binding.rvImage.adapter = SelectImageAdapter(imagesPathList)
+
+                    imageAadharbase = Base64.encodeToString(
+                        Utils.convertPDFToByteArray(Constants.generatePdf(imagesPathList)),
+                        Base64.DEFAULT
+                    )
+                }
+            }
+        }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -86,7 +177,7 @@ class MyProfileFragment : Fragment() {
     private fun setupViewModel() {
         viewModel = ViewModelProvider(
             requireActivity(),
-            ViewModelFactory(NetworkApiHelper(RetrofitBuilder.apiService))
+            ViewModelFactory(NetworkApiHelper(RetrofitBuilder.getApi()))
         )[MyProfileViewModel::class.java]
     }
 
@@ -125,6 +216,47 @@ class MyProfileFragment : Fragment() {
             binding.cameraLayout.visibility = View.GONE
             binding.llProfileLayout.visibility = View.VISIBLE
         }
+        binding.ivImage.setOnClickListener {
+            galleryLauncher.launch(
+                PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+            )
+            val dialog = Dialog(requireContext())
+            val customDialogLayoutBinding: RawImageSelectionDialogBinding =
+                RawImageSelectionDialogBinding.inflate(layoutInflater)
+            dialog.setContentView(customDialogLayoutBinding.root)
+
+            customDialogLayoutBinding.tvCamera.visibility=View.GONE
+            customDialogLayoutBinding.tvCamera.setOnClickListener {
+                openCamera()
+                dialog.dismiss()
+            }
+            customDialogLayoutBinding.tvGallery.setOnClickListener {
+               // galleryLauncher.launch("image/*")
+                galleryLauncher.launch(
+                    PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+                )
+
+                dialog.dismiss()
+            }
+            customDialogLayoutBinding.tvCancel.setOnClickListener {
+                dialog.dismiss()
+            }
+        }
+    }
+    private fun openCamera() {
+        photoUri = null
+        val values = ContentValues().apply {
+            put(MediaStore.Images.Media.TITLE, "New Picture")
+            put(MediaStore.Images.Media.DESCRIPTION, "From the Camera")
+        }
+        photoUri = requireActivity().contentResolver.insert(
+            MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+            values
+        )
+        val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE).apply {
+            putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
+        }
+        cameraActivityResultLauncher.launch(cameraIntent)
 
     }
 

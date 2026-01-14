@@ -1,7 +1,6 @@
 package com.one.cbsl.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.one.cbsl.R
@@ -18,8 +17,10 @@ class MainOptionsAdapter(val optionListener: OptionListener) :
         R.drawable.ic_conveyance,
         R.drawable.ic_leave,
         R.drawable.ic_voucher,
+        R.drawable.payhistory,
         R.drawable.ic_head,
-        R.drawable.ic_hod
+        R.drawable.ic_hod/*
+        R.drawable.ic_hod,*/
     )
 
     private var titles: Array<String> = arrayOf(
@@ -28,6 +29,7 @@ class MainOptionsAdapter(val optionListener: OptionListener) :
         Constants.Conveyance,
         Constants.LeavePlan,
         Constants.Voucher,
+        Constants.PAYHISTORY,
         Constants.ApprovalHead,
         Constants.ApprovalHod
     )

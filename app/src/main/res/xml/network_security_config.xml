@@ -1,5 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <network-security-config>
-    <base-config cleartextTrafficPermitted="false" />
-    <!-- You can add additional configurations here if needed -->
+
+    <!-- Add domain you want to trust -->
+    <domain-config cleartextTrafficPermitted="false">
+        <domain includeSubdomains="true">hrisapi.cbslgroup.in</domain>
+
+        <!-- Add your downloaded certificate(s) -->
+        <trust-anchors>
+            <certificates src="@raw/sectigo_public_server_authentication_root" />
+            <certificates src="@raw/star_cbslgroup_in" />
+        </trust-anchors>
+    </domain-config>
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="true">crmapi.cbslprojects.com</domain>
+        <trust-anchors>
+            <trust-anchors>
+                <certificates src="@raw/sectigopublicserver_115" />
+                <certificates src="@raw/star_bmd_115" />
+                <certificates src="@raw/usertrustcertificate115" />
+            </trust-anchors>
+        </trust-anchors>
+    </domain-config>
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="true">bmdapi.cbslprojects.com</domain>
+        <trust-anchors>
+            <certificates src="@raw/sectigopublicserver_115" />
+            <certificates src="@raw/star_bmd_115" />
+            <certificates src="@raw/usertrustcertificate115" />
+        </trust-anchors>
+    </domain-config>
+
 </network-security-config>

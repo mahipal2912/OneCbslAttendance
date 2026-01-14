@@ -2,6 +2,7 @@ package com.one.cbsl.ui.complain.main
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.Dialog
 import android.app.TimePickerDialog
@@ -18,18 +19,23 @@ import android.view.ViewGroup
 import android.widget.Adapter
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.ListView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.abdeveloper.library.MultiSelectDialog
+import com.abdeveloper.library.MultiSelectModel
 import com.androidnetworking.AndroidNetworking
 import com.androidnetworking.common.Priority
 import com.androidnetworking.error.ANError
 import com.androidnetworking.interfaces.ParsedRequestListener
 import com.one.cbsl.CbslMain
+import com.one.cbsl.R
 import com.one.cbsl.adapter.SelectImageAdapter
 import com.one.cbsl.databinding.FragmentPendingComplaintBinding
 import com.one.cbsl.databinding.RawImageSelectionDialogBinding
@@ -70,8 +76,9 @@ class PendingComplaintFragment : Fragment(), AssignComplainAdapter.OptionListene
     private var pdfName = ""
     private var photoUri: Uri? = null
     val currentDateTime = Calendar.getInstance()
+    var multiSelectDialog: MultiSelectDialog? = null
 
-    private val galleryLauncher =
+   /* private val galleryLauncher =
         registerForActivityResult(ActivityResultContracts.GetMultipleContents()) { galleryUri ->
             try {
                 imagesPathList.clear()
@@ -88,8 +95,28 @@ class PendingComplaintFragment : Fragment(), AssignComplainAdapter.OptionListene
             }
 
         }
+*/
+   // Google-Play compliant Photo Picker (NO permission required)
+   private val galleryLauncher =
+       registerForActivityResult(
+           ActivityResultContracts.PickMultipleVisualMedia()
+       ) { uris ->
+           try {
+               imagesPathList.clear()
+               pdfName = "${System.currentTimeMillis()}.pdf"
 
-    private var cameraActivityResultLauncher: ActivityResultLauncher<Intent> =
+               uris?.let {
+                   imagesPathList.addAll(it)
+                   binding.complainDetails.rvImage.adapter =
+                       SelectImageAdapter(imagesPathList)
+               }
+
+           } catch (e: Exception) {
+               e.printStackTrace()
+           }
+       }
+
+  /*  private var cameraActivityResultLauncher: ActivityResultLauncher<Intent> =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult(),
             ActivityResultCallback {
                 if (it.resultCode === Activity.RESULT_OK) {
@@ -99,11 +126,28 @@ class PendingComplaintFragment : Fragment(), AssignComplainAdapter.OptionListene
 
                 }
             })
+*/
+  private val cameraActivityResultLauncher =
+      registerForActivityResult(
+          ActivityResultContracts.StartActivityForResult()
+      ) { result ->
+          if (result.resultCode == Activity.RESULT_OK) {
+
+              pdfName = "${System.currentTimeMillis()}.pdf"
+
+              photoUri?.let { uri ->
+                  imagesPathList.add(uri)
+                  binding.complainDetails.rvImage.adapter =
+                      SelectImageAdapter(imagesPathList)
+              }
+          }
+      }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         AndroidNetworking.initialize(Cbsl.getInstance());
+        multiSelectDialog = MultiSelectDialog()
 
     }
 
@@ -163,6 +207,11 @@ class PendingComplaintFragment : Fragment(), AssignComplainAdapter.OptionListene
         binding.btnSearch.setOnClickListener {
             getPendingComplaint()
         }
+        binding.complainDetails.tvHardware.setOnClickListener {
+            multiSelectDialog!!.show(
+                requireActivity().supportFragmentManager, "multiSelectDialog"
+            )
+        }
         binding.complainDetails.btnDocumentUpload.setOnClickListener {
             val dialog = Dialog(requireContext())
             val customDialogLayoutBinding: RawImageSelectionDialogBinding =
@@ -175,7 +224,11 @@ class PendingComplaintFragment : Fragment(), AssignComplainAdapter.OptionListene
                 dialog.dismiss()
             }
             customDialogLayoutBinding.tvGallery.setOnClickListener {
-                galleryLauncher.launch("image/*")
+               // galleryLauncher.launch("image/*")
+                galleryLauncher.launch(
+                    PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+                )
+
                 dialog.dismiss()
             }
             customDialogLayoutBinding.tvCancel.setOnClickListener {
@@ -399,11 +452,15 @@ class PendingComplaintFragment : Fragment(), AssignComplainAdapter.OptionListene
                     DialogUtils.dismissDialog()
                     resource.data?.let { response ->
                         try {
+
                             if (response[0].ItemName != null) {
                                 binding.btnSearch.visibility = View.VISIBLE
-                                binding.complainDetails.spinComplainItem.adapter = ArrayAdapter(
-                                    requireContext(), android.R.layout.simple_spinner_item, response
-                                )
+                                // When the spinner is clicked, show the multi-select dialog
+                                //showMultiSelectDialog(hardwareItems)
+                                /*   binding.complainDetails.spinComplainItem.adapter = ArrayAdapter(
+                                       requireContext(), android.R.layout.simple_spinner_item, response
+                                   )*/
+                                loadHardwareMultiple(response)
                             }
                         } catch (e: Exception) {
                         }
@@ -415,6 +472,53 @@ class PendingComplaintFragment : Fragment(), AssignComplainAdapter.OptionListene
                 }
             }
         })
+    }
+
+    private var list_data: ArrayList<MultiSelectModel> = ArrayList()
+    val alreadySelectedCarton: ArrayList<Int> = ArrayList()
+
+    private fun loadHardwareMultiple(response: List<HardwareResponse>) {
+        alreadySelectedCarton.clear()
+        list_data.clear()
+
+        for (i in response.indices) {
+            list_data.add(MultiSelectModel(i, response[i].ItemName.toString()))
+        }
+
+
+        multiSelectDialog!!.title("Select Hardware Item") //setting title for dialog
+            .titleSize(15F).positiveText("Select").negativeText("Cancel")
+            .setMinSelectionLimit(1) //you can set minimum checkbox selection limit (Optional)
+            .setMaxSelectionLimit(list_data.size) //you can set maximum checkbox selection limit (Optional)
+            .multiSelectList(list_data).onSubmit(
+                object : MultiSelectDialog.SubmitCallbackListener {
+                    override fun onSelected(
+                        selectedIds: ArrayList<Int>,
+                        selectedNames: ArrayList<String>,
+                        dataString: String
+                    ) {
+                        //will return list of selected IDS
+                        var QusAns = "0"
+                        for (i in 0 until selectedIds.size) {
+                            QusAns = if (QusAns == "0") {
+                                response[selectedIds[i]].ItemId!!
+                            } else {
+                                (QusAns + "," + response[selectedIds[i]].ItemId!!)
+                            }
+                        }
+                        itemId = QusAns.toString()
+                        Toast.makeText(requireActivity(), QusAns.toString(), Toast.LENGTH_LONG)
+                            .show()
+
+                    }
+
+                    override fun onCancel() {
+                        alreadySelectedCarton.clear()
+                        multiSelectDialog!!.dismiss()
+                    }
+                }).show(
+                requireActivity().supportFragmentManager, "multiSelectDialog"
+            )
     }
 
     private fun getComplainType() {
@@ -580,7 +684,7 @@ class PendingComplaintFragment : Fragment(), AssignComplainAdapter.OptionListene
     private fun closeComplaintNew(pdfData: String) {
         DialogUtils.showProgressDialog(requireActivity(), "Processing...")
         var url =
-            "http://crmapi.cbslprojects.com/webmethods/apiwebservice.asmx/closeRejectComplaint"
+            "http://crmapi.cbslprojects.com/webmethods/apiwebservice.asmx/closeRejectComplaintCbm"
         if (SessionManager.getInstance().getString(Constants.COMPANY) == "SOLAR") {
             url =
                 "https://dms.crconline.in/solarappnew/webmethods/apiwebservice.asmx/closeRejectComplaint"
@@ -590,11 +694,10 @@ class PendingComplaintFragment : Fragment(), AssignComplainAdapter.OptionListene
             .addBodyParameter("ComplaintTypeId", complainTypeId)
             .addBodyParameter("remarks", binding.complainDetails.etComplainDetail.text.toString())
             .addBodyParameter("imageLocation", pdfData)
-            .addBodyParameter("ComplaintChangeStatus", complainChangeStatus).addBodyParameter(
-                "cby", SessionManager.getInstance().getString(Constants.COMPLAINT_USERID)
-            ).addBodyParameter("check", check)
+            .addBodyParameter("ComplaintChangeStatus", complainChangeStatus).addBodyParameter("cby", SessionManager.getInstance().getString(Constants.COMPLAINT_USERID))
+            .addBodyParameter("check", check)
             .addBodyParameter("resolveDate", binding.complainDetails.tvAssingDate.text.toString())
-
+            .addBodyParameter("ItemId", itemId)
             .build()
             .getAsObjectList(ProjectResponse::class.java, object :
                 ParsedRequestListener<List<ProjectResponse>> {
@@ -622,13 +725,14 @@ class PendingComplaintFragment : Fragment(), AssignComplainAdapter.OptionListene
                 "https://dms.crconline.in/solarappnew/webmethods/apiwebservice.asmx"
         }
         AndroidNetworking.initialize(requireContext())
-        AndroidNetworking.post("$url/pendingComplaint")
+        AndroidNetworking.post("$url/pendingComplaintNew")
             .addBodyParameter("complainID", complaint_Id)
             .addBodyParameter("complainstatusType", complainTypeId)
             .addBodyParameter("pendingReasonId", pendingReasonId)
             .addBodyParameter("courierName", "").addBodyParameter("podNumber", "")
             .addBodyParameter("expect_retrundate", "")
-            .addBodyParameter("ComplaintTypeId", complainTypeId).addBodyParameter("ItemId", itemId)
+            .addBodyParameter("ComplaintTypeId", complainTypeId)
+            .addBodyParameter("ItemId", itemId)
             .addBodyParameter("ComplaintChangeStatus", complainChangeStatus)
             .addBodyParameter("imageLocation", pdfData).addBodyParameter(
                 "cby", SessionManager.getInstance().getString(Constants.COMPLAINT_USERID)
@@ -690,6 +794,7 @@ class PendingComplaintFragment : Fragment(), AssignComplainAdapter.OptionListene
                 }
 
                 is Resource.Error -> {
+                    DialogUtils.showFailedDialog(requireActivity(), resources.message.toString())
 
                 }
             }
@@ -722,6 +827,7 @@ class PendingComplaintFragment : Fragment(), AssignComplainAdapter.OptionListene
 
             binding.complainDetails.spinStatus -> {
                 try {
+
                     val selectedItem =
                         parent?.getItemAtPosition(position) as ComplaintStatusResponse
                     statusId = selectedItem.ItemId!!.toInt()
@@ -732,6 +838,8 @@ class PendingComplaintFragment : Fragment(), AssignComplainAdapter.OptionListene
                             binding.complainDetails.llAssignUserLayout.visibility = View.GONE
                             binding.complainDetails.llPendingLayout.visibility = View.VISIBLE
                             binding.complainDetails.checkType.visibility = View.VISIBLE
+                            binding.complainDetails.checkType.isChecked = true
+                            binding.complainDetails.checkType.isClickable = false
                             getPendingOwnerReason();
                         }
 
@@ -740,7 +848,9 @@ class PendingComplaintFragment : Fragment(), AssignComplainAdapter.OptionListene
                             binding.complainDetails.llPendingLayout.visibility = View.GONE
                             binding.complainDetails.llAssignUserLayout.visibility = View.VISIBLE
                             binding.complainDetails.llUserSelection.visibility = View.VISIBLE
-                            binding.complainDetails.checkType.visibility = View.VISIBLE
+                            binding.complainDetails.checkType.visibility = View.GONE
+                            binding.complainDetails.checkType.isChecked = false
+                            binding.complainDetails.checkType.isClickable = true
                             check = "A"
                         }
 
@@ -750,10 +860,16 @@ class PendingComplaintFragment : Fragment(), AssignComplainAdapter.OptionListene
                             binding.complainDetails.llAssignUserLayout.visibility = View.VISIBLE
                             binding.complainDetails.llUserSelection.visibility = View.GONE
                             if (statusId == 2) {
-                                binding.complainDetails.checkType.visibility = View.GONE
+                                binding.complainDetails.checkType.isChecked = true
+                                binding.complainDetails.checkType.isClickable = false
+                                binding.complainDetails.checkType.visibility = View.VISIBLE
                                 binding.complainDetails.llDocumentLayout.visibility = View.VISIBLE
                             } else {
+                                complainChangeStatus = "0"
+                                itemId = "0"
                                 binding.complainDetails.checkType.visibility = View.GONE
+                                binding.complainDetails.checkType.isChecked = false
+                                binding.complainDetails.checkType.isClickable = true
                             }
                             check = "R"
                         }
@@ -852,5 +968,7 @@ class PendingComplaintFragment : Fragment(), AssignComplainAdapter.OptionListene
         super.onDestroyView()
         _binding = null
     }
+
+
 }
 

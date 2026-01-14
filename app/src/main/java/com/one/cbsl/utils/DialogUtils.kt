@@ -15,6 +15,7 @@ class DialogUtils {
                 dialogInstance = it
             }
         }
+
         public fun showProgressDialog(context: Context, message: String): StylishAlertDialog {
             val pDialog = getInstance(context, StylishAlertDialog.PROGRESS)
             pDialog.setContentText(message)
@@ -38,7 +39,14 @@ class DialogUtils {
 
         fun showFailedDialog(context: Context, message: String) {
             val pDialog = getInstance(context, StylishAlertDialog.ERROR)
-            pDialog.contentText = message
+            var msg = message;
+            if (msg.contains("Unable to resolve")) {
+                msg = "Network Error! \nKindly check your internet connection and retry."
+            }
+            if (msg == "Error:") {
+                msg = "Connection Timeout"
+            }
+            pDialog.contentText = msg
             pDialog.setConfirmButton("OK") { dialog ->
                 dialog.dismissWithAnimation()
                 dialogInstance = null // Reset the instance after dismissing

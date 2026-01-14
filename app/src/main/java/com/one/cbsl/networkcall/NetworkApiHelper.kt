@@ -41,6 +41,14 @@ class NetworkApiHelper(private val apiService: RetrofitService) {
             Constants.AUTH_HEADER
         )
 
+    suspend fun markAttendance(userId: String, hodId: String, date: String, status: String) =
+        apiService.markAttendance(
+           userId,
+            hodId,
+            date,status,
+            Constants.AUTH_HEADER
+        )
+
 
     suspend fun getAttendanceType() = apiService.getAttendanceType(Constants.AUTH_HEADER)
 
@@ -198,6 +206,10 @@ class NetworkApiHelper(private val apiService: RetrofitService) {
         SessionManager.getInstance().getString(Constants.UserId), date, Constants.AUTH_HEADER
     )
 
+    suspend fun getPayHistory(date: String) = apiService.getPayHistory(
+        SessionManager.getInstance().getString(Constants.UserId), date, Constants.AUTH_HEADER
+    )
+
     suspend fun getMyTourConveyance(userId: String?, date: String?, tourid: String) =
         apiService.getMyTourConveyance(userId, date, tourid, Constants.AUTH_HEADER)
 
@@ -276,6 +288,23 @@ class NetworkApiHelper(private val apiService: RetrofitService) {
         status,
         fromDate,
         todate,
+        Constants.AUTH_HEADER
+    )
+
+    suspend fun getHodFacilityWiseAttendance(fromDate: String, toDate: String) =
+        apiService.getHodFacilityWiseAttendance(
+            //SessionManager.getInstance().getString(Constants.UserId),
+            "146",
+            fromDate,
+            Constants.AUTH_HEADER
+        )
+
+    suspend fun getHodFacilityEmployeeListAttendance(
+        facilityId: String, status: String, fromDate: String, todate: String
+    ) = apiService.getHodFacilityEmployeeListAttendance(
+        "146",// SessionManager.getInstance().getString(Constants.UserId),
+        facilityId,
+        fromDate,
         Constants.AUTH_HEADER
     )
 

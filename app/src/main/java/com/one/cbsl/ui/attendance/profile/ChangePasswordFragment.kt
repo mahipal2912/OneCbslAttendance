@@ -55,7 +55,7 @@ class ChangePasswordFragment : Fragment() {
     private fun setupViewModel() {
         viewModel = ViewModelProvider(
             requireActivity(),
-            ViewModelFactory(NetworkApiHelper(RetrofitBuilder.apiService))
+            ViewModelFactory(NetworkApiHelper(RetrofitBuilder.getApi()))
         )[MyProfileViewModel::class.java]
     }
 

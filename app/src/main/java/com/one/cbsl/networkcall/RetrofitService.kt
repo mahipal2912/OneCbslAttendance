@@ -1,5 +1,4 @@
 package com.one.cbsl.networkcall
-
 import MovementResponse
 import MyLeaveResponse
 import SaveResponse
@@ -8,10 +7,12 @@ import TourIdResponse
 import com.one.cbsl.ui.complain.model.*
 import com.one.cbsl.ui.attendance.conveyance.model.*
 import com.one.cbsl.ui.attendance.conveyance.model.ProjectResponse
+import com.one.cbsl.ui.attendance.hodattendance.model.EmployeeAttendanceResponse
 import com.one.cbsl.ui.attendance.home.model.DashboardResponse
 import com.one.cbsl.ui.attendance.movement.model.MovementListResponse
 import com.one.cbsl.ui.attendance.movement.model.TaskResponse
 import com.one.cbsl.ui.attendance.other.model.LoginModel
+import com.one.cbsl.ui.attendance.payhistory.PayHistoryResponse
 import com.one.cbsl.ui.attendance.punchattendance.model.AttendanceResponse
 import com.one.cbsl.ui.attendance.punchattendance.model.AttendanceTypeResponse
 import com.one.cbsl.ui.complain.model.*
@@ -23,7 +24,7 @@ import retrofit2.http.Query
 
 interface RetrofitService {
 
-    @GET("LoginNew")
+    @GET("LoginOneCbsl")
     suspend fun loginWithDeviceId(
         @Query("Str_UserName") Str_UserName: String?,
         @Query("Str_Password") Str_Password: String?,
@@ -56,6 +57,15 @@ interface RetrofitService {
         @Query("NewPassword") NewPassword: String?,
         @Query("AuthHeader") header: String?
     ): Response<List<AttendanceResponse>>
+
+    @GET("MARKAttendancebyId")
+    suspend fun markAttendance(
+        @Query("userId") userid: String,
+        @Query("hodid") hodid: String,
+        @Query("date") date: String,
+        @Query("status") markStatus: String,
+        @Query("AuthHeader") header: String
+    ): Response<List<HodAttendanceResponse>>
 
     @GET("GetMyAttendanceListbydate")
     suspend fun getMyAttendance(
@@ -210,6 +220,13 @@ interface RetrofitService {
         @Query("AuthHeader") AuthHeader: String?
     ): Response<List<MyConveyanceResponse>>
 
+    @GET("getPaymentHistory")
+    suspend fun getPayHistory(
+        @Query("userId") userId: String?,
+        @Query("date") date: String?,
+        @Query("AuthHeader") AuthHeader: String?
+    ): Response<List<PayHistoryResponse>>
+
 
     @GET("LoadTransportMode")
     suspend fun getTransportMode(
@@ -303,6 +320,21 @@ interface RetrofitService {
         @Query("toDate") todate: String?,
         @Query("AuthHeader") AuthHeader: String?
     ): Response<List<HodConveyanceEmpResponse>>
+
+    @GET("hodDailyAttendanceRecod")
+    suspend fun getHodFacilityWiseAttendance(
+        @Query("userId") userId: String?,
+        @Query("date") from: String,
+        @Query("AuthHeader") AuthHeader: String?
+    ): Response<List<HodConveyanceResponse>>
+
+    @GET("hodDailyAttendancData")
+    suspend fun getHodFacilityEmployeeListAttendance(
+        @Query("Userid") userId: String?,
+        @Query("facility") facilityId: String?,
+        @Query("date") fromDate: String?,
+        @Query("AuthHeader") AuthHeader: String?
+    ): Response<List<EmployeeAttendanceResponse>>
 
 
     @GET("getFinalHodEmpConveyanceDetail")

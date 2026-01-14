@@ -41,6 +41,21 @@ class ConveyanceViewModel constructor(private val mainRepository: MainRepository
             }
         }
 
+    fun getPayHistory(date: String) =
+        liveData(Dispatchers.IO) {
+            emit(Resource.Loading())
+            try {
+                val response = mainRepository.getPayHistory(date)
+                if (response.isSuccessful) {
+                    emit(Resource.Success(data = response.body()))
+                } else {
+                    emit(Resource.Error(message = "Error: ${response.message()}"))
+                }
+            } catch (exception: Exception) {
+                emit(Resource.Error(message = exception.message ?: "Error Occurred!"))
+            }
+        }
+
     fun getMyTourConveyance(date: String, tourId: String) =
         liveData(Dispatchers.IO) {
             emit(Resource.Loading())

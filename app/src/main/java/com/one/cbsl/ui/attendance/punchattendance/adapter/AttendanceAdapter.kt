@@ -30,6 +30,7 @@ class AttendanceAdapter(var list: List<AttendanceResponse>) :
             tvPunchIn.text = list[position].PunchIn
             tvPunchOut.text = list[position].PunchOut
             tvStatus.text = list[position].Astatus
+            tvCode.text = list[position].EmployeeCode
             tvWorkingHour.text = list[position].WorkingHours
             approvedBy.text = list[position].approvedby
             approveDate.text = list[position].approveddate
@@ -53,6 +54,7 @@ class AttendanceAdapter(var list: List<AttendanceResponse>) :
         var tvWorkingHour = binding.tvWorkingHour
         var markstatus = binding.markstatus
         var hodStatus = binding.hodStatus
+        var tvCode = binding.tvCode
         var approvedBy = binding.approvedBy
         var approveDate = binding.approveDate
         var llHeader = binding.llHeader

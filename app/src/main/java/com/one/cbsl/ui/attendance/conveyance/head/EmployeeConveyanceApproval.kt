@@ -39,7 +39,7 @@ class EmployeeConveyanceApproval : Fragment(), HodConveyEmpDetailAdapter.Opition
         viewModel =
             ViewModelProvider(
                 this,
-                ViewModelFactory(NetworkApiHelper(RetrofitBuilder.apiService))
+                ViewModelFactory(NetworkApiHelper(RetrofitBuilder.getApi()))
             )[ConveyanceViewModel::class.java]
 
 

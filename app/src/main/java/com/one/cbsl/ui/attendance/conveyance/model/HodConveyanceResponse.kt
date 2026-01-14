@@ -15,6 +15,7 @@ data class HodConveyanceResponse(
     //facility
     @SerializedName("FacilityId") val FacilityId: String,
     @SerializedName("FacilityName") val FacilityName: String,
+    @SerializedName("Facility Name") val fName: String,
     @SerializedName("Approved") val Approved: String,
     @SerializedName("ApprovalPending") val ApprovalPending: String,
     @SerializedName("Hold") var Hold: String? = null,
@@ -27,6 +28,12 @@ data class HodConveyanceResponse(
     @SerializedName("EmployeeName") val EmployeeName: String,
     @SerializedName("TotalCount") val TotalCount: String,
     @SerializedName("TotalAmmount") val TotalAmmount: String,
+
+    //Employee
+    @SerializedName("Total") val total: String,
+    @SerializedName("Absent") val Absent: String,
+    @SerializedName("Present") val Present: String,
+
 
     //conveyanceDetail
     @SerializedName("status") val Status: String? = null

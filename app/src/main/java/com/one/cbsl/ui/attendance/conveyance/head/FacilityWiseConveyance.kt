@@ -48,7 +48,7 @@ class FacilityWiseConveyance : Fragment(), HodFacilityConveyanceAdapter.OpitionL
         viewModel =
             ViewModelProvider(
                 this,
-                ViewModelFactory(NetworkApiHelper(RetrofitBuilder.apiService))
+                ViewModelFactory(NetworkApiHelper(RetrofitBuilder.getApi()))
             )[ConveyanceViewModel::class.java]
 
 
@@ -88,7 +88,7 @@ class FacilityWiseConveyance : Fragment(), HodFacilityConveyanceAdapter.OpitionL
     private fun setUpViewModel() {
         viewModel = ViewModelProvider(
             this,
-            ViewModelFactory(NetworkApiHelper(RetrofitBuilder.apiService))
+            ViewModelFactory(NetworkApiHelper(RetrofitBuilder.getApi()))
         )[ConveyanceViewModel::class.java]
 
     }

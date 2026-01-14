@@ -39,7 +39,7 @@ class ConveyanceFragment : Fragment(), ConveynaceAdapter.OptionListener,
         viewModel =
             ViewModelProvider(
                 this,
-                ViewModelFactory(NetworkApiHelper(RetrofitBuilder.apiService))
+                ViewModelFactory(NetworkApiHelper(RetrofitBuilder.getApi()))
             )[ConveyanceViewModel::class.java]
 
         _binding = FragmentCovneyanceBinding.inflate(inflater, container, false)
