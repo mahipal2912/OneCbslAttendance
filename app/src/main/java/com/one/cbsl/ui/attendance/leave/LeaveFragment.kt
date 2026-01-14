@@ -30,7 +30,7 @@ class LeaveFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         viewModel = ViewModelProvider(
-            requireActivity(), ViewModelFactory(NetworkApiHelper(RetrofitBuilder.apiService))
+            requireActivity(), ViewModelFactory(NetworkApiHelper(RetrofitBuilder.getApi()))
         )[LeaveViewModel::class.java]
 
         _binding = FragmentLeaveBinding.inflate(inflater, container, false)

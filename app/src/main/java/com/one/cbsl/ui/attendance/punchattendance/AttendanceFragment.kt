@@ -51,7 +51,7 @@ class AttendanceFragment : Fragment() {
     private fun bindViewModel() {
         viewModel = ViewModelProvider(
             this,
-            ViewModelFactory(NetworkApiHelper(RetrofitBuilder.apiService))
+            ViewModelFactory(NetworkApiHelper(RetrofitBuilder.getApi()))
         )[AttendanceViewModel::class.java]
         loadOfflineAttendance(0)
         binding.spinAttendanceType.adapter = ArrayAdapter(

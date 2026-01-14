@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:background="@color/black">
 
 
     <RelativeLayout
@@ -47,11 +47,11 @@
         </FrameLayout>
 
         <RelativeLayout
-
+android:visibility="invisible"
             android:id="@+id/rlBtnLayout"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_70sdp"
-            android:foreground="@color/black"
+
             android:layout_alignParentBottom="true"
             android:background="@color/black"
 

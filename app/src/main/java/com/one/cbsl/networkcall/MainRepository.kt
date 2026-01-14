@@ -29,6 +29,8 @@ class MainRepository constructor(private val apiHelper: NetworkApiHelper) {
 
     suspend fun changePassword(userId: String, currentPassword: String, newPassword: String) =
         apiHelper.changePassword(userId, currentPassword, newPassword)
+ suspend fun markAttendance(userId: String, hodId: String, date: String, status: String) =
+        apiHelper.markAttendance(userId, hodId,date, status)
 
     suspend fun getAttendanceType() =
         apiHelper.getAttendanceType()
@@ -67,7 +69,7 @@ class MainRepository constructor(private val apiHelper: NetworkApiHelper) {
         PunchDate: String,
         PunchIn: String,
         locationAddress: String,
-        latitude: String,
+        latitude : String,
         longitude: String,
         CreatedOn: String,
         PunchoutDate: String,
@@ -158,6 +160,9 @@ class MainRepository constructor(private val apiHelper: NetworkApiHelper) {
     suspend fun getVoucher(date: String) =
         apiHelper.getVoucher(date)
 
+    suspend fun getPayHistory(date: String) =
+        apiHelper.getPayHistory(date)
+
     suspend fun getMyTourConveyance(userId: String?, date: String?, tourid: String) =
         apiHelper.getMyTourConveyance(userId, date, tourid)
 
@@ -220,6 +225,18 @@ class MainRepository constructor(private val apiHelper: NetworkApiHelper) {
         fromDate: String,
         todate: String
     ) = apiHelper.getHodFacilityEmployeeList(
+        facilityId, status, fromDate,
+        todate
+    )
+    suspend fun getHodFacilityWiseAttendance(fromDate: String, toDate: String) =
+        apiHelper.getHodFacilityWiseAttendance(fromDate, toDate)
+
+    suspend fun getHodFacilityEmployeeListAttendance(
+        facilityId: String,
+        status: String,
+        fromDate: String,
+        todate: String
+    ) = apiHelper.getHodFacilityEmployeeListAttendance(
         facilityId, status, fromDate,
         todate
     )

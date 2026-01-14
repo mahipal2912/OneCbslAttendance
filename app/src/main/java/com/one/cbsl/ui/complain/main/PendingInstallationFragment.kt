@@ -21,6 +21,7 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -73,7 +74,7 @@ class PendingInstallationFragment : Fragment(),  AdapterView.OnItemSelectedListe
     private var photoUri: Uri? = null
     val currentDateTime = Calendar.getInstance()
 
-    private val galleryLauncher =
+  /*  private val galleryLauncher =
         registerForActivityResult(ActivityResultContracts.GetMultipleContents()) { galleryUri ->
             try {
                 galleryUri?.let {
@@ -126,10 +127,63 @@ class PendingInstallationFragment : Fragment(),  AdapterView.OnItemSelectedListe
             }
 
         }
+*/
+  private val galleryLauncher =
+      registerForActivityResult(
+          ActivityResultContracts.PickMultipleVisualMedia()
+      ) { uris ->
 
+          try {
+              uris?.let {
+                  when (imageType) {
+
+                      "0" -> {
+                          setImage(
+                              uris,
+                              imagesInstallList,
+                              binding.installDetails.rvInsallationReport
+                          )
+                          installPath = Base64.encodeToString(
+                              Utils.convertPDFToByteArray(Constants.generatePdf(imagesInstallList)),
+                              Base64.DEFAULT
+                          )
+                      }
+
+                      "1" -> {
+                          setImage(
+                              uris,
+                              imagesTrainingList,
+                              binding.installDetails.rvTrainingReport
+                          )
+                          trainingPath = Base64.encodeToString(
+                              Utils.convertPDFToByteArray(Constants.generatePdf(imagesTrainingList)),
+                              Base64.DEFAULT
+                          )
+                      }
+
+                      "2" -> {
+                          setImage(
+                              uris,
+                              imagesCertificateList,
+                              binding.installDetails.rvCustomerCertificate
+                          )
+                          certificatePath = Base64.encodeToString(
+                              Utils.convertPDFToByteArray(
+                                  Constants.generatePdf(imagesCertificateList)
+                              ),
+                              Base64.DEFAULT
+                          )
+                      }
+                  }
+              }
+
+          } catch (e: Exception) {
+              e.printStackTrace()
+          }
+      }
 
     //TODO capture the image using camera and display it
-    private var cameraActivityResultLauncher: ActivityResultLauncher<Intent> =
+   /* private var cameraActivityResultLauncher: ActivityResultLauncher<Intent> =
         registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()
         ) {
@@ -174,6 +228,55 @@ class PendingInstallationFragment : Fragment(),  AdapterView.OnItemSelectedListe
                 }
 
 
+            }
+        }*/
+    private val cameraActivityResultLauncher =
+        registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) { result ->
+
+            if (result.resultCode == Activity.RESULT_OK) {
+
+                photoUri?.let { uri ->
+                    when (imageType) {
+
+                        "0" -> {
+                            setSingleImage(
+                                uri,
+                                imagesInstallList,
+                                binding.installDetails.rvInsallationReport
+                            )
+                            installPath = Base64.encodeToString(
+                                Utils.convertPDFToByteArray(Constants.generatePdf(imagesInstallList)),
+                                Base64.DEFAULT
+                            )
+                        }
+
+                        "1" -> {
+                            setSingleImage(
+                                uri,
+                                imagesTrainingList,
+                                binding.installDetails.rvTrainingReport
+                            )
+                            trainingPath = Base64.encodeToString(
+                                Utils.convertPDFToByteArray(Constants.generatePdf(imagesTrainingList)),
+                                Base64.DEFAULT
+                            )
+                        }
+
+                        "2" -> {
+                            setSingleImage(
+                                uri,
+                                imagesCertificateList,
+                                binding.installDetails.rvCustomerCertificate
+                            )
+                            certificatePath = Base64.encodeToString(
+                                Utils.convertPDFToByteArray(Constants.generatePdf(imagesCertificateList)),
+                                Base64.DEFAULT
+                            )
+                        }
+                    }
+                }
             }
         }
 
@@ -284,7 +387,11 @@ class PendingInstallationFragment : Fragment(),  AdapterView.OnItemSelectedListe
         }
         customDialogLayoutBinding.tvGallery.setOnClickListener {
             dialog.dismiss()
-            galleryLauncher.launch("image/*")
+            galleryLauncher.launch(
+                PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+            )
+
+
         }
         customDialogLayoutBinding.tvCancel.setOnClickListener {
             dialog.dismiss()

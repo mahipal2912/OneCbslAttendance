@@ -38,7 +38,7 @@ class AdminLeavePlan : Fragment(), AdminLeaveAdapter.OpitionListener {
         savedInstanceState: Bundle?
     ): View? {
         viewModel = ViewModelProvider(
-            this, ViewModelFactory(NetworkApiHelper(RetrofitBuilder.apiService))
+            this, ViewModelFactory(NetworkApiHelper(RetrofitBuilder.getApi()))
         )[LeaveViewModel::class.java]
 
         _binding = FragmentAdminLeavePlanBinding.inflate(inflater, container, false)

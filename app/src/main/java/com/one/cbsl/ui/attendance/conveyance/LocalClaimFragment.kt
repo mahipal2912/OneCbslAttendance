@@ -25,6 +25,7 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -72,7 +73,7 @@ class LocalClaimFragment : Fragment(), OnItemSelectedListener, TextWatcher {
     private var pdfName = ""
     private var imagebase = ""
 
-    private val galleryLauncher =
+  /*  private val galleryLauncher =
         registerForActivityResult(ActivityResultContracts.GetMultipleContents()) { galleryUri ->
             try {
                 imagesPathList.clear()
@@ -93,10 +94,48 @@ class LocalClaimFragment : Fragment(), OnItemSelectedListener, TextWatcher {
             }
 
         }
+*/
+  // Google Play–compliant photo picker
+  private val galleryLauncher =
+      registerForActivityResult(ActivityResultContracts.PickMultipleVisualMedia()) { uris ->
+
+          try {
+              imagesPathList.clear()
+              pdfName = "${System.currentTimeMillis()}.pdf"
+
+              uris?.let {
+                  imagesPathList.addAll(it)
+                  binding.rvImage.adapter = SelectImageAdapter(imagesPathList)
+
+                  imagebase = Base64.encodeToString(
+                      Utils.convertPDFToByteArray(Constants.generatePdf(imagesPathList)),
+                      Base64.DEFAULT
+                  )
+              }
+
+          } catch (e: Exception) {
+              e.printStackTrace()
+          }
+      }
+    private val cameraActivityResultLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == RESULT_OK) {
+
+                photoUri?.let { uri ->
+                    imagesPathList.add(uri)
+                    binding.rvImage.adapter = SelectImageAdapter(imagesPathList)
+
+                    imagebase = Base64.encodeToString(
+                        Utils.convertPDFToByteArray(Constants.generatePdf(imagesPathList)),
+                        Base64.DEFAULT
+                    )
+                }
+            }
+        }
 
 
     //TODO capture the image using camera and display it
-    private var cameraActivityResultLauncher: ActivityResultLauncher<Intent> =
+  /*  private var cameraActivityResultLauncher: ActivityResultLauncher<Intent> =
         registerForActivityResult(
             ActivityResultContracts.StartActivityForResult(), ActivityResultCallback {
 
@@ -111,12 +150,12 @@ class LocalClaimFragment : Fragment(), OnItemSelectedListener, TextWatcher {
                 }
             }
         )
-
+*/
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         conveyanceViewModel = ViewModelProvider(
-            this, ViewModelFactory(NetworkApiHelper(RetrofitBuilder.apiService))
+            this, ViewModelFactory(NetworkApiHelper(RetrofitBuilder.getApi()))
         )[ConveyanceViewModel::class.java]
 
         _binding = FragmentLocalClaimBinding.inflate(inflater, container, false)
@@ -176,7 +215,10 @@ class LocalClaimFragment : Fragment(), OnItemSelectedListener, TextWatcher {
                 dialog.dismiss()
             }
             customDialogLayoutBinding.tvGallery.setOnClickListener {
-                galleryLauncher.launch("image/*")
+                galleryLauncher.launch(
+                    PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+                )
+
                 dialog.dismiss()
             }
             customDialogLayoutBinding.tvCancel.setOnClickListener {
@@ -249,6 +291,7 @@ class LocalClaimFragment : Fragment(), OnItemSelectedListener, TextWatcher {
             });
 
     }
+
 
     private fun disableEditText() {
         binding.etDate.isEnabled = false

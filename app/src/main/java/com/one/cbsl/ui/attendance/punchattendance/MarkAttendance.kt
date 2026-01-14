@@ -27,6 +27,7 @@ import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
@@ -101,7 +102,7 @@ class MarkAttendance : Fragment(), OnMapReadyCallback,
     ): View {
 
         viewModel = ViewModelProvider(
-            this, ViewModelFactory(NetworkApiHelper(RetrofitBuilder.apiService))
+            this, ViewModelFactory(NetworkApiHelper(RetrofitBuilder.getApi()))
         )[AttendanceViewModel::class.java]
 
         _binding = FragmentMarkAttendanceBinding.inflate(inflater, container, false)
@@ -137,7 +138,7 @@ class MarkAttendance : Fragment(), OnMapReadyCallback,
                 ) {
                     try {
                         attendanceTypeId = (pos + 1).toString()
-                        /*    val response = parent.getItemAtPosition(pos) as AttendanceTypeResponse
+                        /*  val response = parent.getItemAtPosition(pos) as AttendanceTypeResponse
                             attendanceTypeId = response.AttendanceTypeId*/
                         if (attendanceTypeId == "2") {
                             binding.llOdLayout.visibility = View.VISIBLE
@@ -332,7 +333,7 @@ class MarkAttendance : Fragment(), OnMapReadyCallback,
 
 
     private fun getAttendanceType() {
-        viewModel?.getAttendanceType()?.observe(requireActivity(), Observer { resource ->
+        viewModel?.getAttendanceType()?.observe(viewLifecycleOwner, Observer { resource ->
             when (resource) {
                 is Resource.Loading -> {
                 }
@@ -419,7 +420,6 @@ class MarkAttendance : Fragment(), OnMapReadyCallback,
 
             binding.llPunch -> {
                 try {
-                    SessionManager.getInstance().putBoolean(Constants.isPunchIn, true)
                     if (binding.tvCurrentLoc.text.toString().isEmpty()) {
                         DialogUtils.showFailedDialog(
                             requireActivity(), "No Location Please Try Again"
@@ -466,7 +466,7 @@ class MarkAttendance : Fragment(), OnMapReadyCallback,
             attendanceTypeId.toString(),
             binding.etPurpose.text.toString(),
             binding.etOdClientName.text.toString()
-        )?.observe(requireActivity(), Observer { resources ->
+        )?.observe(viewLifecycleOwner, Observer { resources ->
             when (resources) {
                 is Resource.Success -> {
                     try {
@@ -534,9 +534,13 @@ class MarkAttendance : Fragment(), OnMapReadyCallback,
                 requireActivity(), "You are not in Office Radius"
             )
         } else {
-            DialogUtils.showSuccessDialog(
+            findNavController().navigate(R.id.navigation_home)
+            SessionManager.getInstance().putBoolean(Constants.isPunchIn, true)
+
+            Toast.makeText(requireActivity(),"$s Successfully",Toast.LENGTH_LONG).show()
+            /*DialogUtils.showSuccessDialog(
                 requireActivity(), "$s Successfully", CbslMain::class.java
-            )
+            )*/
         }
 
     }
@@ -581,9 +585,7 @@ class MarkAttendance : Fragment(), OnMapReadyCallback,
                 Observer<List<AttendanceMaster>> { t ->
                     try {
                         recordsList = t
-
                     } catch (e: Exception) {
-
                         e.printStackTrace()
                     }
                 })

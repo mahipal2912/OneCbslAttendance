@@ -54,6 +54,7 @@ class FaceBox(
                 canvas?.drawRect(rect, redBoxPaint)
             }
             // left eye is closed
+
             leftEyeProbability <= 0.6 -> {
                 listener(Status.LEFT_EYE_CLOSED)
                 canvas?.drawRect(rect, redBoxPaint)

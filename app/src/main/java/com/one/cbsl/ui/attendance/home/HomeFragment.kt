@@ -2,7 +2,6 @@ package com.one.cbsl.ui.attendance.home
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -11,35 +10,32 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
 import com.one.cbsl.CbslMain
 import com.one.cbsl.R
 import com.one.cbsl.databinding.FragmentHomeBinding
-import com.one.cbsl.face.activityhyh.FaceActivity
-import com.one.cbsl.face.activityhyh.FaceRecognizeActivity
 import com.one.cbsl.networkcall.NetworkApiHelper
 import com.one.cbsl.networkcall.RetrofitBuilder
 import com.one.cbsl.networkcall.base.ViewModelFactory
 import com.one.cbsl.ui.attendance.home.adapter.HomeAdapter
 import com.one.cbsl.ui.attendance.home.viewmodel.HomeViewModel
-import com.one.cbsl.ui.attendance.other.LoginActivity
-import com.one.cbsl.ui.attendance.punchattendance.FaceRecognizeActivitynew
 import com.one.cbsl.ui.complain.adapter.ComplaintMainAdapter
 import com.one.cbsl.ui.complain.viewmodel.ComplaintViewModel
 import com.one.cbsl.utils.Cbsl
 import com.one.cbsl.utils.Constants
+import com.one.cbsl.utils.Constants.Companion.isDeveloperModeEnabled
 import com.one.cbsl.utils.DialogUtils
 import com.one.cbsl.utils.Resource
 import com.one.cbsl.utils.SessionManager
-import com.one.cbsl.utils.Utils
 import com.one.cbsl.utils.permissions.PermissionRequest
 import com.one.cbsl.utils.permissions.PermissionRequestHandler
+import kotlin.system.exitProcess
 
 class HomeFragment : Fragment(), HomeAdapter.OpitionListener,
     PermissionRequest.RequestCustomPermissionGroup, ComplaintMainAdapter.OpitionListener {
@@ -62,26 +58,24 @@ class HomeFragment : Fragment(), HomeAdapter.OpitionListener,
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        /*   if (Constants.isDeveloperModeEnabled(Cbsl.getInstance())) {
-               Toast.makeText(
-                   activity,
-                   "Developer Mode enabled",
-                   Toast.LENGTH_LONG
-               ).show()
-           }*/
+        if (isDeveloperModeEnabled(Cbsl.getInstance())) {
+            showDevModeDialog()
+        }
+        else {
+            loadDashboard()
+        }
         if (SessionManager.getInstance()
                 .getString(Constants.COMPANY) == "SOLAR" || SessionManager.getInstance()
                 .getString(Constants.COMPANY) == "CBM" || SessionManager.getInstance()
                 .getString(Constants.COMPANY) == "CBMPL" || SessionManager.getInstance()
-                .getString(Constants.COMPANY) == "CSSPL"
-        ) {
+                .getString(Constants.COMPANY) == "CSSPL" || SessionManager.getInstance()
+                .getString(Constants.COMPANY) == "CBSPL"
+        ){
             loadComplaintDashboard()
         } else {
             binding.llComplaintDashboard.visibility = View.GONE
         }
         checkAllPermission()
-        loadDashboard()
         loadTodayAttendance()
         checkDeviceRegistered()
         _binding?.ivPunch?.setOnClickListener {
@@ -112,7 +106,6 @@ class HomeFragment : Fragment(), HomeAdapter.OpitionListener,
                 Manifest.permission.ACCESS_COARSE_LOCATION,
                 Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.CAMERA
-
             )
         } else {
             PermissionRequestHandler.requestCustomPermissionGroup(
@@ -144,12 +137,18 @@ class HomeFragment : Fragment(), HomeAdapter.OpitionListener,
                             if (response?.get(0)?.IsPassUpdated == 0) {
                                 findNavController().navigate(R.id.home_to_change_pass)
                             }
+                            binding.rvDashboard.adapter = HomeAdapter(
+                                response?.get(0)!!, this
+                            )
                             SessionManager.getInstance()
-                                .putString(Constants.faceEnabled, response?.get(0)?.faceEnabled)
+                                .putString(Constants.faceEnabled, response[0].faceEnabled)
                             SessionManager.getInstance()
-                                .putString(Constants.VerifyType, response?.get(0)?.faceData)
+                                .putString(Constants.VerifyType, response[0].faceData)
 
-                            if (response?.get(0)?.faceEnabled == "1") {
+                            SessionManager.getInstance()
+                                .putString(Constants.faceDomain, response[0].faceDomain)
+
+                            if (response[0].faceEnabled == "1") {
                                 if (response[0].faceData == "0") {
 
                                     findNavController().navigate(R.id.home_to_face_capture)
@@ -157,20 +156,18 @@ class HomeFragment : Fragment(), HomeAdapter.OpitionListener,
                                 } else {
                                     SessionManager.getInstance()
                                         .putString(Constants.VerifyType, response[0].faceData)/*  SessionManager.getInstance()
-                                      .putString("embed", response?.get(0)?.faceData)*/
+                                      .putString("embed", response[0]?.faceData)*/
                                 }
                             }
-                            if (response?.get(0)?.IsProfileUpdated == "0") {
+                            if (response[0].IsProfileUpdated == "0") {
                                 //loadPdf()
                                 findNavController().navigate(R.id.home_to_profile_change)
                             } else {
                                 SessionManager.getInstance()
-                                    .putString(Constants.IMAGE, response?.get(0)?.IsProfileUpdated)
+                                    .putString(Constants.IMAGE, response[0].IsProfileUpdated)
                                 (activity as CbslMain?)!!.updateValues()
                             }
-                            binding.rvDashboard.adapter = HomeAdapter(
-                                response?.get(0)!!, this
-                            )
+
                             SessionManager.getInstance()
                                 .putString(Constants.IsTourActive, response[0].onTour!!)
 
@@ -228,8 +225,6 @@ class HomeFragment : Fragment(), HomeAdapter.OpitionListener,
             when (resource) {
                 is Resource.Loading -> {
                     Log.d("loading", "")
-
-
                 }
 
                 is Resource.Success -> {
@@ -247,10 +242,7 @@ class HomeFragment : Fragment(), HomeAdapter.OpitionListener,
                     } catch (e: Exception) {
                         e.printStackTrace()
                     }
-
-
                 }
-
                 is Resource.Error -> {
                     Log.d("error", "")
 
@@ -266,7 +258,6 @@ class HomeFragment : Fragment(), HomeAdapter.OpitionListener,
                 is Resource.Loading -> {
                     DialogUtils.showProgressDialog(requireActivity(), "Fetching Data")
                 }
-
                 is Resource.Success -> {
                     try {
                         val response = resource.data
@@ -281,10 +272,20 @@ class HomeFragment : Fragment(), HomeAdapter.OpitionListener,
                         e.printStackTrace()
                     }
                 }
-
                 is Resource.Error -> {
                     // Handle error
                     DialogUtils.showFailedDialog(requireActivity(), resource.message.toString())
+                    if (resource.message.toString()
+                            .contains("timeout") ||resource.message.toString()
+                            .contains("Cancel") || resource.message.toString().contains("Error:")
+                    ) {
+                        val status =
+                            !SessionManager.getInstance().getBoolean(Constants.IsChangeServer)
+                        SessionManager.getInstance().putBoolean(Constants.IsChangeServer, status)
+
+                        startActivity(Intent(activity, CbslMain::class.java))
+
+                    }
                 }
             }
         })
@@ -293,7 +294,7 @@ class HomeFragment : Fragment(), HomeAdapter.OpitionListener,
     @SuppressLint("HardwareIds")
     private fun bindView() {
         homeViewModel = ViewModelProvider(
-            requireActivity(), ViewModelFactory(NetworkApiHelper(RetrofitBuilder.apiService))
+            requireActivity(), ViewModelFactory(NetworkApiHelper(RetrofitBuilder.getApi()))
         )[HomeViewModel::class.java]
 
         complaintViewModel =
@@ -329,6 +330,10 @@ class HomeFragment : Fragment(), HomeAdapter.OpitionListener,
 
             Constants.Conveyance -> {
                 findNavController().navigate(R.id.navigate_to_my_conveyance)
+            }
+
+            Constants.PAYHISTORY -> {
+                findNavController().navigate(R.id.navigation_to_pay_history)
             }
 
             Constants.LeavePlan -> {
@@ -376,5 +381,23 @@ class HomeFragment : Fragment(), HomeAdapter.OpitionListener,
     override fun onCustomPermissionGroupDenied() {
         checkAllPermission()
     }
+    private fun showDevModeDialog() {
+        val dialog = AlertDialog.Builder(requireContext())
+            .setTitle(getString(R.string.dev_mode_title))
+            .setMessage(getString(R.string.dev_mode_message))
+            .setCancelable(false) // can't dismiss by tapping outside or back
+            .setPositiveButton(getString(R.string.dev_mode_exit)) { _, _ ->
+                // exit the app (removes all activities)
+                exitProcess(0);
+            }
+            .create()
 
+        // Prevent back key dismiss on older devices
+        dialog.setOnKeyListener { _, keyCode, _ ->
+            // return true to consume event; but setCancelable(false) is usually enough
+            true
+        }
+
+        dialog.show()
+    }
 }

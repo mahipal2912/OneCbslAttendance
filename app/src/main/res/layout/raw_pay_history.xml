@@ -1,0 +1,192 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/ll_header"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_30sdp"
+        android:visibility="gone">
+
+
+        <TextView
+            android:layout_width="@dimen/_140sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_header"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="Employee Code"
+            android:textColor="@color/white">
+
+        </TextView>
+
+        <TextView
+            android:layout_width="@dimen/_150sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_header"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="Employee Name"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:layout_width="@dimen/_240sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_header"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="Credited Bank Name"
+            android:textColor="@color/white"
+            />
+
+
+        <TextView
+            android:layout_width="@dimen/_120sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_header"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="Credited Account No"
+            android:textColor="@color/white"
+            />
+
+        <TextView
+            android:layout_width="@dimen/_130sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_header"
+            android:gravity="center"
+            android:text="Transaction ID"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:layout_width="@dimen/_130sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_header"
+            android:gravity="center"
+            android:text="Transaction Date"
+            android:textColor="@color/white"
+            />
+
+        <TextView
+            android:layout_width="@dimen/_110sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_header"
+            android:gravity="center"
+            android:text="Credited Amount"
+            android:textColor="@color/white"
+            />
+
+
+        <TextView
+            android:layout_width="@dimen/_130sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_header"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="Remarks"
+            android:textColor="@color/white"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_30sdp">
+
+
+        <TextView
+            android:id="@+id/id1"
+            android:layout_width="@dimen/_140sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_column"
+            android:gravity="center"
+            android:textColor="@color/black">
+
+        </TextView>
+
+
+        <TextView
+            android:id="@+id/id2"
+            android:layout_width="@dimen/_150sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_column"
+            android:gravity="center"
+            android:singleLine="true"
+            android:textColor="@color/black">
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/id3"
+            android:layout_width="@dimen/_240sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_column"
+            android:gravity="center"
+            android:singleLine="true"
+            android:textColor="@color/black"
+            >
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/id4"
+            android:layout_width="@dimen/_120sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_column"
+            android:gravity="center"
+            android:singleLine="true"
+            android:textColor="@color/black"
+            >
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/id5"
+            android:layout_width="@dimen/_130sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_column"
+            android:gravity="center"
+
+            android:textColor="@color/black">
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/id6"
+            android:layout_width="@dimen/_130sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_column"
+            android:gravity="center"
+            android:textColor="@color/black"
+            >
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/id7"
+            android:layout_width="@dimen/_110sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_column"
+            android:gravity="center"
+            android:textColor="@color/black"
+            >
+
+        </TextView>
+
+
+        <TextView
+            android:id="@+id/id8"
+            android:layout_width="@dimen/_130sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_column"
+            android:gravity="center"
+            android:singleLine="true"
+            android:textColor="@color/purple_200"
+            >
+
+        </TextView>
+
+    </LinearLayout>
+
+</LinearLayout>

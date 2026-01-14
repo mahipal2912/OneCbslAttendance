@@ -118,5 +118,45 @@ class AttendanceViewModel constructor(private val mainRepository: MainRepository
             emit(Resource.Error(message = exception.message ?: "Error Occurred!"))
         }
     }
+    fun getHodFacilityWiseAttendance(fromDate: String, to: String) = liveData(Dispatchers.IO) {
+        emit(Resource.Loading())
+        try {
+            val response = mainRepository.getHodFacilityWiseAttendance(
+                fromDate, to
+            )
 
+            if (response.isSuccessful) {
+                emit(Resource.Success(data = response.body()))
+            } else {
+                emit(Resource.Error(message = "Error: ${response.message()}"))
+            }
+        } catch (exception: Exception) {
+            emit(Resource.Error(message = exception.message ?: "Error Occurred!"))
+        }
+
+    }
+
+    fun getHodFacilityEmployeeListAttendance(
+        facilityId: String,
+        status: String,
+        fromDate: String,
+        todate: String
+    ) = liveData(Dispatchers.IO) {
+        emit(Resource.Loading())
+        try {
+            val response = mainRepository.getHodFacilityEmployeeListAttendance(
+                facilityId, status, fromDate,
+                todate
+            )
+
+            if (response.isSuccessful) {
+                emit(Resource.Success(data = response.body()))
+            } else {
+                emit(Resource.Error(message = "Error: ${response.message()}"))
+            }
+        } catch (exception: Exception) {
+            emit(Resource.Error(message = exception.message ?: "Error Occurred!"))
+        }
+
+    }
 }

@@ -1,0 +1,227 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:id="@+id/ll_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="@dimen/_130sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:background="@drawable/shape_header"
+            android:gravity="center"
+            android:padding="@dimen/_2sdp"
+            android:singleLine="true"
+            android:text="Name"
+            android:textColor="@color/white">
+
+        </TextView>
+
+        <TextView
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:background="@drawable/shape_header"
+            android:gravity="center"
+            android:padding="@dimen/_2sdp"
+            android:text="Employee Code"
+            android:textColor="@color/white">
+
+        </TextView>
+
+        <TextView
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:background="@drawable/shape_header"
+            android:gravity="center"
+            android:padding="@dimen/_2sdp"
+            android:text="Mobile No"
+            android:textColor="@color/white">
+
+        </TextView>
+
+        <TextView
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:background="@drawable/shape_header"
+            android:gravity="center"
+            android:padding="@dimen/_2sdp"
+            android:text="Reporting"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:layout_width="@dimen/_150sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:background="@drawable/shape_header"
+            android:gravity="center"
+            android:padding="@dimen/_2sdp"
+            android:text="Facility"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:layout_width="@dimen/_60sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:background="@drawable/shape_header"
+            android:gravity="center"
+            android:padding="@dimen/_2sdp"
+            android:text="Status"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:layout_width="@dimen/_80sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:background="@drawable/shape_header"
+            android:gravity="center"
+            android:padding="@dimen/_2sdp"
+            android:text="HOD Status"
+            android:textColor="@color/white"
+            android:visibility="gone" />
+
+        <TextView
+            android:layout_width="@dimen/_110sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:background="@drawable/shape_header"
+            android:gravity="center"
+            android:padding="@dimen/_2sdp"
+            android:text="Select Status"
+            android:textColor="@color/white"
+            android:visibility="gone" />
+
+        <TextView
+            android:layout_width="@dimen/_90sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:background="@drawable/shape_header"
+            android:gravity="center"
+            android:padding="@dimen/_2sdp"
+            android:text="Mark"
+            android:textColor="@color/white" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_employee_name"
+            android:layout_width="@dimen/_130sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_edittext"
+            android:gravity="center"
+            android:padding="@dimen/_2sdp"
+            android:singleLine="true"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_10sdp">
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/tv_employee_code"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_edittext"
+            android:gravity="center"
+            android:padding="@dimen/_2sdp"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_10sdp">
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/tv_mobile_no"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_edittext"
+            android:gravity="center"
+            android:padding="@dimen/_2sdp"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_10sdp">
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/tv_reporting"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_edittext"
+            android:gravity="center"
+            android:padding="@dimen/_2sdp"
+            android:singleLine="true"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_10sdp" />
+
+        <TextView
+            android:id="@+id/tv_facility"
+            android:layout_width="@dimen/_150sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_edittext"
+            android:gravity="center"
+            android:padding="@dimen/_2sdp"
+            android:singleLine="true"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_10sdp" />
+
+        <TextView
+            android:id="@+id/tv_Status"
+            android:layout_width="@dimen/_60sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_edittext"
+            android:gravity="center"
+            android:padding="@dimen/_2sdp"
+            android:singleLine="true"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_10sdp" />
+
+        <TextView
+            android:id="@+id/tv_approve_Status"
+            android:layout_width="@dimen/_80sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_edittext"
+            android:gravity="center"
+            android:padding="@dimen/_2sdp"
+            android:singleLine="true"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_10sdp"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:layout_width="@dimen/_110sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/shape_edittext"
+            android:padding="@dimen/_2sdp"
+            android:visibility="gone">
+
+            <Spinner
+                android:id="@+id/spin_markStatus"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_30sdp"
+                android:textColor="@color/black" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="@dimen/_90sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_gravity="center"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:background="@drawable/shape_edittext"
+            android:padding="@dimen/_1sdp">
+
+            <Button
+                android:id="@+id/btn_markStatus"
+                android:layout_width="@dimen/_90sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:background="@color/green"
+                android:gravity="center"
+                android:text="Mark"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_10sdp" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

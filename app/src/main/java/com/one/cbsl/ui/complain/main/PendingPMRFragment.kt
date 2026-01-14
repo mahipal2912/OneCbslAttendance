@@ -22,6 +22,7 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -84,7 +85,7 @@ class PendingPMRFragment : Fragment(), AssignComplainAdapter.OptionListener,
     private var photoUri: Uri? = null
     val currentDateTime = Calendar.getInstance()
 
-    private val galleryLauncher =
+   /* private val galleryLauncher =
         registerForActivityResult(ActivityResultContracts.GetMultipleContents()) { galleryUri ->
             try {
                 galleryUri?.let {
@@ -125,10 +126,48 @@ class PendingPMRFragment : Fragment(), AssignComplainAdapter.OptionListener,
             }
 
         }
+*/
+   private val galleryLauncher =
+       registerForActivityResult(
+           ActivityResultContracts.PickMultipleVisualMedia()
+       ) { uris ->
 
+           try {
+               uris?.let {
+                   when (imageType) {
+
+                       "0" -> {
+                           setImage(uris, imagesPathList, binding.complainDetails.rvImage)
+                           certificatePath = Base64.encodeToString(
+                               Utils.convertPDFToByteArray(Constants.generatePdf(imagesPathList)),
+                               Base64.DEFAULT
+                           )
+                       }
+
+                       "1" -> {
+                           setImage(uris, imagesAfterPmr, binding.complainDetails.rvImageNew)
+                           afterPmrPath = Base64.encodeToString(
+                               Utils.convertPDFToByteArray(Constants.generatePdf(imagesAfterPmr)),
+                               Base64.DEFAULT
+                           )
+                       }
+
+                       "2" -> {
+                           setImage(uris, imagesBeforePmr, binding.complainDetails.rvImageOld)
+                           beforePmrPath = Base64.encodeToString(
+                               Utils.convertPDFToByteArray(Constants.generatePdf(imagesBeforePmr)),
+                               Base64.DEFAULT
+                           )
+                       }
+                   }
+               }
+           } catch (e: Exception) {
+               e.printStackTrace()
+           }
+       }
 
     //TODO capture the image using camera and display it
-    private var cameraActivityResultLauncher: ActivityResultLauncher<Intent> =
+  /*  private var cameraActivityResultLauncher: ActivityResultLauncher<Intent> =
         registerForActivityResult(
             ActivityResultContracts.StartActivityForResult(), ActivityResultCallback {
                 if (it.resultCode === Activity.RESULT_OK) {
@@ -174,7 +213,43 @@ class PendingPMRFragment : Fragment(), AssignComplainAdapter.OptionListener,
 
                 }
             })
+*/
+    private val cameraActivityResultLauncher =
+        registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) { result ->
 
+            if (result.resultCode == Activity.RESULT_OK) {
+                photoUri?.let { uri ->
+                    when (imageType) {
+
+                        "0" -> {
+                            setSingleImage(uri, imagesPathList, binding.complainDetails.rvImage)
+                            certificatePath = Base64.encodeToString(
+                                Utils.convertPDFToByteArray(Constants.generatePdf(imagesPathList)),
+                                Base64.DEFAULT
+                            )
+                        }
+
+                        "1" -> {
+                            setSingleImage(uri, imagesAfterPmr, binding.complainDetails.rvImageNew)
+                            afterPmrPath = Base64.encodeToString(
+                                Utils.convertPDFToByteArray(Constants.generatePdf(imagesAfterPmr)),
+                                Base64.DEFAULT
+                            )
+                        }
+
+                        "2" -> {
+                            setSingleImage(uri, imagesBeforePmr, binding.complainDetails.rvImageOld)
+                            beforePmrPath = Base64.encodeToString(
+                                Utils.convertPDFToByteArray(Constants.generatePdf(imagesBeforePmr)),
+                                Base64.DEFAULT
+                            )
+                        }
+                    }
+                }
+            }
+        }
 
     private fun setImage(
         galleryUri: List<Uri>,
@@ -304,7 +379,11 @@ class PendingPMRFragment : Fragment(), AssignComplainAdapter.OptionListener,
         }
         customDialogLayoutBinding.tvGallery.setOnClickListener {
             dialog.dismiss()
-            galleryLauncher.launch("image/*")
+          //  galleryLauncher.launch("image/*")
+            galleryLauncher.launch(
+                PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+            )
+
         }
         customDialogLayoutBinding.tvCancel.setOnClickListener {
             dialog.dismiss()

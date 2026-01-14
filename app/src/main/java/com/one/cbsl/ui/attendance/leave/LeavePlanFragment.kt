@@ -35,7 +35,7 @@ class LeavePlanFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         viewModel = ViewModelProvider(
-            requireActivity(), ViewModelFactory(NetworkApiHelper(RetrofitBuilder.apiService))
+            requireActivity(), ViewModelFactory(NetworkApiHelper(RetrofitBuilder.getApi()))
         )[LeaveViewModel::class.java]
 
         _binding = FragmentLeavePlanBinding.inflate(inflater, container, false)

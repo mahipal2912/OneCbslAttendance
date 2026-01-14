@@ -13,9 +13,9 @@
 
         <LinearLayout
             android:id="@+id/llHeader"
-            android:visibility="gone"
-        android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone">
 
             <TextView
                 android:layout_width="@dimen/_40sdp"
@@ -23,6 +23,15 @@
                 android:background="@drawable/shape_header"
                 android:gravity="center"
                 android:padding="@dimen/_2sdp"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:layout_width="@dimen/_80sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:background="@drawable/shape_header"
+                android:gravity="center"
+                android:padding="@dimen/_2sdp"
+                android:text="UserId"
                 android:textColor="@color/white" />
 
             <TextView
@@ -79,6 +88,7 @@
                 android:gravity="center"
                 android:text="Mark Status"
                 android:textColor="@color/white" />
+
             <TextView
                 android:layout_width="@dimen/_80sdp"
                 android:layout_height="@dimen/_30sdp"
@@ -121,6 +131,16 @@
                 android:padding="@dimen/_2sdp"
                 android:text="P"
                 android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/tvCode"
+                android:layout_width="@dimen/_80sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:background="@drawable/shape_column"
+                android:gravity="center"
+                android:padding="@dimen/_2sdp"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_9sdp" />
 
             <TextView
                 android:id="@+id/tvPunchDate"

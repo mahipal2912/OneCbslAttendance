@@ -11,13 +11,27 @@
         android:layout_height="wrap_content"
         android:theme="@style/Theme.CbslAttendance.Fullscreen.AppBarOverlay">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/Theme.CbslAttendance.Fullscreen.PopupOverlay" />
+            android:layout_height="wrap_content">
 
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                app:popupTheme="@style/Theme.CbslAttendance.Fullscreen.PopupOverlay" />
+
+            <ImageView
+                android:id="@+id/ivServer"
+                android:layout_width="@dimen/_50sdp"
+                android:layout_height="?attr/actionBarSize"
+                android:layout_alignParentEnd="true"
+                android:padding="@dimen/_10sdp"
+                android:src="@drawable/ic_wifi"
+                 />
+
+        </RelativeLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
     <include layout="@layout/content_cbsl_main" />

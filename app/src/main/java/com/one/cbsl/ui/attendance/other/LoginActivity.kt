@@ -170,7 +170,7 @@ class LoginActivity : AppCompatActivity(),
         _binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
         loginViewModel = ViewModelProvider(
-            this, ViewModelFactory(NetworkApiHelper(RetrofitBuilder.apiService))
+            this, ViewModelFactory(NetworkApiHelper(RetrofitBuilder.getApi()))
         )[LoginViewModel::class.java]
 
         deviceId = Settings.Secure.getString(

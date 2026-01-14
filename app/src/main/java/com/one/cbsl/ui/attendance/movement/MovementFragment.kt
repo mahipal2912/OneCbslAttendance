@@ -84,7 +84,7 @@ class MovementFragment : Fragment(), MovementAdapter.OpitionListener,
 
     private fun bindViewModel() {
         viewModel = ViewModelProvider(
-            this, ViewModelFactory(NetworkApiHelper(RetrofitBuilder.apiService))
+            this, ViewModelFactory(NetworkApiHelper(RetrofitBuilder.getApi()))
         )[MovementViewModel::class.java]
         getLocation()
     }

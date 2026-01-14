@@ -4,7 +4,6 @@ import com.google.gson.annotations.SerializedName
 
 class HardwareResponse(
 
-
     @SerializedName("ItemName") val ItemName: String? = null,
     @SerializedName("ItemId") val ItemId: String? = null,
     @SerializedName("status") val Status: String? = null

@@ -3,6 +3,7 @@ package com.one.cbsl
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
@@ -27,6 +28,7 @@ import com.google.android.play.core.install.model.UpdateAvailability
 
 import com.one.cbsl.adapter.MainOptionsAdapter
 import com.one.cbsl.databinding.ActivityCbslMainBinding
+import com.one.cbsl.networkcall.RetrofitBuilder
 import com.one.cbsl.ui.attendance.other.LoginActivity
 import com.one.cbsl.utils.Cbsl
 import com.one.cbsl.utils.Constants
@@ -40,19 +42,31 @@ class CbslMain : AppCompatActivity(), MainActivityListener, MainOptionsAdapter.O
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityCbslMainBinding
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = ActivityCbslMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         setSupportActionBar(binding.appBarCbslMain.toolbar)
+        if (!SessionManager.getInstance().getBoolean(Constants.IsChangeServer)) {
+            binding.appBarCbslMain.ivServer.setImageDrawable(resources.getDrawable(R.drawable.ic_wifi))
+            SessionManager.getInstance().putBoolean(Constants.IsChangeServer, false)
+
+        } else {
+            SessionManager.getInstance().putBoolean(Constants.IsChangeServer, true)
+
+            binding.appBarCbslMain.ivServer.setImageDrawable(resources.getDrawable(R.drawable.ic_wifi_enable))
+        }
         binding.header.tvEdit.setOnClickListener {
             closeDrawer()
             findNavController(R.id.nav_host_fragment_content_cbsl_main).navigate(R.id.changeProfile)
         }
+        binding.appBarCbslMain.ivServer.setOnClickListener {
+            performAction()
+
+        }
         checkAppUpdate()
-        var type = intent.getStringExtra("type") ?: "Unknown"
+        val type = intent.getStringExtra("type") ?: "Unknown"
         if (type == "success") {
             findNavController(R.id.nav_host_fragment_content_cbsl_main).navigate(R.id.home_to_mark_attendance)
         }
@@ -76,6 +90,18 @@ class CbslMain : AppCompatActivity(), MainActivityListener, MainOptionsAdapter.O
         navView.setupWithNavController(navController)
     }
 
+    private fun performAction() {
+        if (SessionManager.getInstance().getBoolean(Constants.IsChangeServer)) {
+            SessionManager.getInstance().putBoolean(Constants.IsChangeServer, false)
+            binding.appBarCbslMain.ivServer.setImageDrawable(resources.getDrawable(R.drawable.ic_wifi))
+        } else {
+            SessionManager.getInstance().putBoolean(Constants.IsChangeServer, true)
+            binding.appBarCbslMain.ivServer.setImageDrawable(resources.getDrawable(R.drawable.ic_wifi_enable))
+        }
+        findNavController(R.id.nav_host_fragment_content_cbsl_main).navigate(R.id.navigation_home)
+
+    }
+
     private fun setAppBarTitle(id: Int) {
         if (id == R.id.navigate_to_face_capture) {
             if (SessionManager.getInstance().getString(Constants.VerifyType) == "0") {
@@ -88,7 +114,6 @@ class CbslMain : AppCompatActivity(), MainActivityListener, MainOptionsAdapter.O
         }
 
     }
-
 
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment_content_cbsl_main)
@@ -115,10 +140,12 @@ class CbslMain : AppCompatActivity(), MainActivityListener, MainOptionsAdapter.O
     }
 
     override fun updateValues() {
-        binding.header.headerName.text = SessionManager.getInstance().getString(Constants.UserName)
+        binding.header.headerName.text =
+            SessionManager.getInstance().getString(Constants.UserName)
         binding.header.headerEmpCode.text =
             SessionManager.getInstance().getString(Constants.EmpCode)
-        Glide.with(Cbsl.getInstance()).load(SessionManager.getInstance().getString(Constants.IMAGE))
+        Glide.with(Cbsl.getInstance())
+            .load(SessionManager.getInstance().getString(Constants.IMAGE))
             .into(binding.header.imageView)
         binding.rvMainOptions.adapter = MainOptionsAdapter(this)
         if (!SessionManager.getInstance().getBoolean(Constants.isLogin)) {
@@ -147,6 +174,10 @@ class CbslMain : AppCompatActivity(), MainActivityListener, MainOptionsAdapter.O
                 findNavController(R.id.nav_host_fragment_content_cbsl_main).navigate(R.id.navigate_to_my_conveyance)
             }
 
+            Constants.PAYHISTORY -> {
+                findNavController(R.id.nav_host_fragment_content_cbsl_main).navigate(R.id.navigation_to_pay_history)
+            }
+
             Constants.LeavePlan -> {
                 findNavController(R.id.nav_host_fragment_content_cbsl_main).navigate(R.id.home_to_leave_fragment)
             }
@@ -158,6 +189,13 @@ class CbslMain : AppCompatActivity(), MainActivityListener, MainOptionsAdapter.O
             Constants.ApprovalHod -> {
                 if (SessionManager.getInstance().getString(Constants.UserTypeID) != "2") {
                     findNavController(R.id.nav_host_fragment_content_cbsl_main).navigate(R.id.home_to_conveyance_hod_approval)
+                } else {
+                    DialogUtils.showFailedDialog(this, "Access Denied")
+                }
+            }
+            "Mark Attendance" -> {
+                if (SessionManager.getInstance().getString(Constants.UserTypeID) != "2") {
+                    findNavController(R.id.nav_host_fragment_content_cbsl_main).navigate(R.id.navigation_to_attendance_hod_approval)
                 } else {
                     DialogUtils.showFailedDialog(this, "Access Denied")
                 }
@@ -234,5 +272,16 @@ class CbslMain : AppCompatActivity(), MainActivityListener, MainOptionsAdapter.O
         val deviceId: String =
             Settings.Secure.getString(this.contentResolver, Settings.Secure.ANDROID_ID)
         SessionManager.getInstance().putString(Constants.DEVICE_ID, deviceId)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        RetrofitBuilder.cancelAllRequests()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        RetrofitBuilder.cancelAllRequests()
+
     }
 }

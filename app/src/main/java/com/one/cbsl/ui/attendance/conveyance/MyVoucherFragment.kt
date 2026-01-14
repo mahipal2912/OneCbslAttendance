@@ -34,7 +34,7 @@ class MyVoucherFragment : Fragment(), VoucherAdapter.OpitionListener {
         viewModel =
             ViewModelProvider(
                 this,
-                ViewModelFactory(NetworkApiHelper(RetrofitBuilder.apiService))
+                ViewModelFactory(NetworkApiHelper(RetrofitBuilder.getApi()))
             )[ConveyanceViewModel::class.java]
 
         _binding = FragmentMyVoucherBinding.inflate(inflater, container, false)

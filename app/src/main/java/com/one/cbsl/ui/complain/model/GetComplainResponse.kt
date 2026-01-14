@@ -12,6 +12,7 @@ class GetComplainResponse(
     @SerializedName("ComplaintDetails") val ComplaintDetails: String? = null,
     @SerializedName("ComplaintNumber") val Complain_tNumber: String? = null,
     @SerializedName("ComplaintDate") val ComplaintDate: String? = null,
+    @SerializedName("Assignedone") val Assignedone: String? = null,
     @SerializedName("ComplaintTypeName") val ComplaintType_Name: String? = null,
     @SerializedName("ComplaintId") val ComplaintId: String? = null,
     @SerializedName("ClientName") val ClientName: String? = null,

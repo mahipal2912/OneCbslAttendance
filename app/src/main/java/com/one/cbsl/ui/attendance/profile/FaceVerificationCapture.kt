@@ -6,6 +6,7 @@ import android.graphics.Matrix
 import android.icu.text.SimpleDateFormat
 import android.net.Uri
 import android.os.Bundle
+import android.provider.CalendarContract.Colors
 import android.util.Base64
 import android.util.Log
 import android.view.LayoutInflater
@@ -18,6 +19,7 @@ import androidx.camera.core.ImageCaptureException
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -89,7 +91,7 @@ class FaceVerificationCapture : Fragment() {
     private fun setupViewModel() {
         viewModel = ViewModelProvider(
             requireActivity(),
-            ViewModelFactory(NetworkApiHelper(RetrofitBuilder.apiService))
+            ViewModelFactory(NetworkApiHelper(RetrofitBuilder.getApi()))
         )[MyProfileViewModel::class.java]
 
 
@@ -101,8 +103,9 @@ class FaceVerificationCapture : Fragment() {
 
         if (SessionManager.getInstance().getString(Constants.VerifyType) == "0") {
             requireActivity().title = "Face Registration"
-
+            binding.rlBtnLayout.visibility = View.VISIBLE
         } else {
+            binding.rlBtnLayout.visibility = View.INVISIBLE
             requireActivity().title = "Identity Verification"
         }
 
@@ -183,7 +186,8 @@ class FaceVerificationCapture : Fragment() {
         jsonArray.put("image", image_base)
 // Use binding for progressBar
         AndroidNetworking.initialize(requireContext())
-        AndroidNetworking.post("https://4cce-103-62-239-162.ngrok-free.app/images")
+        AndroidNetworking.post(SessionManager.getInstance()
+            .getString(Constants.faceDomain)+"/images")
             .addQueryParameter(
                 "pickle_file",
                 "db/" + SessionManager.getInstance()
@@ -227,6 +231,11 @@ class FaceVerificationCapture : Fragment() {
                             // Show error message from the parsed error response
                             val errorMessage =
                                 errorResponse.message ?: errorResponse.error ?: "Unknown error"
+                           if(errorMessage.contains("Pickle file "))
+                           {
+                               SessionManager.getInstance().putString(Constants.VerifyType,"0")
+                               findNavController().navigate(R.id.navigate_to_face_capture)
+                           }
                             DialogUtils.showFailedDialog(
                                 requireActivity(),
                                 errorMessage
@@ -255,7 +264,8 @@ class FaceVerificationCapture : Fragment() {
         jsonArray.put("image", image_base)
 // Use binding for progressBar
         AndroidNetworking.initialize(requireContext())
-        AndroidNetworking.post("https://4cce-103-62-239-162.ngrok-free.app/register")
+        AndroidNetworking.post(SessionManager.getInstance()
+            .getString(Constants.faceDomain)+"/register")
             .addQueryParameter(
                 "pickle_file",
                 "db/" + SessionManager.getInstance()
@@ -272,7 +282,7 @@ class FaceVerificationCapture : Fragment() {
                     override fun onResponse(userList: AttendanceResponse) {
                         try {
 
-                            saveEmbeding()
+                            saveEmbeding(image_base)
                             binding.progressBar.visibility = View.GONE
                             binding.closeBtn.performClick()
 
@@ -462,7 +472,7 @@ class FaceVerificationCapture : Fragment() {
             }
 
             Status.FAKE_FACE -> {
-                binding.tvWarningText.text = "Fake Face"
+                binding.tvWarningText.text = ""
             }
 
             Status.LEFT_EYE_CLOSED -> {
@@ -479,20 +489,23 @@ class FaceVerificationCapture : Fragment() {
 
             Status.VALID_FACE -> {
                 binding.tvWarningText.text = "Face Detected"
-                binding.startBtn.performClick()
+                if (SessionManager.getInstance().getString(Constants.VerifyType) == "1") {
+                    binding.startBtn.performClick()
+                }
             }
-
-
         }
+
+
     }
 
-    private fun getOutputDirectory(): File {
-        val mediaDir = requireActivity().externalMediaDirs.firstOrNull()?.let {
-            File(it, resources.getString(R.string.app_name)).apply { mkdirs() }
-        }
-        val filesDir = File(requireContext().externalCacheDir!!.path)
-        return if (mediaDir != null && mediaDir.exists())
-            mediaDir else filesDir
+
+private fun getOutputDirectory(): File {
+    val mediaDir = requireActivity().externalMediaDirs.firstOrNull()?.let {
+        File(it, resources.getString(R.string.app_name)).apply { mkdirs() }
     }
+    val filesDir = File(requireContext().externalCacheDir!!.path)
+    return if (mediaDir != null && mediaDir.exists())
+        mediaDir else filesDir
+}
 
 }

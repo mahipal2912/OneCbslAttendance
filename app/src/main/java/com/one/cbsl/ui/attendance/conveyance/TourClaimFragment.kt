@@ -28,6 +28,7 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -87,7 +88,7 @@ class TourClaimFragment : Fragment(), TextWatcher, OnItemSelectedListener {
     private var imageType = "0"
     private var photoUri: Uri? = null
 
-    private val galleryLauncher =
+    /*private val galleryLauncher =
         registerForActivityResult(ActivityResultContracts.GetMultipleContents()) { galleryUri ->
             try {
                 galleryUri?.let {
@@ -128,10 +129,65 @@ class TourClaimFragment : Fragment(), TextWatcher, OnItemSelectedListener {
             }
 
         }
+*/
+    private val galleryLauncher =
+        registerForActivityResult(
+            ActivityResultContracts.PickMultipleVisualMedia()
+        ) { uris ->
 
+            try {
+                uris?.let {
+
+                    when (imageType) {
+
+                        "0" -> {
+                            setImage(it, imagesPathList, binding.rvImage)
+                            transportPdf = Base64.encodeToString(
+                                Utils.convertPDFToByteArray(
+                                    Constants.generatePdf(imagesPathList)
+                                ),
+                                Base64.DEFAULT
+                            )
+                        }
+
+                        "1" -> {
+                            setImage(it, lodgingImageList, binding.rvLodingImage)
+                            lodgingPdf = Base64.encodeToString(
+                                Utils.convertPDFToByteArray(
+                                    Constants.generatePdf(lodgingImageList)
+                                ),
+                                Base64.DEFAULT
+                            )
+                        }
+
+                        "2" -> {
+                            setImage(it, boardingImageList, binding.rvBoardingImage)
+                            boardingPdf = Base64.encodeToString(
+                                Utils.convertPDFToByteArray(
+                                    Constants.generatePdf(boardingImageList)
+                                ),
+                                Base64.DEFAULT
+                            )
+                        }
+
+                        "3" -> {
+                            setImage(it, otherImageList, binding.rvOtherImage)
+                            otherPdf = Base64.encodeToString(
+                                Utils.convertPDFToByteArray(
+                                    Constants.generatePdf(otherImageList)
+                                ),
+                                Base64.DEFAULT
+                            )
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
 
     //TODO capture the image using camera and display it
-    private var cameraActivityResultLauncher: ActivityResultLauncher<Intent> =
+   /* private var cameraActivityResultLauncher: ActivityResultLauncher<Intent> =
         registerForActivityResult(
             ActivityResultContracts.StartActivityForResult(), ActivityResultCallback {
                 if (it.resultCode === RESULT_OK) {
@@ -169,7 +225,53 @@ class TourClaimFragment : Fragment(), TextWatcher, OnItemSelectedListener {
 
                 }
             })
+*/
+    private val cameraActivityResultLauncher =
+        registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) { result ->
 
+            if (result.resultCode == RESULT_OK) {
+
+                photoUri?.let { uri ->
+
+                    when (imageType) {
+
+                        "0" -> {
+                            setSingleImage(uri, imagesPathList, binding.rvImage)
+                            transportPdf = Base64.encodeToString(
+                                Utils.convertPDFToByteArray(Constants.generatePdf(imagesPathList)),
+                                Base64.DEFAULT
+                            )
+                        }
+
+                        "1" -> {
+                            setSingleImage(uri, lodgingImageList, binding.rvLodingImage)
+                            lodgingPdf = Base64.encodeToString(
+                                Utils.convertPDFToByteArray(Constants.generatePdf(lodgingImageList)),
+                                Base64.DEFAULT
+                            )
+                        }
+
+                        "2" -> {
+                            setSingleImage(uri, boardingImageList, binding.rvBoardingImage)
+                            boardingPdf = Base64.encodeToString(
+                                Utils.convertPDFToByteArray(Constants.generatePdf(boardingImageList)),
+                                Base64.DEFAULT
+                            )
+                        }
+
+                        "3" -> {
+                            setSingleImage(uri, otherImageList, binding.rvOtherImage)
+                            otherPdf = Base64.encodeToString(
+                                Utils.convertPDFToByteArray(Constants.generatePdf(otherImageList)),
+                                Base64.DEFAULT
+                            )
+                        }
+                    }
+                }
+            }
+        }
 
     private fun setImage(
         galleryUri: List<Uri>,
@@ -196,7 +298,7 @@ class TourClaimFragment : Fragment(), TextWatcher, OnItemSelectedListener {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         conveyanceViewModel = ViewModelProvider(
-            this, ViewModelFactory(NetworkApiHelper(RetrofitBuilder.apiService))
+            this, ViewModelFactory(NetworkApiHelper(RetrofitBuilder.getApi()))
         )[ConveyanceViewModel::class.java]
 
         _binding = FragmentTourConveyanceBinding.inflate(inflater, container, false)
@@ -269,7 +371,11 @@ class TourClaimFragment : Fragment(), TextWatcher, OnItemSelectedListener {
         }
         customDialogLayoutBinding.tvGallery.setOnClickListener {
             dialog.dismiss()
-            galleryLauncher.launch("image/*")
+          //  galleryLauncher.launch("image/*")
+            galleryLauncher.launch(
+                PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+            )
+
         }
         customDialogLayoutBinding.tvCancel.setOnClickListener {
             dialog.dismiss()
